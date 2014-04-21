@@ -1,0 +1,254 @@
+Google Map API v3
+推荐google map官方给的链接，很不错，https://developers.google.com/maps/documentation/javascript/demogallery
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCefZle2DqxF9i51PTfoZsZoOmvWzKYhF4&sensor=true"></script>
+1.显示单个经纬度
+function showMarker(lat, lng)
+{
+	var mapOptions = {
+        center: new google.maps.LatLng(31.230416,121.473701),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+		//mapTypeId: ROADMAP;SATELLITE;HYBRID;TERRAIN
+	};
+	
+	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+	var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map: map
+    }); 
+}
+
+<div id="map_canvas" style="width:800px; height:600px;"></div>
+
+2.显示多个经纬度
+function showMultiMarkers(coordinates)
+{
+	var mapOptions = {
+		center: new google.maps.LatLng(31.230416,121.473701),
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+ 	};
+ 	
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+    for(var i = 0, len = coordinates.length; i < len; i++) {
+        var marker_coord = new google.maps.LatLng(coordinates[i]['Latitude'], coordinates[i]['Longitude']);
+    	var marker = new google.maps.Marker({
+            position: marker_coord,
+            map: map
+    	});
+    }
+}
+
+3.经纬度聚类(主要用于很多个密集的经纬度)
+在上一函数showMultiMarkers加入下列语句：
+要引入google map的cluster js文件
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+建议下载保存为js后引用
+function showMultiMarkers(coordinates)
+{
+	var mapOptions = {
+		center: new google.maps.LatLng(31.230416,121.473701),
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+ 	};
+ 	
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	var markers = [];
+
+    for(var i = 0, len = coordinates.length; i < len; i++) {
+        var marker_coord = new google.maps.LatLng(coordinates[i]['Latitude'], coordinates[i]['Longitude']);
+    	var marker = new google.maps.Marker({
+            position: marker_coord,
+            map: map
+    	});
+		markers.push(marker);
+    }
+	
+	var markerCluster = new MarkerClusterer(map, markers);
+}
+例子图片如下：
+
+4.kml图层
+var ctaLayer = new google.maps.KmlLayer('kmllayer_url');
+ctaLayer.setMap(map);
+
+5.infoWindow
+对于infoWindow，如果只需一个infoWindow，定义如下：
+infowindow = new google.maps.InfoWindow();
+infowindow.setContent('content');//content内容支持html格式
+infowindow.open(map, marker);
+如果要对不同的marker弹不同的内容的话，定义如下：
+var infowindow;//全局变量，防在function外面
+google.maps.event.addListener(marker, 'click', function() {
+	//关闭之前的infoWindow
+	if(typeof infowindow !== 'undefined')
+	{
+		infowindow.close();
+	}
+	
+	infowindow = new google.maps.InfoWindow();
+	infowindow.setContent(html_content);
+	infowindow.open(map, this); 	<-----注意this，如果为marker的话，调用都是最后一个窗口	 	
+	marker.setMap(map);
+								
+	//如需访问marker中的信息，用this访问，用marker访问只会取到最后一个marker的信息
+	//ps，marker中可以添加自定义的key-value，用于
+	//如
+	//var marker = new google.maps.Marker({
+	//	  map: map,
+	//	  position: new google.maps.LatLng(0, 0),
+	//	  key: "value"
+	//});
+	//
+	//用this.key获取value
+});
+
+如果google map的infoWindow和bootstrap一起用的时候，可能会出现infoWindow窗口右上角的关闭按钮消失。
+网上查了下原因，是bootstrap和google map api的css冲突，加入如下css可解决
+<style type="text/css">
+img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
+	max-width: none;
+}
+</style>
+
+6.marker的icon
+var marker = new google.maps.Marker({
+	...
+	icon: icon_path,  <-----
+	...
+});
+用于设置图标的图片，可选用本地或者url图片
+推荐一个老外的网站，图标比较全，各种颜色，访问http://mapicons.nicolasmollet.com/
+或者google自己的也有，可以自定义，访问
+http://stackoverflow.com/questions/7095574/google-maps-api-3-custom-marker-color-for-default-dot-marker
+https://developers.google.com/chart/infographics/docs/dynamic_icons?csw=1#pins
+例子icon：http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|00FF00|11|_|1
+
+7.google map在Bootstrap中显示问题参看
+
+8.将多个坐标连成线,用Polyline函数
+function drawPolyLines(coordinates, map)
+{
+	var line_colors = ["#FF0000", "#00FF00", "#0000FF", "#000000", "#FFFF00", "#00FFFF", "#FF00FF", "CC0066", "66FF00", "660066", "99CC66", "009999"];
+	
+	var coord_path;
+	for(var i = 0, len = coordinates.length; i < len; i++) {
+        var marker_coord = new google.maps.LatLng(coordinates[i]['Latitude'], coordinates[i]['Longitude']);
+		var marker = new google.maps.Marker({
+            position: marker_coord,
+            map: map
+    	});
+		coord_path.push(marker_coord);
+    }
+	
+	var poly_path = new google.maps.Polyline({
+        path: coord_path,
+        strokeColor: line_colors[0],
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+	});
+	
+	poly_path.setMap(map);
+}
+
+9.google route
+google的路线在免费下只支持10个点，后来看了下面url，老外写的，用到了waypoint，每个waypoint支持最多9个点，通过判断点的个数来确定
+http://www.c-sharpcorner.com/UploadFile/8911c4/how-to-draw-infinite-route-with-more-than-10-locations-on-go/
+不过自己试了下，最多还是能画到72个点，后面画不出来，老外那个是通过鼠标一个一个点，画无数个，我这边是直接传入坐标数组，可能差别吧
+参考了下老外的代码，我的代码如下：
+var map;
+var direction_service = new google.maps.DirectionsService();
+var directions_display = new google.maps.DirectionsRenderer();
+
+function plotRoutes(points)
+{
+	if (typeof map === 'undefined') {
+		initMap();
+	}
+	
+    var google_routes_point_limit = 9;//max 9
+
+    var locations = points2GoogleLocation(points);
+    var chunk_locations = chunkArray(locations, google_routes_point_limit);
+
+    for (var i = 0, chunk_len = chunk_locations.length; i < chunk_len; i++) {
+    	var way_points = [];
+    	var location_len = chunk_locations[i].length;
+    	
+        if (location_len > 2) {
+            for (var j = 1, loc_len = chunk_locations[i].length - 1; j < loc_len; j++) {
+                way_points.push({
+                    location: chunk_locations[i][j], 
+                    stopover: true
+                });
+            }
+            
+            drawGoogleRoute(chunk_locations[i][0], chunk_locations[i][location_len - 1], way_points);
+        } else if(location_len == 2) {
+        	drawGoogleRoute(chunk_locations[i][0], chunk_locations[i][1], way_points);
+        } else if(location_len == 1) {
+        	drawGoogleRoute(chunk_locations[i][0], chunk_locations[i][0], way_points);
+        }
+    }
+}
+
+function initMap()
+{
+	var mapOptions = {
+        center: new google.maps.LatLng(31.230416,121.473701),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+	directions_display.setMap(map);
+}
+
+function points2GoogleLocation(points)
+{
+	var locations = [];
+	for (var i = 0, len = points.length; i < len; i++) {
+		locations[i] = new google.maps.LatLng(points[i]['Latitude'], points[i]['Longitude']);
+
+		var marker = new google.maps.Marker({
+            position: locations[i],
+            map: map
+    	});
+	}
+
+	return locations;
+}
+
+function chunkArray(locations, chunk_size)
+{
+	var chunk_array = [];
+
+	for (var i = 0, len = locations.length; i < len; i += chunk_size) {
+		chunk_array.push(locations.slice(i, i + chunk_size));
+	}
+
+	return chunk_array;
+}
+
+function drawGoogleRoute(src, dest, way_points)
+{
+	var route_request= {
+        origin: src,
+        destination: dest,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+	
+    if (way_points.length > 0) {
+    	route_request['waypoints'] = way_points;
+    }
+
+    direction_service.route(route_request, function (result, status) {
+        console.log(status);
+        if (status == google.maps.DirectionsStatus.OK) {
+        	directions_display.setDirections(result);
+        }
+    });
+}

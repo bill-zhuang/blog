@@ -1,0 +1,55 @@
+bootstrap
+
+1.
+在Bootstrap 2中，设置Modal为
+<div id="mapModal" class="modal hide fade">  <-----设置style
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+</div>
+
+<div class="modal-body">
+	  
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+
+但是在Bootstrap 3中定义变了，开始直接拿来用，结果一直出不来，网上查了下才知道，
+http://getbootstrap.com/javascript/#modals 设置方法为
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">   <-----在这里或者下面设置style不行，Modal中内容不正常显示
+	<div class="modal-dialog">   <-----在这里或者下面设置style，上面设置不行，这里跟Bootstrap 2 也不一样
+		<div class="modal-content">  <-----设置style
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			
+			<div class="modal-body">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+2.googel map 在Modal中显示问题
+解决bootstrap中把google map div防止Modal中显示，只显示左上角地图部分(大部分情况)，其他灰色的问题。
+网上查了下，貌似碰到的挺多的，参看了下面的url，顺利解决。
+针对Bootstrap 2
+http://stackoverflow.com/questions/8812268/grey-boxes-appear-in-parts-of-embedded-google-map-in-modal-box
+$('#mapModal').on('shown', function () {
+	google.maps.event.trigger(map, 'resize');
+	map.setCenter(new google.maps.LatLng(31.230416,121.473701));
+	map.setZoom(11);
+});
+$("#mapModal").modal('show');
+
+针对Bootstrap 3
+http://stackoverflow.com/questions/11742839/showing-a-google-map-in-a-modal-created-with-twitter-bootstrap
+http://getbootstrap.com/javascript/#modals
+$('#mapModal').on('shown.bs.modal', function () {    <------shown改为show.bs.modal
+	google.maps.event.trigger(map, 'resize');
+	map.setCenter(new google.maps.LatLng(31.230416,121.473701));
+	map.setZoom(11);
+});
+$("#mapModal").modal('show');
