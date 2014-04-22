@@ -1,0 +1,12 @@
+git 
+
+关于patch，
+生成多个commit之间的patch，假设开始和结束的commit id为commit_id_1，commit_id_4，
+生成patch为 git format-patch commit_id-1..commit_id_4
+常用的也有 git format-patch -n //n为数字，去最近前n个commit生成patch
+
+应用patch
+git am *.patch
+
+在通过管道命令来应用的时候要加上 --stdout 参数
+git format-patch --stdout commit_id-1..commit_id_4 | git am
