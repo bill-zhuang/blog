@@ -1,4 +1,4 @@
-git 
+﻿git 
 
 初始化设置
 设置用户名及email
@@ -96,6 +96,7 @@ ps：如果本地新建的分支名和远程仓库的分支名不同的话，pul
 git pull origin remote_track_branch
 git push origin local_track_branch:remote_track_branch
 //git checkout -b branch_name origin/branch_name or git checkout --track/-t origin/branch_name. both work!
+注：可以使用git remote -v来获取远程仓库的pull和push的url
 
 推送本地分支到远程仓库
 git push origin local_branch
@@ -107,6 +108,7 @@ git branch -u origin/branch_name 即可
 
 删除远程分支
 git push origin :track_branch  <----- :前有空格
+或者git push --delete track_branch  <-----：有git版本限制，高版本试用
 
 分支的合并
 merge:
@@ -118,6 +120,11 @@ git checkout master
 git merge develop
 
 git rebase master develop 等价于 git rebase master, git checkout develop
+
+关于找回误删除的commit，包括stash误删的方法：
+先用git fsck --lost-found命令，会列出一系列的sha1值，
+然后用git show sha1_id 来查看是否为误删的内容，找到相应的sha1_id后，
+用git merge sha1_id合并到相应的分支下。
 
 关于patch，
 生成多个commit之间的patch，假设开始和结束的commit id为commit_id_1，commit_id_4，
