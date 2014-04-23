@@ -1,5 +1,124 @@
 git 
 
+初始化设置
+设置用户名及email
+git config --global user.name your_name
+git config --global user.email example@example.com
+如果需要针对某个项目设定另外的用户名及email
+git config user.name your_name
+git config user.email example@example.com
+通过下面命令可以看到配置的属性
+git config --list
+
+拉远程项目方法
+首先切换到要放项目的目录下，然后
+git init
+git remote add origin https://www.example.com
+git pull
+或者
+git clone https://www.example.com
+注意这里url协议最好为https，用git也没事(如果你只是pull，不push)，
+否则在push的时候会报错，git协议只支持读，不支持写，这时候需要修改远程仓库url:
+git remote set-url origin https://www.example.com
+
+gitk //查看提交记录
+git gui //gui 提交commit界面，还有其他....
+
+关于修改或者提交到错误的分支的解决方法：
+如果还没提交，那么先
+git stash
+git checkout correct_branch
+git stash pop/git stash apply stash@{0}
+如果已经提交了，查到提交的那个commit的sha1
+git checkout correct_branch
+git cherry-pick commit_sha1
+下面部分可选，如果要删掉相应在错误分支上的提交，执行
+git checkout wrong_branch
+git reset --hard commit_sha1
+
+关于git中 working tree/directory, index 及 HEAD 的区别(git reset 中会用到)
+working tree/directory:未缓存，准备缓存(unstaged, contain track files and new add file)
+index:已缓存，准备提交(staged, prepare commit)
+HEAD: 本地未修改仓库的指针
+
+
+git status //不用解释了，应该是git用的最多的命令了
+
+git stash //缓存当前修改的内容，主要用于暂存修改
+git stash list //或许所有缓存的列表
+git stash show -p [stash@{0,1...0-2,2-}] //查看某个缓存的内容，建议带上 -p 参数，否则只知道修改了某个文件，不知道具体修改了什么
+git stash pop //应用最近一个缓存的修改
+git stash apply stash@{0,1,...} //应用缓存修改，0,1,...分别指代最新到最旧的缓存，与git stash pop 不同的是应用缓存后不会删除对应的缓存
+git stash drop [stash@{0,1,...}] //删除缓存，0,1,...分别指代最新到最旧的缓存
+git stash clear //删除所有的缓存
+
+git log --pretty=oneline -n --graph
+git log --pretty=format:"%h %ae %s" -n //%h--abbr of hash %ae---author address %s---commit message
+git log --since="log time start"
+git log [branch]
+
+git add file_path //缓存修改的某个文件，相反操作是 git reset file_path
+git add . //缓存所有修改的文件(包含新增的)，下一步是提交
+git add -i //根据具体各种命令选择操作
+
+git checkout -- file_path //放弃某一个文件的修改
+git checkout . //放弃所有的修改，回到未修改状态
+ps：上面两个都是针对文件是未缓存的状态，如果是已经缓存了，那么没有用
+
+git commit -m 'commit info' //提交修改，如果带上 -a 参数的话，会提交所有跟踪文件的修改(新增的文件不会，相当于执行了 git add 及 git commit)
+git commit --amend 'new commit info' //修正最近一个提交的信息
+
+git pull // git pull = git fetch + git merge
+git push //
+
+git reset --hard commit_id //所有在commit_id之后的修改都会被抛弃discard.----->HEAD
+git reset --soft commit_id //所有在commit_id之后的修改reset到已缓存状态(下一步是提交)---->index
+git reset [--mixed] commit_id //所有在commit_id之后的修改reset到未缓存状态(下一步是缓存修改)---->working tree
+
+分支
+git branch //显示目前所在分支名
+git checkout branch_name //切换到分支branch_name
+git checkout -b branch_name //新建分支branch_name，同时切换到新建的分支branch_name，相当于执行了git branch branch_name, git checkout branch_name
+
+git branch -d/D branch_name //删除分支branch_name, -d 参数在分支未合并的情况下，会提示合并或 rebase 后删除 -D为强制删除分支
+
+git checkout --track -b track_branch origin/track_branch //在本地新建track_branch来跟踪远程仓库中track_branch分支，
+如果执行命令后出现如下错误：
+....do you intend to checkout 'track_branch' which can not be resolved at commit?
+原因为本地未检测到仓库里有远程分支track_branch(不好解释...)，本地的代码不是最新的，
+参考url : http://stackoverflow.com/questions/945654/git-checkout-on-a-remote-branch-does-not-work
+先 git remote origin show
+然后 git remote update
+再 git fetch(可选，貌似没用？)
+最后 git checkout --track -b track_branch origin/track_branch
+
+ps：如果本地新建的分支名和远程仓库的分支名不同的话，pull和push代码的时候需说明要跟踪的本地分支和远程分支名
+git pull origin remote_track_branch
+git push origin local_track_branch:remote_track_branch
+//git checkout -b branch_name origin/branch_name or git checkout --track/-t origin/branch_name. both work!
+
+推送本地分支到远程仓库
+git push origin local_branch
+注：push后你修改local_branch后再push是不行的，如要编辑修改和推送，则需要加上 -u 参数，或者在上一步中第一次推送本地分支的时候加上 -u 参数
+
+如果本地已有远程分支名，且HEAD指针比远程分支的要早的话，跟踪远程分支不能使用上面的
+git checkout --track -b track_branch origin/track_branch 命令，改为
+git branch -u origin/branch_name 即可
+
+删除远程分支
+git push origin :track_branch  <----- :前有空格
+
+分支的合并
+merge:
+git merge [--no-ff] merge_branch //假设目前在master分支上，把merge_branch合并到master分支上
+
+rebase(小心使用):
+git merge master //假设目前在develop分支上，把master合并到develop上，经过检查后没有错误，然后切换到master上合并develop分支
+git checkout master
+git merge develop
+
+git rebase master develop 等价于 git rebase master, git checkout develop
+
 关于patch，
 生成多个commit之间的patch，假设开始和结束的commit id为commit_id_1，commit_id_4，
 生成patch为 git format-patch commit_id-1..commit_id_4
