@@ -1,0 +1,106 @@
+centos下 mysql,nginx,php 安装指南
+
+centos镜像url：http://isoredirect.centos.org/centos/6/isos/x86_64/CentOS-6.5-x86_64-bin-DVD1.iso
+虚拟机上安装省略...
+下面是已安装centos下安装LNMP(linux, nginx, mysql, php)步骤
+1. yum remove httpd //移除安装centos默认安装的httpd(?是否必须？)
+2. yum update //更新软件库
+
+//安装 mysql
+3. yum install mysql mysql-server
+4. chkconfig mysqld on //设置mysql服务随机启动
+5. /etc/init.d/mysqld start //启动mysql
+6. mysql_secure_installtion //第一次安装设置mysql登录密码(这个命令有时候不行，两天电脑上试了下，一台可以，一台不行，提示错误)
+
+//安装 niginx
+//nginx不再yum的资源库中，需要先安装epel
+7. wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm //下载资源文件
+8. rpm -ivh epel-release-6-8.noarch.rpm //rpm安装资源包
+9. yum install nginx //安装nginx
+10. 在浏览器地址栏输入127.0.0.1，如果出现欢迎界面(Welcome to nginx....类似界面)，则nginx安装成功
+11. chkconfig nginx on //设置nginx服务随机启动
+12. /etc/init.d/nginx start //启动nginx
+
+//安装 php
+13. yum install php php-fpm
+14. yum install  php-cli php-mysql php-gd php-imap php-ldap php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-snmp php-soap php-tidy //如需安装其他，继续加
+15. chkconfig php-fpm on //设置php服务随机启动
+16. service php-fpm start //启动php
+
+//修改nginx配置文件 nginx.conf 支持 php
+17. vi /etc/nginx/conf.d/default.conf
+ps：此步骤必须，否则在第20步测试是否支持php的时候会弹出下载文件，而不是显示php的信息
+取消下列注释，同时设置你的php文件路径(root 和 fastcgi_param 中的路径)
+location ~ \.php$ {
+	root           /usr/share/nginx/html;
+	fastcgi_pass   127.0.0.1:9000;
+	fastcgi_index  index.php;
+	fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html$fastcgi_script_name;
+	include        fastcgi_params;
+}
+
+//重启 php 和 nginx
+18. /etc/init.d/nginx restart
+    /etc/init.d/php-fpm restart
+
+//在/usr/share/nginx/html/目录下新建phpinfo.php测试文件
+19. vi /usr/share/nginx/html/phpinfo.php
+输入 <?php phpinfo(); ?> 保存
+
+20. 浏览器中输入127.0.0.1/phpinfo.php，如果出现php的画面，成功
+
+//下面非必须，看自己需要
+
+//通过xshell访问centos 
+1. vi /etc/sysconfig/iptables //修改iptables文件，加上下面这句话(打开80端口)
+   -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+
+2. /etc/init.d/iptables restart //重启
+3. 在xshell中输入虚拟机的ip地址(通过ifconfig获取)，端口号设置为22(不是80，当时卡在这里一直弄不出来)
+
+//安装 git 
+1. yum install git //安装git
+//下面几步是针对从服务器上clone项目的
+2. 拷贝.ssh文件夹下文件(config, id_rsa, id_rsa.pub, known_hosts这几个)到 ~/.ssh下
+3. vi /etc/ssh/sshd_config //修改sshd_config文件，注释掉下列语句
+	RSAAuthentication yes
+    PubkeyAuthentication yes
+    AuthorizedKeysFile      .ssh/authorized_keys
+4. service sshd restart //重启sshd服务，完成
+
+如果出现提示信息: bad permissions: ignore key: /root/.ssh/id_rsa
+原因是权限不够，解决方法：
+1. cd ~/.ssh
+2. chmod 700 id_rsa
+
+//设置 nginx virtual hosts 支持 zend framwork 框架项目
+1. 修改 /etc/nginx/conf.d 文件夹下任一 .conf文件(要确保在 /etc/nginx/nginx.confg 中包含了该 .conf 文件)
+或者新建 example.conf 文件(推荐这种，比较好管理及修改)
+(这种情况下，把新建的 example.conf 文件包含到 /etc/nginx/nginx.conf 中，在最后加上语句：include /etc/nginx/confi.d/example.conf)
+新增的内容是
+server {
+    listen       80;
+    server_name  example.com;
+     
+    error_log /var/log/nginx/example_error.log;
+    access_log /var/log/nginx/example_access.log;
+
+    root   /usr/share/nginx/html/example/public;
+
+    location /{
+        fastcgi_ignore_client_abort on;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+	    include        fastcgi.conf;
+        index          index.php;
+        if (!-e $request_filename) {
+             rewrite ^(.*)$ /index.php last;
+             break;
+         }
+    }
+
+    location ~ "\.(js|ico|gif|jpg|png|css)$" {
+                expires 1w;
+   }
+}
+2. chmod 755 your_projects_dirctory(可能需要)
