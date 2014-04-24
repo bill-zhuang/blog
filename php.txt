@@ -1,0 +1,37 @@
+php
+
+1. htmlspecialchars函数
+将特殊字元转成HTML的字串格式
+如：& 转成 &amp; " 转成 &quot; < 转成 &lt; > 转成 &gt; 
+2. strip_tags函数将html去标签，结合上面的htmlspecialchars(防止将<>误删)来实现去除html标签
+3. self 和 this
+4. ==操作符， 如'1234.'和数字1234比较 会返回true， 因为含数字字符串会把字符串转化为数字
+5. 插入mysql表中数据乱码情况解决方案：
+setlocale(LC_ALL, 'zh_CN'); <----设置在文件开头
+$data = iconv('gb2312//IGNORE', 'utf-8', $data); <----转换gb2312中文到utf8格式
+6. list($one, $two, $three) = array(1, 2, 3); //$one = 1, $two = 2, $three = 3. 
+ps：数组的key必须从0开始连续的数字(0,1,2..)，不能是字符串
+7. mb_strlen, mb_substr...
+8. argc & argv
+在命令行下，比如：php script.php arg1 arg2
+那么argc的值是3(argc永远大于等于1)，argv为argv[0]=script argv[1]=arg1 argv[2]=arg2
+
+Array
+1. ksort函数
+对数组的key排序(升序排列)，有排序参数可以设置
+2. array_chunk(array, length, opt)
+分割数据, 第三个参数为是否保留原数组中的key值。
+3. end函数 
+取数组最后一个主键或值，对非数字主键也有效
+4. array_keys函数
+获取数组主键，对非数字主键也有效。ps：返回值为ke=>value的数组
+5. 去除数组中重复的value
+-->一维数组使用array_unique函数
+-->多维数组通过下面方法
+$input = array_map("unserialize", array_unique(array_map("serialize", $input)));
+建议在此后用array_values()去掉数组下标
+6. array_merge和 + 区别
+key为数字时array_merge不会合并数据，非数字时合并，
++ 对数字和非数字都合并数据，key相同的，+后右边的数据字舍弃。
+7. array_walk($array, $callback)  
+等价于 foreach($array as $key =>$ value){ $callback($value, $key); }
