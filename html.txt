@@ -1,0 +1,15 @@
+html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+1.
+html中，让部分元素居中，用center tag包起来
+<center>
+...
+</center>
+
+2.
+a href 与onclick，把href删除后加style="cursor:pointer;"后可以把鼠标形状变为手形，
+如果没删除href的话，点击链接后会有两个窗口，分别是href和onclick打开的链接。
+如 <a href="http://www.google.com" onclick="window.open('http://www.baidu.com');">test</a>
