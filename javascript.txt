@@ -1,0 +1,24 @@
+javascript
+
+1. html表单提交的是去element 的name属性，不是id
+2. submit不能作为function名字，为javascript的保留字
+3. Document.getElementsByName  ----> element有s
+   Document.getElementById     ----> element没有s
+4. javascript中方法不支持默认参数，解决方法为
+function withDefaultParameter(a, /* optional */ b)
+{
+	if(typeof b === 'undefined') {
+		b = default_value;
+	}
+	
+	//or
+	
+	b = b || 'default_value';
+	
+	....
+}
+5. 在使用ajax中，如果要立即得到返回值，则需将属性async设置为false，默认值为true
+
+
+
+
