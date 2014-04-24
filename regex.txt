@@ -1,0 +1,22 @@
+regex
+
+1. 匹配反斜杠，'/\\/'或者'/\\\/'都不行，必须用'/\\\\/'，否则报错，见下
+参考url http://www.regular-expressions.info/php.html
+但在实际测试中发现，用'/\\\/'也能匹配到反斜杠，不过依旧建议用四个反斜杠来匹配单个反斜杠
+2. 以下几种都是不捕获的
+(?:pattern) 为在匹配位置右侧的内容必须匹配pattern
+
+(?=pattern) 位置右侧的内容必须匹配pattern，但是不占用匹配的内容
+(?<=pattern) 与(?=pattern)相反,位置左侧必须匹配，但是不占用匹配的内容
+(?=pattern)    <------------->   (?<=pattern)
+
+(?!pattern) 位置右侧的内容不能匹配pattern，但是不占用匹配的内容
+(?<!pattern) 与(?!pattern)相反,位置左侧的内容不能匹配pattern，但是不占用匹配的内容
+(?!pattern)    <------------->   (?<!pattern) 
+
+会捕获的
+(?>pattern)为非回溯子表达式,匹配一次后不会在被用来匹配(可以认为符合pattern匹配后将该pattern对应匹配的字符/字符串删除)
+
+
+
+
