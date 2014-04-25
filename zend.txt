@@ -1,0 +1,5 @@
+zend
+
+1.不同controller/action跳到同一个view文件
+$this->view->example = $example;  <----这个先
+$this->renderScript('example/example.phtml');   <-----这个后
