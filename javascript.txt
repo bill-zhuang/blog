@@ -18,7 +18,9 @@ function withDefaultParameter(a, /* optional */ b)
 	....
 }
 5. 在使用ajax中，如果要立即得到返回值，则需将属性async设置为false，默认值为true
-
+6. css(cross site scripting，跨站脚本攻击，亦简写为xss)
+如在输入框中输入信息，进入数据库前没有检查(如：在输入对话框中加入<script>window.location.href='http://www.example.com';alert('xss attack');</script>后跳转到相应网站，弹出对话框等)
+更多详情参见url：https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29
 
 
 
