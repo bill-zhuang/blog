@@ -8,13 +8,35 @@ php
 4. ==操作符， 如'1234.'和数字1234比较 会返回true， 因为含数字字符串会把字符串转化为数字
 5. 插入mysql表中数据乱码情况解决方案：
 setlocale(LC_ALL, 'zh_CN'); <----设置在文件开头
-$data = iconv('gb2312//IGNORE', 'utf-8', $data); <----转换gb2312中文到utf8格式
+$data = iconv('gb2312//IGNORE', 'utf-8', $data); <----转换gb2312到utf8格式(如果乱码字符是关闭gb2312)
 6. list($one, $two, $three) = array(1, 2, 3); //$one = 1, $two = 2, $three = 3. 
 ps：数组的key必须从0开始连续的数字(0,1,2..)，不能是字符串
 7. mb_strlen, mb_substr...
 8. argc & argv
 在命令行下，比如：php script.php arg1 arg2
-那么argc的值是3(argc永远大于等于1)，argv为argv[0]=script argv[1]=arg1 argv[2]=arg2
+那么argc的值是3(argc永远大于等于1)，argv为argv[0]=script.php argv[1]=arg1 argv[2]=arg2
+9. lcg_value()函数，产生0-1之间随机数
+10. 判断输入是否为整数，用is_numeric()函数，is_int()会返回false(如果输入的为字符串数字，如'123')
+11. session & cookie 区别
+session 存在于服务器端，而cookie 存在于客户端；从安全性上说，session比较安全，cookie可以修改伪装
+12. 获取明天是第几天 ：date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'))
+13. class test{}
+	$a = new test();
+	$b = $a;  <-----a,b指向同一个对象
+	$c = clone $a;  <-----a,c不指向同一对象
+
+$a = array(1);
+$b = $a;  <-----a,b不指向同一个数组
+14. 数据库操作
+$connect = mysql_connect($host, $user, $password) or die('...');
+mysql_select_db($database_name);
+$query_result = mysql_query($select) or die('...');
+while($line = mysql_fetch_array($query_result))
+{
+	//...
+}
+mysql_free_result($query_result);
+mysql_close($connect); 
 
 Array
 1. ksort函数
@@ -31,7 +53,8 @@ Array
 $input = array_map("unserialize", array_unique(array_map("serialize", $input)));
 建议在此后用array_values()去掉数组下标
 6. array_merge和 + 区别
-key为数字时array_merge不会合并数据，非数字时合并，
-+ 对数字和非数字都合并数据，key相同的，+后右边的数据字舍弃。
+array_merge:：key为数字时不合并数据，非数字时合并，合并的value为第二个数组key的value；
++：对数字和非数字都合并数据，key相同的，+后右边的数据字舍弃。
 7. array_walk($array, $callback)  
-等价于 foreach($array as $key =>$ value){ $callback($value, $key); }
+等价于 foreach($array as $key =>$value){ $callback($value, $key); }
+8. array_filter($array, [$callback]) //过滤$array value等值false的项
