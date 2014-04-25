@@ -1,0 +1,13 @@
+vbird linux book
+
+chapter 5
+1. ctrl + c 终止当前进程
+   ctrl + d 键盘输入结束
+2. man command
+/string 向下搜索
+?string 向上搜索
+n/N 继续下一个搜索/反向继续搜索(针对/string ?string)
+q 离开man page
+3. sync 数据同步写入硬盘
+   reboot 重启
+   shutdown -h now 即刻关机
