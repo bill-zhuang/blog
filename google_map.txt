@@ -252,3 +252,36 @@ function drawGoogleRoute(src, dest, way_points)
         }
     });
 }
+
+10. js中调用google map api来获取地址经纬度
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+function getAddressLngLat(address_id)
+{
+    var address = document.getElementById(address_id).value;
+
+    if (address == '') {
+        alert('address is empty!');
+        return false;
+    } else {
+        getLngLatFromGoogleMap(address);
+    }
+}
+
+function getLngLatFromGoogleMap(address)
+{
+	var lng_lat = {'Longitude' : 0, 'Latitude' : 0};
+	var geocoder = new google.maps.Geocoder();
+
+	//async here!
+    geocoder.geocode({ 'address': address }, function(results, status) {
+        if(status == google.maps.GeocoderStatus.OK) {
+            lng_lat['Longitude'] = results[0].geometry.location.lng();
+            lng_lat['Latitude'] = results[0].geometry.location.lat();
+            console.log(lng_lat);
+            //do what you need.
+        } else {
+            alert('access longitude & latitude from google map failed!');
+        }
+    });
+}
+注：获取经纬度是异步的，直接返回结果会拿到空值
