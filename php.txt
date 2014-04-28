@@ -37,6 +37,23 @@ while($line = mysql_fetch_array($query_result))
 }
 mysql_free_result($query_result);
 mysql_close($connect); 
+15. 获取相似度：similar_text($cmp_name, $str_name, $percent) $percent:0-100之间
+16. sprintf
+17. 发送请求
+public function sendRequest($url, $post_data, $method = 'post')
+{
+	$postdata = http_build_query($post_data);
+	$options = array(
+		'http' => array(
+				'method' => $method, //post or get
+				'header' => 'Content-type:application/x-www-form-urlencoded',
+				'content' => $postdata,
+				'timeout' => 15 * 60 // 超时时间（单位:s）
+		)
+	);
+	$context = stream_context_create($options);
+	return file_get_contents($url, false, $context);
+}
 
 Array
 1. ksort函数
@@ -58,3 +75,4 @@ array_merge:：key为数字时不合并数据，非数字时合并，合并的va
 7. array_walk($array, $callback)  
 等价于 foreach($array as $key =>$value){ $callback($value, $key); }
 8. array_filter($array, [$callback]) //过滤$array value等值false的项
+9. unset 可以 unset 多个数组key， 如unset($example_arr['key'], $example_arr['key1'], ...)
