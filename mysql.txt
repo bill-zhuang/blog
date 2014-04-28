@@ -6,4 +6,6 @@ using 用在join操作中，如果两个表join的条件相同(字段名相同)�
 use 用在sql查询中告诉mysql使用那个索引
 	如：...from table use index(index_name)...
 2. 设置变量，推荐 set @variable_name := value;
-3. 关键字后面括号内指定显示宽度，如int(4)，不会限制列的保存的值的范围，即65535的值还是65535，不会截断。
+3. 关键字后面括号内指定显示宽度，如int(4)，不会限制列的保存的值的范围，即65535的值还是65535，不会截断
+4. 实现查询结果按操作符 in 中数据排列
+SELECT * FROM table_example where id IN (2, 3, 1) ORDER BY FIELD(id, 2, 3, 1) //假设table_example 有字段 id
