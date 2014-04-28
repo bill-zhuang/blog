@@ -13,3 +13,5 @@ html中，让部分元素居中，用center tag包起来
 a href 与onclick，把href删除后加style="cursor:pointer;"后可以把鼠标形状变为手形，
 如果没删除href的话，点击链接后会有两个窗口，分别是href和onclick打开的链接。
 如 <a href="http://www.google.com" onclick="window.open('http://www.baidu.com');">test</a>
+
+3. style="display:none/block"
