@@ -1,0 +1,89 @@
+php manual(Jan 2014 version)
+
+语言参考
+1. 类型
+php中 double 和 float 是相同的
+调试的话用 gettype() 函数，查看变量类型不要使用 gettype()，用 is_type 函数
+将一个变量强制转换为某类型，可以对其使用强制转换或者 settype() 函数。 (bool,boolean/int,integer/float,double,real/string/array/object/unset(to null))$variable
+0[0-7]+八进制  0x[0-F]+十六进制 [0-9]+十进制 0b[0-1]+二进制
+intval() 将一个值转换成整型  使用 round() 函数可以更好地进行四舍五入
+由于 NAN 代表着任何不同值，不应拿 NAN 去和其它值进行比较，包括其自身，应该用 is_nan() 来检查。 
+在单引号字符串中的变量和特殊字符的转义序列将不会被替换。
+通过在其前面加上 (string) 或用 strval() 函数来转变成字符串
+大部分的 PHP 值可以转变成 string 来永久保存，这被称作串行化，可以用函数 serialize() 来实现
+将已序列化的字符串变回 PHP 的值，可使用 unserialize()。
+数组(Array)的赋值总是会涉及到值的拷贝。使用引用运算符&通过引用来拷贝数组。
+
+Callback 回调类型
+一个 PHP 的函数以 string 类型传递其名称。可以使用任何内置或用户自定义函数，但除了语言结构例如： array()、echo、empty()、eval()、exit()、isset()、list()、print 或 unset()。 
+一个已实例化的对象的方法被作为数组传递，下标 0 包含该对象，下标 1 包含方法名。 
+静态类方法也可不经实例化该类的对象而传递，只要在下标 0 中包含类名而不是对象。
+除了普通的用户自定义函数外， create_function() 可以用来创建一个匿名回调函数。
+
+2. 常量
+define & const( const 关键字定义常量必须处于最顶端的作用区域)
+用函数 constant() 来获取常量的值。用 get_defined_constants() 可以获得所有已定义的常量列表
+
+3. 运算符
+错误控制运算符：@。当将其放置在一个 PHP 表达式之前，该表达式可能产生的任何错误信息都被忽略掉
+执行运算符：反引号（``）---> 尝试将反引号中的内容作为外壳命令来执行，并将其输出信息返回。使用反引号运算符'`'的效果与函数 shell_exec() 相同。 
+类型运算符  instanceof 用于确定一个 PHP 变量是否属于某一类 class 的实例
+
+4. 流程控制
+break 可以接受一个可选的数字参数来决定跳出几重循环。
+continue 接受一个可选的数字参数来决定跳过几重循环到循环结尾。默认值是 1，即跳到当前循环末尾
+declare 结构用来设定一段代码的执行指令。declare 的语法和其它流程控制结构相似： 
+	declare (directive)
+		statement
+return 是语言结构而不是函数，因此其参数没有必要用括号将其括起来。通常都不用括号，实际上也应该不用，这样可以降低 PHP 的负担
+require 和 include 几乎完全一样，除了处理失败的方式不同之外。 
+require 在出错时产生 E_COMPILE_ERROR 级别的错误。换句话说将导致脚本中止而 include 只产生警告（E_WARNING），脚本会继续运行。 
+因为 include 是一个特殊的语言结构，其参数不需要括号
+
+5. 函数
+函数的参数支持可变长度参数列表(可以传任意个参数，哪怕函数定义时没有参数)，通过func_num_args()，func_get_arg([0,1,2...]) 以及 func_get_args()来获取参数个数，内容
+匿名函数  function .... use //闭包
+
+6. 类与对象
+当把一个对象已经创建的实例赋给一个新变量时，新变量会访问同一个实例，就和用该对象赋值一样。class
+可以用克隆给一个已创建的对象建立一个新实例  $copy_object = clone $object;
+
+__autoload() {
+
+}
+
+__construct(...)  __destruct()
+
+静态属性不能通过一个类已实例化的对象来访问（但静态方法可以）。 
+
+属性不能被定义为 final，只有类和方法才能被定义为 final。 
+父类中的方法被声明为 final，则子类无法覆盖该方法。如果一个类被声明为 final，则不能被继承
+
+serialize() & unserialize()
+
+7. 引用
+unset 一个引用
+
+8. 预定义变量
+REQUEST contain GET POST COOKIE
+
+9. 上下文选项和参数
+上下文（Context）由 stream_context_create() 创建。选项可通过 stream_context_set_option() 设置，参数可通过 stream_context_set_params() 设置。
+$opt = array('socket/http/ftp/ssl...' =>
+			 array(....)
+			);
+
+$context = stream_context_create($opts);
+
+特点
+1. 文件上传处理
+<form enctype="multipart/form-data" action="__URL__" method="POST">
+    <!-- MAX_FILE_SIZE must precede the file input field -->
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+    <!-- Name of input element determines name in $_FILES array -->
+    Send this file: <input name="userfile" type="file" />
+    <input type="submit" value="Send File" />
+</form>
+MAX_FILE_SIZE 隐藏字段（单位为字节）必须放在文件输入字段之前，其值为接收文件的最大尺寸。这是对浏览器的一个建议，PHP 也会检查此项。
+在浏览器端可以简单绕过此设置，因此不要指望用此特性来阻挡大文件。实际上，PHP 设置中的上传文件最大值是不会失效的。但是最好还是在表单中加上此项目，
+因为它可以避免用户在花时间等待上传大文件之后才发现文件过大上传失败的麻烦。 
