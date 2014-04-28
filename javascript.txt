@@ -21,6 +21,59 @@ function withDefaultParameter(a, /* optional */ b)
 6. css(cross site scripting，跨站脚本攻击，亦简写为xss)
 如在输入框中输入信息，进入数据库前没有检查(如：在输入对话框中加入<script>window.location.href='http://www.example.com';alert('xss attack');</script>后跳转到相应网站，弹出对话框等)
 更多详情参见url：https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29
+7. http build query in js
+参考url：http://stackoverflow.com/questions/316781/how-to-build-query-string-with-javascript
+	     http://stackoverflow.com/questions/1714786/querystring-encoding-of-a-javascript-object/1714899#1714899
+		 http://stackoverflow.com/questions/9726315/jquery-build-http-query-string
+function httpBuildQuery(query_array)
+{
+	var query_string = '';
+
+	for (var key in query_array) {
+		query_string += encodeURIComponent(key) + '=' + encodeURIComponent(query_array[key]) + '&';
+	}
+
+	if (query_string.length > 0) {
+		query_string = '?' + query_string.substr(0, query_string.length - 1);
+	}
+
+	return query_string;
+}
+or
+function httpBuildQuery(query_array)
+{
+	var query_string = [];
+
+	for (var key in query_array) {
+		if (query_array.hasOwnProperty(key)) {
+		    query_string.push(encodeURIComponent(key) + '=' + encodeURIComponent(query_array[key]));
+		}
+	}
+
+	return query_string.join('&');
+}
+or in jquery
+return $.param(build_array);
+8. js 隔断时间允许程序
+	setInterval(function(){//to do...}, seconds * 1000); //时间间隔默认是毫秒级别，所以按秒的话要乘以1000
+9. 获取今天日期
+function getCurrentDate()
+{
+	var today = new Date();
+	var day = today.getDate();
+	var month = today.getMonth() + 1; //January is 0!
+	var year = today.getFullYear();
+
+	if (day < 10) {
+	    day = '0' + day;
+	} 
+
+	if (month < 10) {
+	    month = '0' + month;
+	} 
+
+	return year + '-' + month + '-' + day;
+}
 
 
 
