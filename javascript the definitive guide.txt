@@ -1,0 +1,134 @@
+JavaScript: The Definitive Guide
+
+chapter 3
+1. 内部类：Array, Function, Date, RegExp, Error
+2. 换行：'new \n line' 或者 "new \n line"
+3. var a = [];
+   var b = a; <-----a,b 指向同一个数组
+4. Number 类 toString() 方法接收转换基数的可选参数，如 2.toString(2) ---> 得到二进制 10
+5. parseInt, parseFloat   
+   parseInt('3  xx')  ---> 3 
+   parseInt('xx  3')  ---> NaN
+6. 变量在声明它们的函数体及这个函数体嵌套的任意函数体内都有定义，即将函数内所有的变量声明提前到函数顶部(但不涉及赋值!!!)
+function test()
+{
+    for(var i = 0; i < 10; i++) {
+        ;
+    }
+    console.log(i);    -------> 输出10
+}
+
+var i = 1;
+function test()
+{
+    console.log(i);  -----> undefined //声明了i局部变量，覆盖了全局变量，但是没赋值，赋值要到下一条语句!!!
+    var i = 2;
+    console.log(i);  -----> 2
+}
+上面的相当于
+var i = 1;
+function test()
+{
+	var i;
+    console.log(i);
+    i = 2;
+    console.log(i);
+}
+7. 
+var i =1;
+j = 2;
+
+delete i; ---> true; //书上说是false???
+delete j; ---> true;
+
+chapter 4
+1. 对象声明
+var obj = {x:1};
+对于对象的 key (上面的x)，如果为js保留字，需加引号，
+ps：如果key为数字，非科学计数法的，key可以不加引号，只能通过'[]'访问
+    如果为科学计数法，key带引号和不带有区别，只能能通过'[]'访问
+	var obj = {12e34: 1};
+	console.log(obj[12e34]);      -----> 1
+	console.log(obj['12e34']);    -----> undefined
+	console.log(obj['1.2e+35']);  -----> 1
+
+	var obj = {'12e34': 1};
+	console.log(obj[12e34]);      -----> undefined
+	console.log(obj['12e34']);    -----> 1
+	console.log(obj['1.2e+35']);  -----> undefined
+参考url：http://stackoverflow.com/questions/4348478/what-is-the-difference-between-object-keys-with-quotes-and-without-quotes
+部分测试结果与参考url不符
+按参考url说的，key如果为数字常量及有效的标识符，key两边的引号可以忽略
+访问key对应的value，'[]'适用所有情况，'.'只适用于key是有效标识符的
+2. in 操作符 //判断是否有对应的key存在(是key，不是value!!!)
+3. typeof 返回式是个字符串(string)
+
+chapter 5
+1. for/in
+for(var key in object) {
+	//object[key]...
+}
+2. break [label_name] //break 可带标签名，用于跳出多层的循环
+3. continue [label_name] //continue 可带标签名，用于跳出多层的循环
+4. try/catch/finally
+5. with 语句
+
+chapter 6
+1. 检测属性存在与否 in/hasOwnProperty()
+2. json //javascript object notation
+	JSON.stringify(obj)   ---->序列化对象(json_encode)
+	JSON.parse(parse_obj) ---->反序列化(json_decode)
+
+chapter 7
+1. 初始化 var arr = []; / var arr = new Array(); / var arr = new Array(length); / var arr = new Array(1, 2, ..'a'...);
+2. Array 方法
+join() //默认是','，如用在httpBuildQuery中，.....join('&')  <------> split
+reverse()
+sort()
+concat()
+slice() //如用在按长度切割数组，array_chunk, push(...slice(start_index, length))
+splice()
+push()/pop()
+shift()/unshift()
+toString()/toLocalString()
+在EMCAScript 5中函数
+forEach() map() filter() every()/some() reduce()/reductRight() indexOf()/lastIndexOf()
+
+chapter 8
+1. 没形参的构造函数可以省略括号
+2. 带默认参数形参函数，可见javascript.txt中，本文中也给了差不多的例子
+function withDefaultParameter(a, /* optional */ b)
+{
+	if(typeof b === 'undefined') {
+		b = default_value;
+	}
+	
+	//or
+	
+	b = b || 'default_value';
+	
+	....
+}
+3. 不确定参数个数
+function getMoreParameter(/*...*/)
+{
+	for(var i = 0; len = arguments.length; i < len; i++) {
+		arguments[i];
+	}
+	arguments[0]...[n] if exist
+}
+ps: argument是js中内部定义的(可以这样理解??)
+4. 传递参数有多个的话，建议通过对象的方式传递(key => value...，不需记参数顺序)
+5. var func = (function () {...});   --->function 外面的圆括号是必须的!!!!
+6. 闭包 //可以捕捉到局部变量及参数，保存下来
+参考url：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures
+..... = function(...) {
+	....
+};
+与
+.... = funcClosure(....);
+区别：
+前者会获取当前所在函数的环境，如果放在for循环里面的话，所有的闭包都共享同一个环境，
+后者闭包的环境为funcClosure，所以如果放在for循环里面的话，每个都是一个独立的环境(这样理解是否可以?????)
+
+chapter 9
