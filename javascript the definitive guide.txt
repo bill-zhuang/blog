@@ -132,3 +132,13 @@ ps: argument是js中内部定义的(可以这样理解??)
 后者闭包的环境为funcClosure，所以如果放在for循环里面的话，每个都是一个独立的环境(这样理解是否可以?????)
 
 chapter 9
+
+chapter 10
+'...'.search(regex)  ---->非全局搜索，即时加了g修饰符
+'...'.replace(regex, '...')
+'...'.match(regex)  ----->返回数组，如果不带全局g修饰符，不会进行全局搜索，只检索第一个匹配(如果都没有匹配的话，相当于全局检索了)
+'...'.split(regex/string) ---->可以接受regex表达式或者字符串
+RegExp('/.../', [optional(修饰符：i、m、g)])
+
+
+chapter 11
