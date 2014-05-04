@@ -142,3 +142,12 @@ RegExp('/.../', [optional(修饰符：i、m、g)])
 
 
 chapter 11
+1. let 声明变量(如放在循环里，则在作用域外访问是 undefined)
+2. var [x, y, z] = [1, 2, 3] //var x = 1, y = 2, z = 3;
+3. for each //遍历对象属性的值，与for in不同(遍历对象的属性)
+var arr = {one : 1, two : 2};
+for each(var val in arr) {
+    console.log(val);
+}
+
+chapter 12
