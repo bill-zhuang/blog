@@ -74,6 +74,6 @@ function getCurrentDate()
 
 	return year + '-' + month + '-' + day;
 }
-
+10. 修改button显示的名字，用document.getElementById('...').innerHTML = 'new name';
 
 
