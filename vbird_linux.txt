@@ -11,3 +11,8 @@ q 离开man page
 3. sync 数据同步写入硬盘
    reboot 重启
    shutdown -h now 即刻关机
+   halt
+   poweroff
+4. 在终端机里面登入后，可以看到提示字符 $ 或者 #，# 代表以 root 的身份登入系统，而 $ 则代表一般身份使用者。
+
+chapter 6
