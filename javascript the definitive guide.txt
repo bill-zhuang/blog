@@ -151,3 +151,110 @@ for each(var val in arr) {
 }
 
 chapter 12
+
+chapter 13
+1. element(通过document.getElementById...) 对象都有 style 和 className 属性
+2. unobtrusive JavaScript: 一种将javascript从HTML中抽离的概念，避免在HTML标签中夹杂一堆onchange, onclick等属性去挂载Javascript事件
+   让HTML与Javascript分离，依MVC的原则将功能权责区分清楚，使HTML也变得结构化容易阅读
+实际上使用html事件处理程序的属性是不好的习惯，他们更喜欢保持内容的行为的分离。
+3.
+<script type="text/javascript" language="javascript">  <-----type默认为text/javascript, language属性已经废弃
+....
+</script>
+所以上面可以简写为
+<script>
+....
+</script>
+4. javascript: URL
+5. 脚本通常会按它们在文档的出现顺序执行//一般放在最后，加快文档加载速度
+5. 注册事件处理程序最简单的方法是把Javascript函数赋值给目标对象的属性，如：
+   document.getElementById("....").onclick = function() {....};
+或
+   function handleEvent() {...}
+   document.getElementById("....").onclick = handleEvent;  <----函数名后不要加括号!!!
+ps: 此时需将script内容放在文档最后，在html元素加载后在加载script内容!!!，不然提示元素为null
+6. 全局函数
+setInterval(function, m_second);
+setTimeout(function, m_second);
+7. xss/css cross site scripting
+8. location.search.substring([1, 2.... optional]) //获取url中?开始到结束的所有字符
+
+chapter 14
+1. setTimeout 返回值可以传给 clearTimeout函数，用于取消函数执行
+   setInterval 返回值可以传给 clearInterval函数，用于取消函数执行
+2. window.location 对象
+   (所拥有属性：href/protocol/host/hostname/port/pathname/search)
+   (所拥有的方法：assign()/repalce()/reload())
+3. window.history 对象
+history.back() //后退按钮
+history.forward() //前进按钮
+history.go(number) //number可为正或者负数，如2代表按前进按钮两次，-2代表按后退按钮两次
+3. window.navigator 
+   (所拥有的属性：appName/appVersion/userAgent/platform/onLine/geolocation)
+   (所拥有的方法：javaEnabled()/cookieEnable())
+通过浏览器获取经纬度
+function getCoordinateByBrowser()
+{
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			console.log(position.coords.latitude);
+			console.log(position.coords.longitude);
+		});
+	}
+}
+ps: 上面方法是异步的，不会马上返回结果
+4. window.screen 对象
+   (所拥有的属性：width/height/availWidth/availHeight/colorDepth)
+5. 对话框： alert/confirm/prompt
+6. window.onerror = function(error, url, line) {
+		...
+   }
+7. window.open(url, window_name, properties[width/height/status/resizable...])
+8. window.close()
+
+chapter 15
+1. IE中，getElementsByName 也返回id属性匹配指定值的元素，应小心谨慎
+2. element对象方法 getAttribute()/setAttribute()/removeAttribute()/hasAttribute()
+3. 
+var s = document.createElement('script')
+s.src = url;
+....appendChild(s);
+....insertBefore(.....);
+....removeChild(s);
+....replaceChild(.....);
+4. var $ = function(id) {
+	return document.getElementById(id);
+}
+
+$(element_id)....;
+5. form 属性：action/encoding/method/target 方法：submit()/reset() 事件：onsubmit()[返回false中止提交表单]/onreset()
+6. document.cookie //读取http cookie
+
+chapter 16
+1. 
+<style>
+css here...
+</style>
+或者
+<head>
+<link rel="stylesheet" href=".....css" type="text/css">
+</head>
+
+chapter 17
+
+chapter 18
+1.
+var request = new XMLHttpRequest();
+request.open('get/post', url, false[false代表同步，true代表异步(默认值)]);
+request.setRequestHeader('....');
+request.onreadystatechange = function() {
+	if(request.readyState == 4) {
+		if(request.status == 200) {
+			result = request.responseText;
+			...
+		} else {
+			
+		}
+	}
+}
+request.send(null);  <-----如果为post的话，那么方法里面的参数一般不为null(有要发送的数据)，get要发送的数据一般放在url中了
