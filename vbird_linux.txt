@@ -61,3 +61,10 @@ mkdir [-m xyz] dir_name //-m:预设目录的权限 xyz:目录权限
 7. echo $PATH //':'为路径分隔符
 修改PATH变量， PATH="$PATH":dir_name
 8. ls -d(仅显示目录)
+9. cp [-iar] src dest 
+//-i用于提示是否覆盖相同文件，-a==-pdr -p用于复制文件的时候把源文件的权限也同样复制过去(备份) -r递归复制目录
+10. rm [-rfi] file_name/dir_name
+//-i用于提示是否删除文件，-f用于强制删除文件 -r递归删除目录
+11. mv [-fiu] src dest
+//-i用于提示是否覆盖同名文件， -f用于强制移动覆盖文件，如果文件存在的话，-u用于dest文件存在，且src比较新的时候，才更新
+ps：mv也可用于重命名文件 或者用rename old new old_filename //rename a.txt b.txt a.txt 把a.txt重命名为b.txt，有点蛋疼
