@@ -16,3 +16,37 @@ q 离开man page
 4. 在终端机里面登入后，可以看到提示字符 $ 或者 #，# 代表以 root 的身份登入系统，而 $ 则代表一般身份使用者。
 
 chapter 6
+1. ll 命令下显示的说明(见ll.png)
+第一个字符代表档案属性：目录/档案/链接文件... d:目录(directory) -:档案(regular file) l:链接文件(link file) b:区块设备档(block)(硬盘、软盘等) 
+	c: 字符设备文件(character)(键盘、鼠标等)//后面两个一般出现在/dev目录下 s:资料接口文件(sockets) p:数据传输文件(pipe)
+然后三个为一组，档案拥有者/所属群组/其它权限 rwx: read/write/execute, 无权限，已'-'出现
+然后 .
+然后是数字 i-node
+然后是 档案拥有者名称
+然后是 所属群组
+然后是 档案大小(bytes)
+然后是 档案创建/修改日期
+然后是 档案名称
+2. chgrp //change group
+chgrp [-R] group_name filename/dirname //-R用于目录下所有文件都递归改变所属群组
+3. chown //change owner
+chown [-R] owner_name filename/dirname //-R用于目录下所有文件都递归改变所属拥有者
+chown [-R] owner_name:group_name filename/dirname //改变档案或者目录所需拥有者及所属群组
+上述两个命令用于复制档案后给别人(cp命令会同时复制档案的拥有者及所属群组，所以需要修改)
+4. chmod        r:4 w:2 x:1
+chmod [-R] xyz filename/dirname //-R用于目录下所有文件都递归改变所属权限 xyz代表数字，如755(rwxr-xr-x)
+或者
+chmod [-R] a=rwx, o=rwx, g=rx, o=r filename/dirname //a:all, o:owner, g:group, o:others, 除=外，还可以使用+-来增减权限， g+w
+5. rwx 对档案/目录的区别
+对档案：
+r:可读
+w:可写(修改、新增) <----不能删除!!!! 针对档案的内容而言
+x:可被执行
+对目录：
+r:可读目录下有何文件(可使用ls)
+w:修改、新建、删除、移动、重命名目录/档案  <----无论目录下档案的权限是什么，都可以修改，相当于目录的权限覆盖了目录下档案的权限(如果目录权限比目录下档案权限大的话???)
+x:能否进入目录(可使用cd)
+6. FHS
+/bin /boot /dev /etc /home /lib /media /mnt /opt /root /sbin /srv /tmp /usr(unix sorftware resource) /var
+
+chapter 7
