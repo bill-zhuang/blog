@@ -1,4 +1,4 @@
-regex
+﻿regex
 
 1. 匹配反斜杠，'/\\/'或者'/\\\/'都不行，必须用'/\\\\/'，否则报错，见下
 参考url http://www.regular-expressions.info/php.html
@@ -16,7 +16,8 @@ regex
 
 会捕获的
 (?>pattern)为非回溯子表达式,匹配一次后不会在被用来匹配(可以认为符合pattern匹配后将该pattern对应匹配的字符/字符串删除)
-
+3. 匹配换行符(php中) 用PHP_EOL来匹配
+参考url：http://stackoverflow.com/questions/8448896/php-preg-match-newline
 
 
 
