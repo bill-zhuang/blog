@@ -1,0 +1,4 @@
+
+1. cmd命令行更改编码格式 命令chcp
+gbk：chcp 936
+utf8: chcp 65001, 然后修改属性->字体，将字体改为"Lucida Console"
