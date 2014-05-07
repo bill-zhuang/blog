@@ -68,3 +68,54 @@ mkdir [-m xyz] dir_name //-m:预设目录的权限 xyz:目录权限
 11. mv [-fiu] src dest
 //-i用于提示是否覆盖同名文件， -f用于强制移动覆盖文件，如果文件存在的话，-u用于dest文件存在，且src比较新的时候，才更新
 ps：mv也可用于重命名文件 或者用rename old new old_filename //rename a.txt b.txt a.txt 把a.txt重命名为b.txt，有点蛋疼
+12. 获取路径的文件名及目录名
+文件名：basename route_name
+目录名：dirname route_name
+13. 查阅档案内容
+cat //concatenate
+	cat -n filename //-n打印出行号，空白行的行号也打印
+tac
+	tac filename //与cat相反，从最后一行开始打印
+nl
+	nl filename //打印档案内容，无参数下与 cat -n 相同
+more
+	more filename //一页一页翻动，搜索字符等与其它差不多 /...
+less
+	less filename //一页一页翻动，但是可以往上翻，more不行
+head
+	head [-n number] filename //显示档案前几行内容，-n 数字为只显示设定的行数，如果数字为负数，那么显示的行数为总行数减去设定的数字
+tail
+	tail [-n number] filename //与head相反，只显示最后几行内容，-n 数字为显示设定的行数
+	tail [-f] filename //一直监听文件内容及显示，适用于档案内容会不断写入，用于实时显示， ctrl+c中止输出内容
+od
+	od [-t a/c] binaryname //显示二进制文件内容
+touch
+	touch filename //用于建立一个空档案或者修改档案的修改时间[-acdmt]参数
+
+umask //档案预设权限 uamsk//最右边三位或者 umask -S
+	//建立档案是默认权限666(没有执行权限)，目录为777，
+	//然后减去umask的值就得到建立的档案/目录的默认权限，对档案为644(rw-r--r--)，对目录是755(rwxr-xr-x)
+	//ps：上面的减去umask的值，不是真的减去，如666-003 结果是是664 (rw-rw-rw-) - (-------wx) = (rw-rw-r--) !!!!! 
+			实际上是先将umask的值取反NOT，然后与预设的档案/目录值相与AND
+	//如果要修改umask预设减去的权限，umask xxx来设置需要的值，如 umask 002，就设置umask为002
+chattr //设置文件档案隐藏属性
+lsattr //显示文件档案隐藏属性
+
+SUID SGID SBIT //U:user G:group B:bit
+
+file filename //查看档案的数据类型
+14. 搜索档案
+which [-a] command_name //查找命令名所在位置(只在PATH中找)，-a参数用于列数所有在PATH目录中找到的指令
+whereis [-bmsu] command_name/filename/dirname
+	//-b 只查找binary格式档案，-m 只查找说明文件manual路径下档案，-s 值查找source来源档案，-u 查找不在左边三个项目中的档案
+locate [-ir] keyword //-i 忽略大小写 -r 接正则表达式查找
+	//locate 和 whereis 都是通过查找/var/lib/mlocate 中的数据库来查找，数据一天更新一次，如果要立即更新，使用updatedb命令
+find //直接查找硬盘中内容
+	find [PATH] [option] [option]
+	option: 1.-atime/ctime/mtime n/+n/-n | -newer filepath
+			2.-uid(指user id) n | -gid(指group id) n | -user name | -group name | -nouser | -nogroup
+			3.-name filename | -size [+-]SIZE(+-:大于或小于SIZE c:byte k:1024bytes, 如-size +50k) | 
+				-type TYPE(f/b/c/d/l/s, 参见ls档案类型，除常规档案由-变为f，其它没变) |
+				-pern [-]mode(如没带-，查找权限等于mode的档案，带-是查找包含mode属性的档案)
+			4. -exec command {} \; (额外的可选动作，查找到内容后执行command命令，其中{}为将find找到的内容放在{}中，\;代表执行命令到这里结束)
+			5. -a(and同时满足-a两边的条件，-size +50k -a -size -60k，大小在50-60k之间) -o(or满足-o两边的条件之一， -size +50k -o -size 0，大小为大于50k或者0) !(!后面的条件不能满足 -size +50k ! -user root，大小大于50k且不能是root用户)
