@@ -58,6 +58,11 @@ public function sendRequest($url, $post_data, $method = 'post')
 echo和print都不是函数，而是语言结构
 echo 可以使用逗号隔开字符串输出，print 不行
 字符串连接符 '.' 都可以，相比之下，在echo语句中使用逗号分隔字符串能改善性能
+19. 正则表达式中插入变量的方法
+参考url：http://stackoverflow.com/questions/1400768/using-variables-in-preg-replace-in-php
+	1. $regex = '/part of regex' . $variable_want_to_insert . 'the other part of regex/';
+	2. 未安全起见，使用preg_quote函数来处理要加入的变量，$regex = '/part of regex' . preg_quote($variable_want_to_insert) . 'the other part of regex/';
+	3. 用双引号包含变量，$regex = "/part of regex{$variable_want_to_insert}the other part of regex/";
 
 Array
 1. ksort函数
