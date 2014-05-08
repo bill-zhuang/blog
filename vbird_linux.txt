@@ -131,3 +131,21 @@ chapter 8
 5. mkfs //磁盘格式化 make file system
 5. fsck/badblocks //磁盘检验
 6. mount & unmount //挂载及卸载
+
+chapter 9
+1. 档案扩展名 *.Z(compress压缩) *.gz(gzip压缩) *.bz2(bzip2压缩) *.tar(tar打包，没压缩) *.tar.gz(tar打包，gzip压缩) *.tar.bz2(tar打包，bzip2压缩)
+2. compress
+3. gzip [-cdtv#] filename // -c参数将压缩的数据显示处理(感觉用处不大，用来重命名输出文件 gzip -c filename > *.gz) -d参数为解压*.gz文件(或者gunzip *.gz) -v参数查看压缩比信息 -t查看压缩文件是否一致，有无错误 -#(1-9) 压缩等级
+   zcat *.gz //查看*.gz档案内容
+4. bzip2 [-cdkzv#] filename // 参数与gzip相同， -k为保留原文件(gzip中压缩后会删除原文件)，-z为压缩参数 (bunzip2 *.bz2)
+   bzcat *.bz2 //查看*.bz2档案内容
+5. tar
+   tar [-j/z] [cv] [-f *.tar.bz2/gz] filename(要打包压缩的档案名) //打包及压缩
+   tar [-j/z] [tv] [-f *.tar.bz2/gz] //查看档案
+   tar [-j/z] [xv] [-f *.tar.bz2/gz] [-C 要解压到所在目录路径] //解压缩
+   //-j：通过bzip2压缩/解压 -z：通过gzip压缩或者解压
+   //-c：打包档案 -t：查看档案 -x：解打包及解压档案， 三个不能同时出现在一行命令中
+   //-v(view)：压缩/解压过程中，将处理的文件名显示出俩
+   //-f filename 要处理/生成的压缩包名称
+   //-p：保留备份数据原有的权限与属性 -P：保留绝对路径
+   //--exclude=FILE：压缩过程中，不将FILE打包
