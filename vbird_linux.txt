@@ -119,3 +119,15 @@ find //直接查找硬盘中内容
 				-pern [-]mode(如没带-，查找权限等于mode的档案，带-是查找包含mode属性的档案)
 			4. -exec command {} \; (额外的可选动作，查找到内容后执行command命令，其中{}为将find找到的内容放在{}中，\;代表执行命令到这里结束)
 			5. -a(and同时满足-a两边的条件，-size +50k -a -size -60k，大小在50-60k之间) -o(or满足-o两边的条件之一， -size +50k -o -size 0，大小为大于50k或者0) !(!后面的条件不能满足 -size +50k ! -user root，大小大于50k且不能是root用户)
+
+chapter 8
+1. df [-h] //整体磁盘使用量，-h参数为已GB/MB/KB等方式列出
+2. du [-smk] path //列出path路径下磁盘使用量，-s为列出总量(不列出各个目录的容量)，-m为以mb的形式列出，-k为以kb的形式列出，默认不加参数以kb输出
+3. ln //软链接、硬链接
+	hard link //两个链接的文件名必须相同??? 不能跨文件系统链接，不能链接目录
+	symbolic link//快捷方式链接
+	ln [-s] src dest //-s参书代表是否为软链接(加了-s参数，不加为硬链接)
+4. fdisk //磁盘分区
+5. mkfs //磁盘格式化 make file system
+5. fsck/badblocks //磁盘检验
+6. mount & unmount //挂载及卸载
