@@ -144,8 +144,13 @@ chapter 9
    tar [-j/z] [tv] [-f *.tar.bz2/gz] //查看档案
    tar [-j/z] [xv] [-f *.tar.bz2/gz] [-C 要解压到所在目录路径] //解压缩
    //-j：通过bzip2压缩/解压 -z：通过gzip压缩或者解压
-   //-c：打包档案 -t：查看档案 -x：解打包及解压档案， 三个不能同时出现在一行命令中
-   //-v(view)：压缩/解压过程中，将处理的文件名显示出俩
+   //-c：打包档案(不是压缩，j/z才是!!!) -t：查看档案 -x：解打包及解压档案， 三个不能同时出现在一行命令中
+   //-v(view)：压缩/解压过程中，将处理的文件名显示出来
    //-f filename 要处理/生成的压缩包名称
-   //-p：保留备份数据原有的权限与属性 -P：保留绝对路径
+   //-p：保留备份数据原有的权限与属性 -P：保留绝对路径(待压缩的文件路径必须是绝对路径，相对的路径不行)
    //--exclude=FILE：压缩过程中，不将FILE打包
+   //-C：用于将压缩文件解压到指定目录 tar -zxvf *.tar.gz -C specific_route
+   //解压部分档案到指定目录 tar -zxvg *.tar.gz -C specific_route specific_filename(通过 tar -ztvf *.tar.gz 查看需要解压的档案名) ，注意-C specific_route必须放在 specific_filename前面
+6. 输入命令太长，输入\后按Enter继续输入
+7. dump //备份
+8. restore //还原备份的dump文件，与上面的dump相反
