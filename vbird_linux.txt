@@ -154,3 +154,43 @@ chapter 9
 6. 输入命令太长，输入\后按Enter继续输入
 7. dump //备份
 8. restore //还原备份的dump文件，与上面的dump相反
+
+chapter 10
+1. 一般模式    编辑模式：i、I、o、O、a、A、r、R     命令模式：:/?
+2. wq：保存退出  wq!：强制保存退出
+3. 按键
+一般模式：h(<-) j(down) k(up) l(->) ctrl+f==page down ctrl+b==page up
+		  0/home键：移动到所在行开头 $/end：移动到所在行最后
+		  G：移动到档案最后一行 nG：移动到第n行 gg：移动到开头第一行，相当于1G nEnter：目前所在行下移动n行
+		  /word：向下搜寻word ?word：向上搜寻word n：继续向下搜寻 N：继续向上搜寻
+		  :n1,n2s/word1/word2/g 在第n1到第n2行之间寻找word1，然后替换为word2
+		  :1,$s/word1/word2/g 在第1到最后一行之间寻找word1，然后替换为word2
+		  :1,$s/word1/word2/gc 在第1行到最后一行之间寻找word1，然后替换为word2，且替换前给出是否要替换确认信息
+		  x：删除当前光标所在字符 X：删除当前光标所在字符的前一个字符 nx：连续删除当前光标开始n字符
+		  dd：删除光标所在行 ndd：删除光标所在行下n行(包含光标所在行) d1G dG
+		  yy：复制光标所在行 nyy：复制光标所在行下n行 y1G yG
+		  p：粘贴内容到所在光标行下一行 P：粘贴内容到所在光标行上一行
+		  u：复原上一动作(相当于ctrl+z) ctrl+r：重做上一动作
+		  .：重复前一动作
+编辑模式：i：所在光标处插入 I：所在光标行第一个非空字符处插入
+		  a：所在光标下一个字符插入 A：所在光标行最后一个字符出插入
+		  o：所在光标下一行插入新的一行 O：所在光标上一行插入新的一行
+		  r R
+		  Esc：回到一般模式
+指令模式：:w 保存 :w 强制保存(不一定能保存成功，看权限)
+		  :q 离开 :q!强制离开，不保存修改
+		  :wq 保存后离开
+		  :w filename 另存为filename
+		  :n1,n2 w filename 将第n1到n2行内容保存到filename
+		  :! command 离开vim到命令行模式下执行command命令 如 :! ls
+		  :set nu 显示行号 :set nonu 取消行号
+4. 选择区块
+	ctrl+v 进入区块选择模式，然后hjkl或者上下左右键移动来选择需要的区块，然后y复制，然后回到一般模式后p粘贴复制的内容
+5. :sp [filename] //在一个vim中打开多个档案窗口
+6. dos2unix [-kn] file [newfile]
+   unix2dos [-kn] file [newfile] //dos及unix下文档字符互换，如换行符等
+7. iconv //编码格式转换
+   iconv --list //列出所有编码格式
+   iconv -f src_encoding -t dest_encoding filename [-o new_filename] //-f(from) -t(to)将filename档案由src_encoding转换到dest_encoding，[另存为new_filename档案]
+
+chapter 11
