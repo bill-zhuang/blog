@@ -194,3 +194,20 @@ chapter 10
    iconv -f src_encoding -t dest_encoding filename [-o new_filename] //-f(from) -t(to)将filename档案由src_encoding转换到dest_encoding，[另存为new_filename档案]
 
 chapter 11
+1. alias //别名设定， alias new_name='command [parameter]'，如 alias ll='ls -al'
+2. type [-tpa] command //判断command是外部指令还是bash内建指令
+3. echo $variable_name/`command` //输出变量variable_name内容或者输出执行command命令后的结果(先执行command，再输出结果)
+   variable_name=value //给变量variable_name赋值value，=两边不能有空格，如果value包含空格的话，需要用"'"或者'"'包含起来，'"'中$变量保留原有含义，与php一样
+                       //'\'用来转义特殊符号，为变量增加内容，用"$variable_name"或者${variable_name}增加内容，如PATH="$PATH":/home/bin(这里的':'是PATH的一部分，即将':/home/bin'加到PATH变量中，且等号左边没有$符号!!!)
+   export variable_name //使variable_name变量可以在别的程序中使用(使它成为环境变量)
+   unset variable_name //取消变量
+4. env //查看环境变量
+5. set //查看所有变量(环境变量和自定义变量)
+6. export variable_name //使variable_name 由自定义变量变为环境变量(类似全局，不同bash都可以访问)
+   declare variable_name //使variable_name 由环境变量变为自定义变量
+7. locale //语系
+
+8. read [-pt] variable_name //-p用于给出提示说明信息 -t用于等待的时间，单位是秒，超过等待时间，会关闭输入
+       read -p 'input your name: ' -t 10 name
+9. declare [-aixr] variable_name //无参数，默认为字符类型，-a声明为数组类型 -i声明为整型int -x声明为环境变量(相当于export) -r声明为只读类型readonly，不能更改及unset
+   //在读数组元素的时候，为echo ${array_name[1]} !!!
