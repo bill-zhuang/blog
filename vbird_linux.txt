@@ -211,3 +211,18 @@ chapter 11
        read -p 'input your name: ' -t 10 name
 9. declare [-aixr] variable_name //无参数，默认为字符类型，-a声明为数组类型 -i声明为整型int -x声明为环境变量(相当于export) -r声明为只读类型readonly，不能更改及unset
    //在读数组元素的时候，为echo ${array_name[1]} !!!
+10. ulimit //设定系统资源使用限制
+11. clear //清楚屏幕
+12. alias [new_command='command -xx'] //如果没有参数，则是显示目前所拥有的别名命令，否则为设置命令别名
+    unalias command_name //取消命令别名
+13. history [n/-c] //n为列出最近n条命令记录，-c为将shell中所有history内容消除
+    history [-raw] histfiles //-a将新增的history命令新增到histfiles中，如没有，预设写入~/.bash_history
+                             //-r将histfiles中的内容读到目前所在shell的history记忆中
+							 //-w将目前history记忆内容写到histfiles中(立即更新的，一般情况下是注销后才将命令写到文件中)
+	!number //执行history命令历史记录中第number条命令
+	!command //执行history命令历史记录中以command开头的最近的一条命令
+	!! //执行上一条命令
+14. /etc/issue //开机画面显示的内容所在位置
+    //issue中代码代表含义 \d本地日期 \l所在第几个终端接口位置 \m硬件登记 \n主机网络名 \o domain name \r操作系统版本 \t本地时间 \s操作系统名 \v操作系统版本
+	/etc/issue.net //用于远程登录用，显示信息
+	/etc/motd //用于显示信息(所有登录用户都要的，包括维护之类的)
