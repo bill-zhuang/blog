@@ -291,3 +291,12 @@ chapter 11
             //tar -cvf - /home | tar -xvf - 
 			
 chapter 12
+1. linux正则中{}需要转义，如\{3\}
+2. grep 不带-E参数的话是只支持基础正则，如对'|'不支持，如要支持，加-E参数或者直接使用egrep，所以一般情况下保持兼容性，用egrep，不用担心是否grep是否支持某些特殊字符
+3. printf 'format' $content //foramt包括\t\n等，及%ns%ni%N.nf基本上与c语言的类似，其中s代表字符串(string)，i代表整数(int)，f代表浮点数(float)，n代表显示的为数，最后一个%N.nf为总长度为N，小数点为n位的实数
+		//由于非管线命令，所以$content内容需要先得到，通过'$'或者``来得到
+4. diff [-bBi] from_file to_file //比较from_file和to_file区别，其中-b参数为忽略一行中，多个空白的差异(即about me与about    me一样)，-B参数为忽略空白行差异，-i参数为忽略大小写
+5. cmp [-s] from_file to_file //比较from_file和to_file区别，其中-s参数为列出所有不同点的字节处，默认只输出第一个不同点
+   //diff以行为单位进行比较，主要用于文本文件比较；cmp以字节为单位进行比较，主要用于二进制文件比较
+6. patch [-R] -pNum < *.patch //将patch文件打到文件中(假设当前所在目录只有需要打patch的文件，patch文件有diff生成，有具体命令，加'>'来输出patch文件)，其中-R为还原新的到旧的，-pNum为-p可以取消Num层目录，如果是在目标目录下，则Num为0
+7. pr
