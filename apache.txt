@@ -1,0 +1,3 @@
+
+1. 测试网站服务器性能 ab(apachebench) ab.exe在apache的bin目录下
+   ab -c concourrency_num -n request_num // -c -n 分别为并发数和请求数
