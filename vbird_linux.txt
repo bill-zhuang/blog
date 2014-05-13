@@ -229,3 +229,65 @@ chapter 11
     //issue中代码代表含义 \d本地日期 \l所在第几个终端接口位置 \m硬件登记 \n主机网络名 \o domain name \r操作系统版本 \t本地时间 \s操作系统名 \v操作系统版本
 	/etc/issue.net //用于远程登录用，显示信息
 	/etc/motd //用于显示信息(所有登录用户都要的，包括维护之类的)
+15. login shell //通过登录取得bash
+    non-login shell //登录后启动bash及终端命令窗口
+16. source/. config_file_path //使环境配置文件立即生效(~/.bashrc等)
+17. 组合按键
+    ctrl + c //终止当前命令
+	ctrl + d //输入结束(EOF)，如邮件结束的时候，以及下面标准输入'>/>>'来结束输入
+	ctrl + m //Enter
+	ctrl + s //暂停屏幕输出
+	ctrl + q //恢复屏幕输出
+	ctrl + u //在提示字符下，将整列命令删除
+	ctrl + z //暂停当前命令，放在后台中
+18. 通配符 * ?(代表一个!!!) [] [x-x] [^xxx] //与正则类似
+19. bash特殊符号
+    # //注释 
+	\x //将特殊字符或通配符转义成一把字符
+	| //管线(pipe)
+	; //连续指令下达分隔符，如syn;syn;shut down -h now
+	~ //home
+	$ //用于变量
+	& //工作控制(job control)，将指令置于背景下工作
+	! //not
+	/ //路径分隔符
+	>/>> //数据流导向，输出，>为取代，>>为累加，
+		如echo 'a' > a.txt 和 echo 'a' >> a.txt 不同，前者为将a写到a.txt中，如果文件不存在，建立空文件，写入a，如果存在，清空所有内容，然后写入a；
+		后者为将a添加到a.txt中，如果不存在，建立空文件，写入a，如果存在，不覆盖原有的，写在最后面
+	</<< //数据流导向，输入
+	'' //一般字符串
+	"" //变量置换，与php中一样
+	`` //``中内容先执行
+	() //子shell开始和结束
+	{} //命令块包含
+20. 标准输入输出
+	标准输入 代码为0，使用'<'或者'<<' // cat > new_file，输入内容结束后，ctrl + d结束输入，如果要通过现有文件转入，则为 cat > new_file < local_exist_file,， cat > new_file << 'ending_command'，代表输入ending_command结束输入
+	标准输出 代码为1，使用'>'或者'>>'
+	标准错误输出 代码为2，使用'2>'或者'2>>'
+		如 ls xxxxx > right_info.txt 2> error_info.txt
+	忽略错误信息或者不要输出信息，重导向到/dev/null(黑洞装置) 如 ls xxxx [2]> /dev/null
+	将标准输出和错误输出写到同一个文件 ls xxxx > info.txt 2 >&1 或者 ls xxxx &> info.txt
+21. && 和 ||
+	command1 && command2 // command1正确执行，则执行command2，否则不执行command2
+	command1 || command2 // command1正确执行，则不执行command2，否则执行command2
+	&& 和 || 可以组合使用 aa && bb || cc....
+以下命令与管线命令 '|' 结合使用
+22. cut -d'separator' -f fields //-d后跟分割字符，不能有空格，即-d':,'  -f后为要取出的内容段数，可以是具体的某一段，也可以是区间，如5/5-10等等
+	cut -c 字符区间 //-c后为要取出的字符区间，如5-/5-10
+23.	grep [-acinv] [--color=auto] 'search_word' filename //-a将二进制档案以文本档案的形式查找 -c计算匹配到的次数  -i忽略大小写 -n输出行号 -v反向搜索，即搜索没有search_word的行 --color=auto将搜索到的内容用颜色标记
+	//grep显示结果是如果匹配到搜索的内容，将该内容所在的行显示出来(不是显示匹配到的内容!!!)
+24. sort
+25. uniq [-ic] //用于去重，需先sort -i忽略大小写 -c计数
+26. wc [-lwm] //-l有多少行 -w有多少英文单字 -m有多少字符
+27. tee [-a] file //双重导向，-a累加的方式将内容添加到file档案中，将管线后内容保存一份为file文件，然后将同样内容继续处理，如 cat /etc/man.config | grep -i 'man' | tee grep.man | grep -c 'MAN'
+28. tr [-ds] word //删除或者替换文字，-d删除掉word字符串，-s删除重复的word字符，word用''包起来
+29. col [-xb] //-x将tab键转换为对等的空格(四个空格) -b内容中有反斜杠/时，仅保留/最后接的那个字符(测试好像还有反斜杠???)
+30. join
+31. paste [-d] file1 file2 ... //将file1和file2(可以有n个文件)每行拼起来，中间用tab键隔开 -d设置分割字符，默认tab键， '-'如果file部分写成-，则表示来自stdin
+32. expand [-t] file //将file中tab键转换为空格，-t参数后跟tab键转换为空格的个数
+33. split [-bl] file prefix_ //分割档案，-b后面接分割后档案大小，如b，k，m， -l为按行数分割，prefix_为分割后档案的前缀，分割后档案名以prefix_aa，prefix_ab，prefix_ac等等方式来建立档案
+34. xargs
+35. 减号'-' //管线命令中，使用前一个命令的stdout作为stdin，如果要用到文件名来处理，stdin 与 stdout 用'-'来代替
+            //tar -cvf - /home | tar -xvf - 
+			
+chapter 12
