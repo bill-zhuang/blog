@@ -110,6 +110,8 @@ whereis [-bmsu] command_name/filename/dirname
 	//-b 只查找binary格式档案，-m 只查找说明文件manual路径下档案，-s 值查找source来源档案，-u 查找不在左边三个项目中的档案
 locate [-ir] keyword //-i 忽略大小写 -r 接正则表达式查找
 	//locate 和 whereis 都是通过查找/var/lib/mlocate 中的数据库来查找，数据一天更新一次，如果要立即更新，使用updatedb命令
+	//如果刚装了centos，那么运行 locate 命令可能会出现提示信息：can not stat () `/var/lib/mlocate/mlocate.db'....，此时需先执行updatedb命令，再执行locate即可
+	  参考url：http://unix.stackexchange.com/questions/26188/how-do-i-enable-locate-and-queue-the-database-to-be-built
 find //直接查找硬盘中内容
 	find [PATH] [option] [option]
 	option: 1.-atime/ctime/mtime n/+n/-n | -newer filepath
