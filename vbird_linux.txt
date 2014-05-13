@@ -129,6 +129,7 @@ chapter 8
 	hard link //两个链接的文件名必须相同??? 不能跨文件系统链接，不能链接目录
 	symbolic link//快捷方式链接
 	ln [-s] src dest //-s参书代表是否为软链接(加了-s参数，不加为硬链接)
+	!!!在创建链接的时候，必须使用绝对路径，如果使用相对路径会报错："Too many levels of symbolic links"
 4. fdisk //磁盘分区
 5. mkfs //磁盘格式化 make file system
 5. fsck/badblocks //磁盘检验
