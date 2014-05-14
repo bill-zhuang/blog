@@ -393,3 +393,8 @@ ps：script中运算符两边不能有空格!!!!!!语句结束不用加分号';'
     用'='赋值是，左边的不用加‘$'符号!!!!右边的加'$'和没加测试结果貌似一样，没报错，结果也一样
 	
 chapter 14
+1. passwd [account_name] //修改密码，如果没加account_name的话，相当于修改root帐号密码
+2. useradd account_name //添加帐号
+3. chage account_name //修改密码
+4. usermod //修改帐号
+4. userdel account_name //删除帐号
