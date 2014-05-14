@@ -317,3 +317,79 @@ chapter 12
    //if while 等只能在{to do}中使用，不能在condition中使用
    
 chapter 13
+1. shell第一行必须内容必须为 #!/bin/bash ，用于告诉电脑使用的bash
+2. 声明主要环境变量：
+	PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+	export PATH
+3. 程序结束后通过 exit num 来告知执行成功还是失败，一般0代表成功
+4. 程序返回值通过 echo $? 来获取
+5. $((计算式内容)) //计算，值支持整数，运算符：+-*/%等
+6. source script.sh 与 bash/sh script.sh // 都是运行script.sh脚本，区别：前者script.sh中定义的变量可以在结束后继续访问到，后者则不行
+7. test -efd filename //-e(exist)判断档案是否存在 -f(regular file)判断是否为档案 -d(directory)判断是否为目录
+   //-r(read) -w(write) -x(execute0) !取反 -a(and) -o(or)  //test $a -eq 1 -a $a -eq 2 
+8. [] //判断符号，如[ -e 'a.txt' ] [ 'a' == 'b' ]
+   //[]中任何变量之间必须有空格，而且变量用'"'括起来，即 "$var" !!!!
+9. $# $* $@ //分别代表参数个数，第*个参数，所有参数
+   //script_name para1 para2 para3 ...//$#=3, $0=script_name, $1=para1...
+10. shift [n]//移动参数，n为移动个数，可省略，默认为一个， 指上面$# $* $@ 都会变化
+11. 
+	if [...]; then
+		.....
+	fi
+	///////////////
+	if [...]; then
+		....
+	else 
+		....
+	fi
+	///////////////
+	if [...]; then
+		....
+	elif [...]; then
+		....
+	else 
+		....
+	fi
+12. 
+	case $var in
+	"var 1")
+		....
+		;;  <----两个;; !!!
+	"var 2")
+		....
+		;;  <----两个;; !!!
+	esac
+13. 
+	function func()
+	{
+		....
+	}
+	在调用函数的时候不需要加() !!!!切记
+14. 
+	while [...] 
+	do
+		....
+	done
+	///////////
+	until [...]
+	do
+		....
+	done
+15. 
+	for $var in para1 para2 para3 ...
+	do 
+		....
+	done
+	///////////
+	for ((start; limit; step)) <----两个括号
+	do
+		....
+	done
+16. netstat -tuln
+17. sh [-nvx] script.sh //shell script 追踪及 debug
+    //-n参数为不执行script，仅检查语法是否正确，-v参数为执行script前，先输出script的内容，-x参数为将运行过的script内容打印出来
+
+ps：script中运算符两边不能有空格!!!!!!语句结束不用加分号';'!!!!
+    用'='赋值是，左边的不用加‘$'符号!!!!右边的加'$'和没加测试结果貌似一样，没报错，结果也一样
+	
+chapter 14
