@@ -436,3 +436,12 @@ chapter 16
    anacron [-sfn] [job] //-s(start 开始job) -f(force 强制运行job，不管是否到job需要运行时间) -n(now 立刻开始未完成的job)
    anacron -u job //-u(update) 仅更新记录文件时间戳，不进行job
    
+chapter 17
+1. command & //将command放在背景中运行
+2. ctrl + z //将目前的job暂停，放到背景中
+3. jobs [-lrs] //查看背景中job状态，-l(list)列出job信息，包括pid -r(run)仅列出运行中jobs -s(stop)仅列出停止的jobs
+4. fg [%]job_number //将job_number的工作拿到前景来执行，'%'可有可无
+5. bg %job_numner //将背景中暂停的job_number的工作在背景下运行
+6. kill -l //-l(list) 列出kill所能使用的信号signal
+   kill -signal %job_number //signal为 kill -l 中的可用的数(常用的有1(reload)，2(ctrl + c)，9(强制删除)，15(正常删除，默认参数可不填，相当于 kill %job_number))，job_number 需要kill掉的job
+7. nohup command [&] //将command在终端机中运行 & 放在背景中运行，不加为前景中运行，可以在注销及脱机下继续运行command
