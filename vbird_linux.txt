@@ -418,3 +418,21 @@ chapter 14
 chapter 15
 
 chapter 16
+1. at //需启动atd服务，如没启动，/etc/init.d/atd restart 来启动
+   at [-mldv] time_to_run //-m(mail)完成at后邮件通知使用者 -l(list)列出所有at排程 -d(delete)取消/删除一个at工作 -v(view???)以时间格式列出at排程中任务列表
+   
+   at .... time_to_run
+   >to do ...
+   >to do ... <----ctrl + d 结束输入
+2. atq //查询列出所有待运行工作，该命令等价于 at -l
+3. atrm [job_number] //移除带运行的工作码为 job_number 的工作，该命令等价于 at -d job_number 
+4. batch time_to_run //在cpu空闲时运行at，将at改为batch，其他与at一样
+5. crontab [-u username] [-ler] //循环执行工作排程，-l(list) -e(edit) -r(remove all !!!)
+	通过 crontab -e 进入编辑页面，每一行代表一个job，修改/新增后wq保存退出，与操作vi/vim一样，每行的内容为
+	minutes(0-59) hour(0-23) day(1-31) month(1-12) week(0-7，周几的意思，0和7都是周日) to_do
+	//可设置的除数字外，还有 *(任何时刻都可以) ,(分割时间段，如3,6代表3和6，不是3到6) -(代表范围，如3-6代表3,4,5,6) /n(每隔n个间隔，一般与*搭配使用，如*/5，代表每5单位执行一次)
+	//week和day，month不能同时并存
+6. anacron //处理非24小时运行的linux系统，crontab用于24小时运行的linux系统
+   anacron [-sfn] [job] //-s(start 开始job) -f(force 强制运行job，不管是否到job需要运行时间) -n(now 立刻开始未完成的job)
+   anacron -u job //-u(update) 仅更新记录文件时间戳，不进行job
+   
