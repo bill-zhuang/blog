@@ -1,6 +1,7 @@
 bootstrap
 
 1.
+html元素设置：<a href='#mapModal' data-toggle="modal" ...></a>
 在Bootstrap 2中，设置Modal为
 <div id="mapModal" class="modal hide fade">  <-----设置style
 <div class="modal-header">
