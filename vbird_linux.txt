@@ -84,8 +84,10 @@ less
 	less filename //一页一页翻动，但是可以往上翻，more不行
 head
 	head [-n number] filename //显示档案前几行内容，-n 数字为只显示设定的行数，如果数字为负数，那么显示的行数为总行数减去设定的数字
+	也可以直接 head -n filename //n为显示的行数
 tail
 	tail [-n number] filename //与head相反，只显示最后几行内容，-n 数字为显示设定的行数
+		也可以直接 tail -n filename //n为显示的行数
 	tail [-f] filename //一直监听文件内容及显示，适用于档案内容会不断写入，用于实时显示， ctrl+c中止输出内容
 od
 	od [-t a/c] binaryname //显示二进制文件内容
@@ -398,3 +400,21 @@ chapter 14
 3. chage account_name //修改密码
 4. usermod //修改帐号
 4. userdel account_name //删除帐号
+5. id [account_name] //查询account_name的uid，gid等信息，如不写account_name，则为查询当前用户uid，gid等信息
+6. groupadd [-g group_id] [-r] group_name //添加群组，[-g group_id]用于添加特定group_id(gid)的群组，[-r]为建立系统群组
+7. groupmod //修改群组
+8. groupdel group_name //删除群组
+9. gpassed
+10. su [-] [-c 'command'] //switch user，切换到root账户，需输入root密码，
+	//'-'代表以login shell方式登录，不加的话待变non-login shell方式登录，包括PATH等变量还是登陆前的用户!!!!
+	//-c参数为以root身份仅执行一次command命令
+	//完整切换到新环境需使用： su - username 或者 su -l username
+11. sudo //通过 visudo 命令来修改哪些用户及群组可以使用root操作
+12. w/who 获取当前登录在系统上的用户
+13. write account_name //给account_name用户发信息
+14. wall 'msg_info' //给所有用户发信息
+15. mail
+
+chapter 15
+
+chapter 16
