@@ -3,3 +3,6 @@ zend
 1.不同controller/action跳到同一个view文件
 $this->view->example = $example;  <----这个先
 $this->renderScript('example/example.phtml');   <-----这个后
+2. 通过zend来更新数据表中某个字段自增或自减某个值
+	$table->update(array('field' => new Zend_Db_Expr('field' + $val)), $where_condition);
+	//重点在 Zend_Db_Expr !!!
