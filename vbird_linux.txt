@@ -469,3 +469,12 @@ chapter 18
    chkconfig [--add|--del] [service name] //添加或者删除一个服务让chkconfig来管理，服务名称必须在 /etc/init.d/ 内!!!!
 
 chapter 19
+
+chapter 20
+
+chapter 21
+
+chapter 22
+1. gcc [-Wall] [-c] *.c //生成 *.o 文件，-c参数为生成与 *.c同名的 *.o文件， -Wall参数为产生更详细的编译信息
+   gcc -o * *.o //由 *.o 生成可执行文件 * ，如 gcc -o hello hello.o
+   gcc *.c -lname -L/lib_path //编译加入额外函式链接库， -l为加入链接库，name则是libname.so函数库，其汇总ilb和扩展名(.a/.so)不需要写
