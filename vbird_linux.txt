@@ -443,5 +443,22 @@ chapter 17
 4. fg [%]job_number //将job_number的工作拿到前景来执行，'%'可有可无
 5. bg %job_numner //将背景中暂停的job_number的工作在背景下运行
 6. kill -l //-l(list) 列出kill所能使用的信号signal
-   kill -signal %job_number //signal为 kill -l 中的可用的数(常用的有1(reload)，2(ctrl + c)，9(强制删除)，15(正常删除，默认参数可不填，相当于 kill %job_number))，job_number 需要kill掉的job
+   kill -signal %job_number/pid //signal为 kill -l 中的可用的数(常用的有1(reload)，2(ctrl + c)，9(强制删除)，15(正常删除，默认参数可不填，相当于 kill %job_number))，17(暂停状态，ctrl + z) job_number 需要kill掉的job
+   //pid 与 %job_number 不同，%job_number用在工作控制中(job control)，通过jobs命令来获取，pid通过下面的ps命令来获取
 7. nohup command [&] //将command在终端机中运行 & 放在背景中运行，不加为前景中运行，可以在注销及脱机下继续运行command
+8. ps -l //查看自己bash程序，出来结果中S列代表程序状态：R(running) S(sleep) D(睡眠状态) T(stop/terminate) Z(zoombie 僵尸状态，程序中止但无法移至内存外)
+   ps aux //查阅所有系统运行程序，结果中STAT列内容与上面S列一样
+9. top [-p pid] //持续侦测程序运行状态，[-p pid]为针对某一个程序pid的运行状态
+   //top运行过程中可使用按键命令：P(按cpu使用排序) M(按内存使用拍鞋) N(按pid排序) T(按程序使用cpu累积排序) q(退出top)
+10. pstree -A [-p] //查找程序之间相关性(如杀不掉子程序，通过本命令来找到父程序，来杀掉) -p参数列出程序pid
+11. killall [-iIe] -signal [command_name] //删除服务 -i(interactive 交互式询问用户是否要删除) -I(ignore case 忽略大小写) -e(exact 表示后面的command_name必须一致???)
+12. nice //调整程序执行优先级
+13. renice //调整已运行程序执行优先级
+14. free [-bkmg] [-t] //显示内容使用情况 -b(byte) -k(KB) -m(MB) -g(GB) 设置显示数目的单位 -t 显示物理内存和swap总量
+15. uname [-asrmpi] //显示系统与核心相关信息 -a(all)
+16. uptime //系统启动时间及工作负载
+17. netstat [-atunlp] //网络监控 -a(all) -t(tcp) -u(udp) -n(???) -l(listen) -p(pid)
+18. dmesg
+19. vmstat
+
+chapter 18
