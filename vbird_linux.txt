@@ -462,3 +462,10 @@ chapter 17
 19. vmstat
 
 chapter 18
+1. service [service name] (start|stop|restart|...) // 启动/停止/重启 service name
+   /etc/init.d/[service name] (start|stop|restart|...) //效果与上面一样
+2. chkconfig --list [service name] //列出服务 service name 的状态信息，如没写服务名，列出所有服务
+   chkconfig [service name] [on|off] //设置服务 service name 开机启动或者关闭
+   chkconfig [--add|--del] [service name] //添加或者删除一个服务让chkconfig来管理，服务名称必须在 /etc/init.d/ 内!!!!
+
+chapter 19
