@@ -84,6 +84,7 @@ array_merge:：key为数字时不合并数据，非数字时合并，合并的va
 7. array_walk($array, $callback)  
 等价于 foreach($array as $key =>$value){ $callback($value, $key); }
 8. array_filter($array, [$callback]) //过滤$array value等值false的项
+   与array_values的区别是后者只过滤被unset掉的key，对于没有unset的，但是value==false的不会过滤掉
 9. unset 可以 unset 多个数组key， 如unset($example_arr['key'], $example_arr['key1'], ...)
 10. array_map //使用array_map来调用类方法的时候，
 	如果是静态方法，为array_map(array('class_name', 'static_method_name'), $arr)
