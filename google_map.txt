@@ -285,3 +285,16 @@ function getLngLatFromGoogleMap(address)
     });
 }
 注：获取经纬度是异步的，直接返回结果会拿到空值
+
+11. marker可拖动设置
+var marker = new google.maps.Marker({
+	...
+	draggable: true,  <-----
+	...
+});
+如果要获取拖动后marker的坐标，方法如下
+google.maps.event.addListener(marker, "dragend", function(event) {
+	var point = marker.getPosition();
+	console.log(point.lng());
+	console.log(point.lat());
+});
