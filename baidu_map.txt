@@ -1,0 +1,18 @@
+baidu map
+
+1. 通过百度搜索相应的地点
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=your_ak"></script>
+function markShopLocationByBaidu()
+{
+	var map = new BMap.Map("baidu_map");  <-----百度map的div的id
+    //var point = new BMap.Point(121.473701, 31.230416);
+    //map.centerAndZoom(point, 13);
+    map.enableScrollWheelZoom();
+    var local = new BMap.LocalSearch(map, {
+        renderOptions:{map: map}
+  	});
+  	var local_location_name = 'local_location_name';
+  	local.search(local_location_name);
+}
+
+<div id="baidu_map"></div>
