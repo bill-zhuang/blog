@@ -43,7 +43,11 @@ $('#mapModal').on('shown', function () {
 	map.setCenter(new google.maps.LatLng(31.230416,121.473701));
 	map.setZoom(11);
 });
-$("#mapModal").modal('show');
+上面部分的程序需放在下面程序的下面
+var marker = new google.maps.Marker({
+	...
+}); 
+$("#mapModal").modal('show'); <------非必须
 
 针对Bootstrap 3
 http://stackoverflow.com/questions/11742839/showing-a-google-map-in-a-modal-created-with-twitter-bootstrap
