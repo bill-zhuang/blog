@@ -1,42 +1,95 @@
-windows下 php apache mysql mongo rockmongo 安装
+windows7下 php apache mysql mongo rockmongo 安装
 
 php 安装
-1. 在http://windows.php.net/download/上下载(非exe安装，如要exe可执行文件安装，则为http://www.php.net/downloads.php)
-根据需要现在线程安全或者非安全版，
+1. 在http://windows.php.net/download/上下载(非exe安装，下载后修改配置文件即可)，根据需要下载线程安全或者非安全版
 2. 下载后解压到所需目录下，将目录下的php.ini-development重命名为php.ini
 3. 配置php.ini
-找到extension_dir这一行，设置php目录下ext文件所在路径
-如extension_dir = "D:/WAMP/php-5.5.6-Win32-VC11-x64/ext"
-找到extension=xxx.dll，在需要的功能钱去掉';'
-设置date.timezone = Asia/Shanghai
+	(1)修改 ; extension_dir = "ext" 为 extension_dir = "D:/WAMP/php-5.5.6-Win32-VC11-x64/ext"
+	(2)找到extension=xxx.dll，在需要的功能前去掉';'，一般把下列几个前面的';'去掉够用了：
+		extension=php_curl.dll
+		extension=php_gd2.dll
+		extension=php_mbstring.dll
+		extension=php_mysql.dll
+		extension=php_mysqli.dll
+		extension=php_openssl.dll
+		extension=php_pdo_mysql.dll
+		extension=php_pdo_sqlite.dll
+	(3)修改 ;date.timezone = 为 date.timezone = Asia/Shanghai
+4. 如果想在dos命令行下直接使用php，需将php.exe所在路径加到windows环境变量中：
+右键'我的电脑'，选择'属性'，选择'高级系统设置'标签，点击'环境变量'，在'系统变量'下找到'Path'变量，点击'编辑'，
+将';D:\WAMP\php-5.5.6-Win32-VC11-x64'加到原有值的后面即可
 
-apache的安装
-1.在http://windows.php.net/download/上找到的apache下载链接(网站上不推荐在apache.org上下载)：http://www.apachelounge.com/download/
-根据自己需要下载32/64位版本，下载的apache已经说明了用vc9还是11编译的，跟下一步相关
-2.如果电脑上没安装vc9/11所需编译文件，根据上一步下载的vc9/11编译的apache选择下载相应的文件
-下载链接为(微软官方)：http://www.microsoft.com/en-us/download/details.aspx?id=30679
-3.解压下载的文件后可以看到有ReadMe.txt文件，按说明一步一步来，
-解压到目录后，配置目录下conf文件夹中的httpd.conf文件，如果解压到的c:/Apache24下，则大部分不需修改，否则需修改下列部分：
-用ctrl+F 搜索(已本人为例)
+apache 安装
+1. 在http://windows.php.net/download/上找到的apache下载链接(网站上不推荐在apache.org上下载)：
+vc11 win32/64(xp不适用,请下载vc9的):http://www.apachelounge.com/download/
+vc10 win64：http://www.apachelounge.com/download/win64/
+vc10 win32：http://www.apachelounge.com/download/win32/
+vc9 win32:http://www.apachelounge.com/download/additional/
+根据自己电脑是32/64选择下载32/64位版本，下载的apache版本分为用vc9/10/11编译
+2. 如果电脑上没安装vc10/11 Visual C++ Redistributable所需的运行时组件，根据上一步下载的vc9/10/11的apache版本选择下载相应的文件
+下载链接为(微软官方)：
+vc11:http://www.microsoft.com/en-us/download/details.aspx?id=30679
+vc10:http://www.microsoft.com/en-us/download/details.aspx?id=8328
+vc9的不用安装？
+3. 解压下载的文件后可以看到有ReadMe.txt文件，按说明一步一步来，
+解压到目录后，找到配置目录下conf文件夹中的httpd.conf，如果解压到的c:/Apache24下，
+则大部分不需修改(需修改下面的(1/3/4/7/10/11))，否则需修改下列部分：
+用ctrl+F 搜索(以本人为例)
+	(1)第一行加上ServerName localhost:80
+	(2)修改ServerRoot "SYS:/Apache24" 为 ServerRoot "D:/Wamp/Apache24"
+	(3)在有很多LoadModule下面加上下面两行:
+		LoadModule php5_module "D:/WAMP/php-5.5.6-Win32-VC11-x64/php5apache2_4.dll" <---如果下载的是apache22，则为php5apache2_2.dll(下载的apache为httpd-2.x.*-win**-vc*.zip,这里的2.x为相应的版本，跟hp5apache2_2，hp5apache2_4之类的对应)
+		PHPIniDir "D:/WAMP/php-5.5.6-Win32-VC11-x64"
+	(4)	<Directory />
+			AllowOverride none
+			Require all denied
+		</Directory>
+	改为
+		<Directory />
+			Options Indexes FollowSymLinks
+			AllowOverride  All
+			Order allow,deny
+			Allow from all
+		</Directory>
+	(5)修改DocumentRoot "SYS:/Apache24/htdocs" 为 DocumentRoot "D:/WAMP/Apache24/htdocs" 
+	(6)修改<Directory "SYS:/Apache24/htdocs"> 为 <Directory "D:/WAMP/Apache24/htdocs">
+	(7) <IfModule dir_module>
+			DirectoryIndex index.php index.html <---加上index.php
+		</IfModule>
+	(8)修改ScriptAlias /cgi-bin/ "SYS:/Apache24/cgi-bin/" 为 ScriptAlias /cgi-bin/ "D:/WAMP/Apache24/cgi-bin/"
+	(9)修改<Directory "SYS:/Apache24/cgi-bin"> 为 <Directory "D:/WAMP/Apache24/cgi-bin">
+	(10)在AddType application/x-gzip .gz .tgz下加上下面三行:
+			AddType application/x-httpd-php .php
+			AddType application/x-httpd-php .html
+			AddType application/x-httpd-php .htm
+	(11)去掉Include conf/extra/httpd-vhosts.conf前面的 '#' <---用于配置虚拟主机
+	(12)LoadModule这块(用ctrl+F搜出来有一大块)，不太懂
+	
+4. 修改完后在dos命令行下进入解压目录下的bin目录下，输入
+		httpd.exe -k install //注册apache服务
+5. 将bin目录下的ApacheMonitor.exe创建快捷方式到桌面或者快速启动栏等
 
-ServerRoot
-加上Listen 80
-LoadModule php5_module "D:/WAMP/php-5.5.6-Win32-VC11-x64/php5apache2_4.dll"
-PHPIniDir "D:/WAMP/php-5.5.6-Win32-VC11-x64"
-DocumentRoot "D:/WAMP/Apache24/htdocs"
-ScriptAlias /cgi-bin/ "D:/WAMP/Apache24/cgi-bin//"
-<IfModule dir_module>
-    DirectoryIndex index.php index.htm index.html
-</IfModule>
-<Directory "D:/WAMP/Apache24/cgi-bin">
-    AllowOverride None
-    Options None
-    Require all granted
-</Directory>
+apache 虚拟主机配置
+在上面3-(11)中
+修改conf目录下extra文件夹中的httpd-vhost.conf文件，以绑定example.com为例
+(1)先#注释掉所有内容
+(2)修改C:\Windows\System32\drivers\etc下 hosts文件，加上 127.0.0.1 example.com 一行(单独一行)
+(3)httpd-vhost.conf中加入下面内容：
+	<VirtualHost *:80>
+	ServerAdmin  example.com <----要访问的url
+	DocumentRoot D:/source <---php文件所在路径，自己修改
+	ServerName example.com  <----要访问的url，与ServerAdmin一样
 
-修改完后在dos命令行下进入解压目录下的bin目录下
-httpd.exe -k install //注册apache服务
-然后将bin目录下的ApacheMonitor.exe创建快捷方式到桌面或者快速启动栏等
+	ErrorLog "|D:/WAMP/Apache24/bin/rotatelogs.exe D:/WAMP/Apache24/logs/example.com-error_%Y_%m_%d.log 86400" <----为了防止log文件过大，每天生成一个log文件(apache目录改为自己的)
+	CustomLog "D:/WAMP/Apache24/logs/example.com-access.log" common <---(apache目录改为自己的)
+
+	<Directory />
+	Options Indexes FollowSymLinks
+	AllowOverride  All
+	Order allow,deny
+	Allow from all
+	</Directory>
+	</VirtualHost>
 
 mysql安装
 1.下载地址：
@@ -44,34 +97,33 @@ http://dev.mysql.com/downloads/
 http://sourceforge.net/projects/mysql/
 
 mongodb的安装
-1.在 http://www.mongodb.org/downloads 下选择自己os下的下载链接，这里是window，因为os是32位，选择32的，
-有zip和msi两种，这里选择的是zip，看了下msi的较大，100多m，
-2.下载zip文件后解压，在命令行模式下(cmd)下进入解压后文件下的bin目录，输入以下命令
+1. 在 http://www.mongodb.org/downloads 下选择自己os下的下载链接，
+有zip和msi两种，这里选择zip
+2. 下载zip文件后解压，在dos命令行模式下进入解压后文件下的bin目录，输入以下命令
 mongod --dbpath D:\MongoDB\db //这里加了dbpath的原因是，默认不加的话，数据库是安装在C:\data\下，
 建议还是设置自己数据库存放位置，上述步骤后就ok了
-3. 由于每次启动mongodb都要运行上一步的命令，比较麻烦，注册为windows系统服务，进入命令行模式，cmd
-e:
-cd software\mongodb-win32-i386-2.4.10\bin 
-E:\software\mongodb-win32-i386-2.4.10\bin>mongod.exe --dbpath "D:\MongoDB\db" 
---logpath "D:\MongoDB\log\mongolog.txt" --logappend –install
+3. 由于每次启动mongodb都要运行上一步的命令，比较麻烦，选择注册为windows系统服务，进入dos命令行模式，进入bin目录下
+输入：mongod.exe --dbpath "D:\MongoDB\db" --logpath "D:\MongoDB\log\mongolog.txt" --logappend –install
 
 rockmongo的安装
 1. 在 http://rockmongo.com/downloads 下下载 RockMongo v1.1.5，RockMongo-on-Windows v0.0.4没试过
-2. 下载后解压到所要目录下
-3. 为了让php 支持mongdb，需下载mongdb.dll，
+2. 解压到所要目录下
+3. 为了让php支持mongdb，需下载mongdb.dll，
 http://www.php.net/manual/en/mongo.installation.php php官网提供所有os所需的mongdb扩展所需的文件，
 这里选择windows的，下载url：https://s3.amazonaws.com/drivers.mongodb.org/php/index.html
 选一个下载即可，看自己需要，下载后解压重命名为php_mongo.dll，复制到php的ext目录下，
 在php.ini文件中加上extension=php_mongo.dll这句即可
 4. 配置apache
-修改/etc/httpd/conf/httpd.conf文件，添加如下内容（我自己的配置，看自己需要修改）：
+host文件中绑定要访问的网址，这里假设为mongo.com，则为
+127.0.0.1 mongo.com
+修改/etc/httpd/conf/httpd.conf文件，添加如下内容：
 <VirtualHost *:80>
 ServerAdmin  mongo.com
-DocumentRoot D:/rockmongo-1.1.5/rockmongo
+DocumentRoot D:/rockmongo-1.1.5/rockmongo  <----下载的rockmongo的目录
 ServerName mongo.com
 
-ErrorLog "|D:/Wamp/Apache24/bin/rotatelogs.exe D:/Wamp/Apache24/logs/mongo.com-error_%Y_%m_%d.log 86400.log"
-CustomLog "D:/Wamp/Apache24/logs/mongo.com-access.log" common
+ErrorLog "|D:/WAMP/Apache24/bin/rotatelogs.exe D:/WAMP/Apache24/logs/mongo.com-error_%Y_%m_%d.log 86400.log"
+CustomLog "D:/WAMP/Apache24/logs/mongo.com-access.log" common
 
 <Directory />
 Options Indexes FollowSymLinks
@@ -80,14 +132,14 @@ Order allow,deny
 Allow from all
 </Directory>
 </VirtualHost>
-5. 重启apache，浏览器中输入mongo.com(上面我设置的ServerAdmin及ServerName的值)，用户名和密码都为admin，就可以使用了
+5. 重启apache，浏览器中输入mongo.com，用户名和密码都为admin，就可以使用了
+
 ps：
-1.如果出现错误提示： ini_set(): To prevent data corruption, you are not allowed to turn on the mongo.native_long setting on 32-bit platforms in
-只需在下载的rockmongo目录下的index.php文件，注释掉
-ini_set("mongo.native_long", 1);即可
-2. 如果登录后页面上显示错误，但是rockmongo还是能用，在下载的rockmongo目录下的config.php文件加上
+(1).如果出现错误提示： ini_set(): To prevent data corruption, you are not allowed to turn on the mongo.native_long setting on 32-bit platforms in
+只需在下载的rockmongo目录下的index.php文件，注释掉ini_set("mongo.native_long", 1);即可
+(2). 如果登录后页面上显示错误，但是rockmongo还是能用，在下载的rockmongo目录下的config.php文件加上
 ini_set("display_errors",0);即可
-3. rockmong的详细配置参考官方url：http://rockmongo.com/wiki/configuration?lang=zh_cn
+(3). rockmong的详细配置参考官方url：http://rockmongo.com/wiki/configuration?lang=zh_cn
 
 参考url：
 http://blog.csdn.net/mydeman/article/details/7082730
