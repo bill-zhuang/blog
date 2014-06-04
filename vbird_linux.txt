@@ -500,5 +500,18 @@ chapter 22
 	运行方式与上面一样
 
 chapter 23
+1. 升级指令
+   red hat/fedora yum
+   debian/ubuntu apt
+2. RPM: redhat package manager
+3. *.rpm //RPM，编译过的包装完成的rpm档案
+   *.src.rpm //SRPM，未编译的源码信息档案
+4. rpm -ivh package_name //i:install v:view查看更细致的安装信息画面 h:显示安装进度
+   rpm -Uvh/-Fvh package_name //-Uvh为package_name如果系统里没安装，则安装，安装了则更新，-Fvh为package_name如果系统里没安装，则不安装，安装了则更新
+5. rpm -q software_name //q:query 查询软件是否安装在本机上
+6. yum [option] search software_name //以software_name为关键字查找网络上软件
+   yum [option] install/update/remove software_name //安装、更新及卸载软件
+   上面两个option主要有 -y 和 --installroot=/install_path，-y参数相当于在安装或者更新或者删除过程中自动提供yes相应，因而可以放在crontab中运行，后面一个参数为安装到具体的路径
 
+chapter 24
 
