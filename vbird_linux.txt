@@ -478,3 +478,27 @@ chapter 22
 1. gcc [-Wall] [-c] *.c //生成 *.o 文件，-c参数为生成与 *.c同名的 *.o文件， -Wall参数为产生更详细的编译信息
    gcc -o * *.o //由 *.o 生成可执行文件 * ，如 gcc -o hello hello.o
    gcc *.c -lname -L/lib_path //编译加入额外函式链接库， -l为加入链接库，name则是libname.so函数库，其汇总ilb和扩展名(.a/.so)不需要写
+2. makefile 规则
+	已hello.c为例
+(1) vim makefile
+	hello(目标名称): hello.c(源码)
+	<按tab键>gcc -o hello(要建立的执行文件名，如果与目标名称相同，可以改用$@，代表当前的目标名称) hello.o
+	clean(目标名称): 
+	按tab键>rm -f hello hello.o
+	
+	make clean hello //先执行rm -f hello hello.o，再执行gcc -o hello hello.o
+	make clean //执行rm -f hello hello.o
+	make hello //执行gcc -o hello hello.o
+(2) 以shell中变量的方式
+	vim makefile
+	OBJS = hello.o
+	hello: ${OBJS}
+	<按tab键>gcc -o hello ${OBJS}
+	clean: 
+	按tab键>rm -f hello ${OBJS}
+	
+	运行方式与上面一样
+
+chapter 23
+
+
