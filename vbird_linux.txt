@@ -1,5 +1,7 @@
 vbird linux book
 
+tty //获取当前命令行窗口路径/名称
+
 chapter 5
 1. ctrl + c 终止当前进程
    ctrl + d 键盘输入结束
