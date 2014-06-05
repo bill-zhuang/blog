@@ -1,0 +1,9 @@
+
+1. php编程使用mongodb查询过程中报错：
+MongoCursorException 错误，cannot natively represent the long (number) on this platform
+解决方法：在查询数据库操作前加入(可放在init初始化程序中)
+	对32位系统程序中加入ini_set('mongo.long_as_object', 1);
+	对64位系统程序中加入ini_set('mongo.native_long', 1);
+上面32/64位的不要弄反了
+参考url：
+http://derickrethans.nl/64bit-ints-in-mongodb.html
