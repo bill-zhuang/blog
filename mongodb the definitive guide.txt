@@ -2,13 +2,13 @@ mongodb the definitive guide
 
 1.create db
 use db_name;
-db.tbl_name.save({...});
+db.table_name.save({...});
 db and tbl created.
 
 2. drop db
 use db_name;
 db.dropDatabse();
-db & tbl dropped.
+db & table dropped.
 
 3. show dbs
 
@@ -16,10 +16,10 @@ chapter 2
 1. mongo默认使用27017端口，另外一个http服务器端口为28017，默认数据库地址 /data/db，windows下为c:/data/db
 2. use db_name //切换数据库
    db //查看当前所在数据库名称
-3. db.db_name.insert({....})
-   db.db_name.findOne() db.db_name.find()
-   db.db_name.update({key : value, ...} , update_item) //根据符合特定key/value条件的更新数据
-   db.db_name.remove({key : value, ...}) //删除符合特定key/value条件的集合，没有参数的话默认删除所有
+3. db.table_name.insert({....})
+   db.table_name.findOne() db.table_name.find()
+   db.table_name.update({key : value, ...} , update_item) //根据符合特定key/value条件的更新数据
+   db.table_name.remove({key : value, ...}) //删除符合特定key/value条件的集合，没有参数的话默认删除所有
 4. mongodb 集合数据类型
    null //空值或者不存在
    bool //true, false
@@ -38,57 +38,57 @@ chapter 2
 
 chapter 3
 1. $inc修改器(int/float) //用来增加指定一个键值的数值，如果不存在，则创建，否则更新
-		db.db_name.update({key : value}, {"$inc" : { field : number}}) //将符合key/value条件的集合的field字段增加num
+		db.table_name.update({key : value}, {"$inc" : { field : number}}) //将符合key/value条件的集合的field字段增加num
    $set修改器 //用来更新指定一个键值，如果不存在，则创建，否则更新
-		db.db_name.update({"_id" : ObjectId(....)}, {"$set" : {key : value}})
+		db.table_name.update({"_id" : ObjectId(....)}, {"$set" : {key : value}})
    $unset //删除某个键值，例子和上面相似
    $push //用来更新指定一个键值，如果不存在，则创建，否则在已有的数组末尾加入元素
    $addToSet //用来更新指定一个键值，如果不存在，则创建，否则在已有的数组末尾加入元素，同时避免重复
    $pull
    
    upsert
-		db.db_name.update({key : value}, {"$inc" : { field : number}}, true)
+		db.table_name.update({key : value}, {"$inc" : { field : number}}, true)
 		//第三个参数是upsert，如果文档不符合更新条件，就以这个条件和更新文档为基础创建一个新文档，否则正常更新
-		db.db_name.update({key : value}, {"$inc" : { field : number}}, true, true)
+		db.table_name.update({key : value}, {"$inc" : { field : number}}, true, true)
 		//第四个参数是更新多个文档
    getLastError
    findAndModify
 
 chapter 4
-1. db.db_name.find
-   db.db_name.find() //返回所有结果集
-   db.db_name.find({key1 : value1, ...}) //返回符合key1:value1等条件的结果集
-   db.db_name.find({....}, {key1 : 1, ...}) 
+1. db.table_name.find
+   db.table_name.find() //返回所有结果集
+   db.table_name.find({key1 : value1, ...}) //返回符合key1:value1等条件的结果集
+   db.table_name.find({....}, {key1 : 1, ...}) 
    //返回符合条件的特定的键值对或剔除特定的键值对，key1的值如果是1，代表返回key1键值对，如果为0，则代表不返回该键值对
 2. 条件查询：
    $lt, $lte, $gt, $gte 分别对应 <, <=, >, >= (less than, less than equal, great than, great than equal)
-   eg. db.db_name.find({"age" : {"$lt" : 10, ...}})
+   eg. db.table_name.find({"age" : {"$lt" : 10, ...}})
    or查询：
    $in, $nin, $or //对应 in, not in, or
-   eg. db.db_name.find({"age" : {"$in" : [10 ,18]}})
-       db.db_name.find({"age" : {"$nin" : [10 ,18]}})
-	   db.db_name.find({"$or" : [{"age" : 10}, {"name" : "joe"}, ...]})
+   eg. db.table_name.find({"age" : {"$in" : [10 ,18]}})
+       db.table_name.find({"age" : {"$nin" : [10 ,18]}})
+	   db.table_name.find({"$or" : [{"age" : 10}, {"name" : "joe"}, ...]})
    $not //
-   eg. db.db_name.find({"age" : {"$not" : 10}})
+   eg. db.table_name.find({"age" : {"$not" : 10}})
    $mod //取余匹配
    {"mod" : [5, 1]} //符合对5取余后是1的数
 3. 特定查询
    null 
-   db.db_name.find({key : null}) //会返回key是null的结果集，同时还有key不存在的结果集也会返回
+   db.table_name.find({key : null}) //会返回key是null的结果集，同时还有key不存在的结果集也会返回
    如果仅想要null的结果
-   db.db_name.find({key : {"$in" : [null], "$exists" : true}})
+   db.table_name.find({key : {"$in" : [null], "$exists" : true}})
    
    正则
-   db.db_name.find({"name" : /joe/i})
+   db.table_name.find({"name" : /joe/i})
    
    数组查询
    $all //用于查询多个元素在一个数组中
-   db.db_name.find({"fruit" : {"$all" : ["apple", "banana"]}}) //ps：顺序无关紧要，数据库中记录为"fruit" : ["...", "...", "..."]
-   db.db_name.find({"fruit.2" : "apple"}) //查询fruit内容中数组第三个元素是apple
+   db.table_name.find({"fruit" : {"$all" : ["apple", "banana"]}}) //ps：顺序无关紧要，数据库中记录为"fruit" : ["...", "...", "..."]
+   db.table_name.find({"fruit.2" : "apple"}) //查询fruit内容中数组第三个元素是apple
    $size //查询数组长度，不能与$gt等联合使用
-   db.db_name.find({"fruit" : {"$size" : 3}})
+   db.table_name.find({"fruit" : {"$size" : 3}})
    $slice //返回数组一个子集合，会返回所有键值对
-   db.db_name.findOne({"comments" : {"$slice" : [start, limit]}) //从第start个开始，取limit个，start可以省略，省略的话默认从0还是，limit为负数的话，从最后开始取
+   db.table_name.findOne({"comments" : {"$slice" : [start, limit]}) //从第start个开始，取limit个，start可以省略，省略的话默认从0还是，limit为负数的话，从最后开始取
    
    内部文档查询
    {
@@ -98,7 +98,7 @@ chapter 4
 		},
 		"age" : 45
 	}
-	db.db_name.find({"name.first" : "joe", "name.last" : "schmoe"}) //这样即使name字段中加了mid等字段也不会影响查询
+	db.table_name.find({"name.first" : "joe", "name.last" : "schmoe"}) //这样即使name字段中加了mid等字段也不会影响查询
 	
 	{
 		...
@@ -111,13 +111,13 @@ chapter 4
 			...
 		]
 	}
-	db.db_name.find({"comments" : {"author" : "joe", "score" : {"$gt" ： 5}}}) //内嵌文档要求整个文档匹配
-	db.db_name.find({"comments.author" : "joe", "comments.score" : {"$gt" : 5"}}) //可能第一条符合joe，第二条符合大于5
-	db.db_name.find({"comments" ：{"$elseMatch" : {"author" : "joe", "score" : {"$gt" : 5}}}}) //符合条件，符合joe且分数大于5
+	db.table_name.find({"comments" : {"author" : "joe", "score" : {"$gt" ： 5}}}) //内嵌文档要求整个文档匹配
+	db.table_name.find({"comments.author" : "joe", "comments.score" : {"$gt" : 5"}}) //可能第一条符合joe，第二条符合大于5
+	db.table_name.find({"comments" ：{"$elseMatch" : {"author" : "joe", "score" : {"$gt" : 5}}}}) //符合条件，符合joe且分数大于5
 
 4. where查询	
 	$where //一般情况下避免使用$where
-	db.db_name.find({"$where" : "function() {...} / this.*...."})
+	db.table_name.find({"$where" : "function() {...} / this.*...."})
 	
 5. 游标
    var cursor = db.db_name.find();
@@ -132,36 +132,36 @@ chapter 4
 	});
 	
 	limit, skip, sort
-	db.db_name.find(...).limit(num) //返回num个结果
-	db.db_name.find(...).skip(num) //忽略匹配的前num个结果，返回剩余结果
-	db.db_name.find(...).sort({key1 : 1/-1, key2 : 1/-1}) //按某个或多个key排序，1代表升序，-1为降序
+	db.table_name.find(...).limit(num) //返回num个结果
+	db.table_name.find(...).skip(num) //忽略匹配的前num个结果，返回剩余结果
+	db.table_name.find(...).sort({key1 : 1/-1, key2 : 1/-1}) //按某个或多个key排序，1代表升序，-1为降序
 	limit, skip, sort 可结合使用
 	尽量避免skip大数值
 
 chapter 5
 mongdb索引与mysql索引类似
 1. 创建索引
-   db.db_name.ensureIndex({key1 : 1/-1, key2 : 1/-1, ...}[, {"name" : "index_name"}]) 
+   db.table_name.ensureIndex({key1 : 1/-1, key2 : 1/-1, ...}[, {"name" : "index_name"}]) 
    //对键key1,2创建索引(最少一个键)，对于的值1/-1为索引按升序/降序排列(与sort一样)
    //第二个参数可选，用于自定义索引的名称，索引名称长度不能超过127个字节，默认索引名称为db_name.table_name.$key1_1/-1_key2_1/-1...
 2. 唯一索引
-   db.db_name.ensureIndex({key1 : 1/-1, ...}, {"unique" : true [, "dropDups" : true]})
+   db.table_name.ensureIndex({key1 : 1/-1, ...}, {"unique" : true [, "dropDups" : true]})
    //设置key1键唯一，不重复，insert不检查数据是否插入成功!!!
    //dropDups用于创建唯一索引时删除重复的文档
    复合唯一索引(单个键可以相同，但是所有组合起来的键是唯一的)
 3. explain //与mysql类似
-   db.db_name.find(...).explain()
+   db.table_name.find(...).explain()
    hint //强制查询使用某个索引，类似mysql中的force index_name
-   db.db_name.find(...).hint({key1 : 1/-1, ...})
+   db.table_name.find(...).hint({key1 : 1/-1, ...})
 4. 修改索引
-   db.db_name.ensureIndex({key1 : 1/-1, ...}, {"background" : true}) //第二个参数用于后台运行，同时正常处理请求，无第二个参数则阻塞在建立索引期间所有请求
+   db.table_name.ensureIndex({key1 : 1/-1, ...}, {"background" : true}) //第二个参数用于后台运行，同时正常处理请求，无第二个参数则阻塞在建立索引期间所有请求
    删除索引
-   db.runCommand({"dropIndexs" : "db_name", "index" : "index_name/*"}) //*为删除所有索引
+   db.runCommand({"dropIndexs" : "table_name", "index" : "index_name/*"}) //*为删除所有索引
 5. 地理空间索引 //找到当前位置最近的n个场所
-   db.db_name.ensureIndex({"key" : "2d"} [, "min" : min_val, "max" : max_val]) 
+   db.table_name.ensureIndex({"key" : "2d"} [, "min" : min_val, "max" : max_val]) 
    //参数是2d，不是1/-1，key必须为一对值；第二个参数用来设置索引范围，默认是-180-180
    $near, $within //查找靠近某个点或者在某个区域内的点
    $box, $center //分别为查找矩形及圆形内的点
-   db.db_name.ensureIndex({"key" : "2d", "normal_key" : 1/-1})
+   db.table_name.ensureIndex({"key" : "2d", "normal_key" : 1/-1})
 
 chapter 6
