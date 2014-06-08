@@ -139,5 +139,29 @@ chapter 4
 	尽量避免skip大数值
 
 chapter 5
-   
-   
+mongdb索引与mysql索引类似
+1. 创建索引
+   db.db_name.ensureIndex({key1 : 1/-1, key2 : 1/-1, ...}[, {"name" : "index_name"}]) 
+   //对键key1,2创建索引(最少一个键)，对于的值1/-1为索引按升序/降序排列(与sort一样)
+   //第二个参数可选，用于自定义索引的名称，索引名称长度不能超过127个字节，默认索引名称为db_name.table_name.$key1_1/-1_key2_1/-1...
+2. 唯一索引
+   db.db_name.ensureIndex({key1 : 1/-1, ...}, {"unique" : true [, "dropDups" : true]})
+   //设置key1键唯一，不重复，insert不检查数据是否插入成功!!!
+   //dropDups用于创建唯一索引时删除重复的文档
+   复合唯一索引(单个键可以相同，但是所有组合起来的键是唯一的)
+3. explain //与mysql类似
+   db.db_name.find(...).explain()
+   hint //强制查询使用某个索引，类似mysql中的force index_name
+   db.db_name.find(...).hint({key1 : 1/-1, ...})
+4. 修改索引
+   db.db_name.ensureIndex({key1 : 1/-1, ...}, {"background" : true}) //第二个参数用于后台运行，同时正常处理请求，无第二个参数则阻塞在建立索引期间所有请求
+   删除索引
+   db.runCommand({"dropIndexs" : "db_name", "index" : "index_name/*"}) //*为删除所有索引
+5. 地理空间索引 //找到当前位置最近的n个场所
+   db.db_name.ensureIndex({"key" : "2d"} [, "min" : min_val, "max" : max_val]) 
+   //参数是2d，不是1/-1，key必须为一对值；第二个参数用来设置索引范围，默认是-180-180
+   $near, $within //查找靠近某个点或者在某个区域内的点
+   $box, $center //分别为查找矩形及圆形内的点
+   db.db_name.ensureIndex({"key" : "2d", "normal_key" : 1/-1})
+
+chapter 6
