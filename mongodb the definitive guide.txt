@@ -169,6 +169,12 @@ chapter 6
    db.table_name.count() 
    db.table_name.count({key : value, ...})
 2. distinct
-   db.runCommand({"distinct" : "table_name", "key", "key_name"})//设置哪个表的哪个键
+   db.runCommand({"distinct" : "table_name", "key" : "key_name"})//设置哪个表的哪个键
 3. group //mysql的group by
-   
+   db.runCommand({"group" : {"ns" : "table_name", "key" : "key_name", ...， "condition" : {"day" : {"$gt" : "2014/06/09"}}}})
+   //ns和key分别代表分组的表和键，condition用于设置要处理的条件，跟mysql中....where ... group by ...
+   //finalize
+   db.table_name.group({"key" : "key_name", ...})
+4. MapReduce //不知道
+
+chapter 7
