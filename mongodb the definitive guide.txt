@@ -165,3 +165,10 @@ mongdb索引与mysql索引类似
    db.table_name.ensureIndex({"key" : "2d", "normal_key" : 1/-1})
 
 chapter 6
+1. count
+   db.table_name.count() 
+   db.table_name.count({key : value, ...})
+2. distinct
+   db.runCommand({"distinct" : "table_name", "key", "key_name"})//设置哪个表的哪个键
+3. group //mysql的group by
+   
