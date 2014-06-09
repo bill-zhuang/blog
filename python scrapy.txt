@@ -20,6 +20,7 @@ python scrapy install guide under windows 7 32 bits
    https://pypi.python.org/pypi/lxml/ 上下载，选择lxml版本及跟安装python对应的版本下载，下载后安装即可
 7. 安装pyOpenSSL
    https://launchpad.net/pyopenssl 上下载(右边绿色的)，注意跟安装的python版本要一致，下载文件后缀为egg!!!
+   修正：最新下载地址为 https://pypi.python.org/pypi/pyOpenSSL/0.13，上面地址是0.11的，不是最新版，0.14的只有*nix版本，没有windows
    跟第五步安装zope一样
    easy_install-2.7.exe E:\python\pyOpenSSL-0.11-py2.7-win32.egg //假设egg文件放在e盘python文件夹下，根据自己路径更改，还是有对应egg文件名称可能也不一样
 8. 安装scrapy
