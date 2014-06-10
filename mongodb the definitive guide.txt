@@ -178,3 +178,11 @@ chapter 6
 4. MapReduce //不知道
 
 chapter 7
+1. db.listCommands() //列出所有命令
+   drop
+   dropDatabase
+2. 固定集合(插入数据后如果空间不足，自动删除最早的数据)，适合日志等情景
+   db.createCollection("table_name", {capped : true, size : size_num [, max : 100]}
+   //size和max分别为大小及文档上限
+   db.runCommand({convertToCapped: "test", size : size_num}) //转换普通集合来创建固定集合
+
