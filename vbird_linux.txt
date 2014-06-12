@@ -38,7 +38,7 @@ chown [-R] owner_name:group_name filename/dirname //改变档案或者目录所�
 4. chmod        r:4 w:2 x:1
 chmod [-R] xyz filename/dirname //-R用于目录下所有文件都递归改变所属权限 xyz代表数字，如755(rwxr-xr-x)
 或者
-chmod [-R] a=rwx, o=rwx, g=rx, o=r filename/dirname //a:all, o:owner, g:group, o:others, 除=外，还可以使用+-来增减权限， g+w
+chmod [-R] a=rwx, u=rwx, g=rx, o=r filename/dirname //a:all, u:user, g:group, o:others, 除=外，还可以使用+-来增减权限， g+w
 5. rwx 对档案/目录的区别
 对档案：
 r:可读
