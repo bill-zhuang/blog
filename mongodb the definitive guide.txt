@@ -186,3 +186,45 @@ chapter 7
    //size和max分别为大小及文档上限
    db.runCommand({convertToCapped: "test", size : size_num}) //转换普通集合来创建固定集合
 
+chapter 8
+1. mongod [--dbpath ....] [--port ...] --fork [--logpath ...] [--config...]
+   //分别为指定数据库目录，多个进程可以开多个数据库
+   //服务端监听端口号
+   //以守护进程的方式运行mongodb
+   //指定log文件目录，会覆盖已有文件，如需添加，用 --logappend
+   //指定加载的配置文件，可以将上面内容写到配置文件中加载，如port=5386, fork=true...
+2. kill mongodb_id//或者命令行下db.shutdownServer(); 关闭数据库
+3. use admin
+   db.addUser("root", "password", true/false); //最后一个参数为设置只读权限(true)
+4. 备份数据库
+   通过拷贝--dbpath路径下的文件备份
+   mongodump
+   修复：use db_name db.repairDatabase();
+   
+chapter 9
+1. 主从复制
+   mongod --dbpath ... --port 10000 --master
+   mongod --dbpath ... --port 10001 --slave --source localhost:10000 //--source lo...部分为指定主节点master的位置
+   参数 --only --slavedelay --fastsync --autoresync --oplogSize
+   分别为在slave上指定复制某个特定数据库，默认所有；设置salve上延迟(由于master上其他操作造成的延迟)
+   以主节点的数据快照为基础启动从节点；主从同步没同步，自动同步；设置主节点oplog大小，单位mb
+2. 副本集，用于故障自动恢复功能主从集群
+   mongod --dbpath ... --port ... [--replSet ...:port] //[]部分为告知还有副本集其他伙伴
+
+chapter 10
+1. mongos
+2. 片键 //根据片键来分片/分区，可以是多个键组合，像索引一样
+   如果查询的内容跟片键相关，则选择相应的片区选查找；否则全片查找
+   启动：
+   mongod ....
+   mongos --port .. --configdb localhost:20000
+   db.runCommand({"enablesharding" : "db_name"}) //启动分片功能
+   db.runCommand({"shardcollection" : "db_name.table_name", "key" :{"key_name" : 1}})
+   //设置片键
+3. db.shards.find() //查询片
+   db.runCommand({"removeshard" : "localhost:..."}); //删除片
+   
+chapter 11
+1. php扩展 php.ini extension=php_mongo.dll
+   $connection = new Mongo();
+   $collection = $connection->db_name->table_name;
