@@ -1,0 +1,10 @@
+ildasm和ilasm破解
+
+ildasm.exe 位置 C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin
+ilasm.exe 位置 C:\Windows\Microsoft.NET\Framework\v4.0.30319
+
+1. ildasm.exe打开相应的.exe/dll文件后转储为.il文件，如test.il
+2. 修改test.il文件
+2. 然后在命令行下，进入ilasm.exe所在文件夹，运行命令
+ilasm.exe test.il /output=test.dll /dll --->生成test.dll
+ilasm.exe test.il ---->生成test.exe
