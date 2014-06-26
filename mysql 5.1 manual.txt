@@ -1,0 +1,48 @@
+mysql 5.1 manual
+
+chapter 3
+1. mysql -h host -u user -p -P port db_name //登录指定默认数据库为 db_name
+   mysql -h host -u user -p -P port db_name < script_name [> result.txt]
+   //执行 script_name 脚本输出结果(如果加了 > result.txt 则将结果写入到txt文件中)
+2. select version(), current_date, now();
+3. 输入\c 取消当前输入的命令，不执行(可能需要'或者"，输入输入\c是在字符串输入一部分情况下)
+4. show databases;
+   select database(); //获取当前数据库名
+   use db_name;
+   create database db_name;
+   show tables;
+   create table table_name (
+		id int(10) unsigned not null auto_increment,
+		name varchar(100) default '' not null,
+		....
+		primary key (id)
+	);
+	desc/describe table_name;
+	
+	load data local infile '.../data.txt' into table table_name[ lines terminated by '\r\n'];
+	insert into table_name values (.., ..,)[, (...), (...)]; //必须是完整的一条记录
+	insert into table_name (filed, ....) values (....)[, (...)]; //
+	
+	select [distinct] */... from ... [where ...] [order by ... [desc/asc]] //desc,asc只作用于它前面的列名!!!
+	select .... from ... where [not] regexp '^b';
+	
+	year(...) month(...) 
+	right(str, num) 取str最右边num个字符
+	mod(a, b) a % b
+	比较 null 用 is null/ is not null, != null无效
+	like '%x'  //_匹配单个字符 %匹配任意数目字符(含零个)
+	concat(a, b)[ + 0] //连接a, b，后面的 + 0 为是结果变为一个数字
+
+chapter 4
+
+chapter 5
+1. show engines; //显示所有支持的存储引擎
+   show variables like '...%';
+2. grant all/select/update... privileges on db_name.[*/table_name] to user_name@'ip_addr' [identified by 'password' with grant option];
+   insert into user (Host, User, Password) values ('localhost', 'test', password('pass'));
+   flush privileges; //修改权限立即生效(针对insert into user 操作，grant 不需要)
+   insert 操作中密码要加 password 函数， grant 不需要
+
+chapter 6
+
+chapter 7
