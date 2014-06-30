@@ -46,3 +46,38 @@ chapter 5
 chapter 6
 
 chapter 7
+1. explain table_name 等同于 describe table_name/ show columns from table_name 测试所需时间比用后面两个语句多
+2. explain select_sentense
+   analyze table_name //在装载数据后运行，优化查询
+   select 优化详见 高性能mysql
+   
+   LIMIT 0将总是快速返回一个空集合，用于检查查询的有效性
+3. insert 速度
+   1. 同一客户端插入多行，使用多个 values 的 insert 语句插入，比单行快 
+		设置 bulk_insert_buffer_size 的值大些，可以一次插入更多数据
+   2. 从不同客户端插入，使用 insert delayed(myisam, 不适用于 innodb)
+   3. 通过 load data infile, 一般比 insert 快上20倍
+   4. lock tables table_name write; 
+   insert into .....; 
+   insert into ...., 
+   unlock tables; 锁表可以加速多个 insert 操作
+   5. 事务表
+   使用 begin, commit 来代替 lock tables
+   6. insert 前 disable keys, insert 后 enable keys (适用于myisam，innodb不行)
+4. delete 速度
+   删除表内所有行，用 truncate table table_name, 而不是 delete from table_name
+5. 数据库结构优化
+   尽可能地使用最有效(最小)的数据类型
+   如果可能，声明列为NOT NULL
+   主索引应该尽可能短
+   只创建确实需要的索引
+
+chapter 8
+1. 垂直显示查询结果  select .... \G //\G来垂直显示查询
+
+chapter 9
+1. cast (0x11.... as unsigned), hex('...') b'value'//bit
+2. set @var_name := value [, @var_name = value];
+3. 注释 # /**/  -- //--后需跟空格或者tab键或换行符等
+
+chapter 10
