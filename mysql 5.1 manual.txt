@@ -81,3 +81,64 @@ chapter 9
 3. 注释 # /**/  -- //--后需跟空格或者tab键或换行符等
 
 chapter 10
+1. create/alter database db_name [charset/character set charset_name [collate collate_name]]
+   create/alter table_name (
+   .....
+   .....) [charset/character set charset_name [collate collate_name]]
+2. set names 'charset_name' //显示客户端发送的sql语句字符集及返回结果的字符集
+3. convert(exprt using transcoding_name)
+4. cast
+5. show full columns from table_name //增加显示 collation, privileges, comment，其他与不带 full 一样
+
+chapter 11
+1. bit/bool/tinyint/smallint/mediumint/int/integer/bigint/float/double/decimal
+2. date/datetime/timestamp/time/year
+3. char/varchar/text/enum/set
+   char length <=255 删除CHAR值的尾部空格
+   varchar length < 65535, when use charset utf8, lenght < (65535 -2 ??)/3 =21845 ???
+   最大有效长度是65,532字节 不删除VARCHAR值的尾部空格
+   ENUM列最多可以有65,535个截然不同的值。ENUM值在内部用整数表示
+   SET列最多可以有64个成员
+
+chapter 12
+1.  COALESCE(value,...) 
+返回值为列表当中的第一个非 NULL值，在没有非NULL 值得情况下返回值为 NULL 
+2. GREATEST(value1,value2,...) 
+3. ISNULL(expr) 
+4.  LEAST(value1,value2,...) 
+5. case value
+   when compare-value1 then ....
+   when compare-value2 then ....
+   ..........
+   else ....
+end
+
+case 
+	when condition1 then ...
+	when condition2 then ...
+	.....
+	else ...
+end
+6. IF(expr1,expr2,expr3) 
+如果 expr1 是TRUE (expr1 <> 0 and expr1 <> NULL)，返回 expr2; 否则返回 expr3
+7. IFNULL(expr1,expr2) 
+如果expr1 不为 NULL，返回 expr1; 否则返回 expr2
+8. NULLIF(expr1,expr2) 
+如果expr1 = expr2 成立，返回NULL，否则返回 expr1
+9. CONCAT(str1,str2,...) 返回连接参数产生的字符串
+10. CONCAT_WS(separator,str1,str2,...) CONCAT With Separator   
+第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。
+11. LEFT(str,len) 返回从字符串str 开始的len 最左字符
+12. LTRIM(str) 
+13. RIGHT(str,len) 从字符串str 开始，返回最右len 字符
+14. SUBSTRING/SUBSTR
+15. TRIM
+16. UCASE()/UPPER()
+17. STRCMP(expr1,expr2)
+18. / 和 div 前者除法，得到小数，后者整除
+19. CRC32(expr) 计算循环冗余码校验值
+20. date_add/date_sub(date, interval expr day/month/year...)
+21. addtime(expr, expr2)
+22. curdate()/current_date(); current_time()/curtime()
+
+chapter 13
