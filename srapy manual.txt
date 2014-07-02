@@ -1,0 +1,32 @@
+scrapy manual 0.22
+
+1. create project
+   scrapy startproject project_name
+2. generate spider file
+   srapy genspider spider_name spider_crawle_website_name //spider_name不能和project名称相同
+3. scrapy command_name -h //help command_name
+4. scrapy命令
+	全局命令//与项目无关
+	startproject
+		scrapy startproject project_name
+	settings
+	runspider
+	shell
+	fetch
+	view
+	version
+	项目命令//只可用在项目中
+	crawl //开始爬
+		scrapy crawl spider_name //spider_name为防止spider目录下的
+	check
+		scrapy check [-l]
+	list
+		scrapy list
+	edit
+	parse
+	genspider //根据模板生成spider文档
+		scrapy [-t template_name] spider_name crawl_website_domain
+		template_name通过scrapy genspider -l 获取
+		scrapy genspider -d template_name //命令行上打印出生成的spider内容
+	deploy
+	bench
