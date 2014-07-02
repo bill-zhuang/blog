@@ -13,7 +13,7 @@ chapter 3
    show tables;
    create table table_name (
 		id int(10) unsigned not null auto_increment,
-		name varchar(100) default '' not null,
+		name varchar(100) not null zero fill default '' ,
 		....
 		primary key (id)
 	);
@@ -93,13 +93,16 @@ chapter 10
 chapter 11
 1. bit/bool/tinyint/smallint/mediumint/int/integer/bigint/float/double/decimal
 2. date/datetime/timestamp/time/year
+   timestamp + 0 ----> '2014-02-20' + 0 ----> '20140220'
 3. char/varchar/text/enum/set
    char length <=255 删除CHAR值的尾部空格
    varchar length < 65535, when use charset utf8, lenght < (65535 -2 ??)/3 =21845 ???
    最大有效长度是65,532字节 不删除VARCHAR值的尾部空格
    ENUM列最多可以有65,535个截然不同的值。ENUM值在内部用整数表示
    SET列最多可以有64个成员
-
+   BLOB和TEXT列不能有 默认值--->set max_sort_length / order by substring(long_text, 1, 2000)
+   表中行的最大大小为65,534字节
+   
 chapter 12
 1.  COALESCE(value,...) 
 返回值为列表当中的第一个非 NULL值，在没有非NULL 值得情况下返回值为 NULL 
@@ -142,3 +145,82 @@ end
 22. curdate()/current_date(); current_time()/curtime()
 
 chapter 13
+1. alter database db_name [charset charset_name|collate collate_name]
+2. alter [ignore] table table_name
+    ADD [COLUMN] column_definition [FIRST | AFTER col_name ]
+  | ADD [COLUMN] (column_definition,...)
+  | ADD INDEX [index_name] [index_type] (index_col_name,...)
+  | ADD [CONSTRAINT [symbol]]
+        FOREIGN KEY [index_name] (index_col_name,...)
+        [reference_definition]
+  | CHANGE [COLUMN] old_col_name column_definition
+  | MODIFY [COLUMN] column_definition [FIRST | AFTER col_name]
+  | DROP [COLUMN] col_name
+  | DROP PRIMARY KEY
+  | DROP INDEX index_name
+  | DROP FOREIGN KEY fk_symbol
+  | DISABLE KEYS
+  | ENABLE KEYS
+  | RENAME [TO] new_tbl_name
+  | CONVERT TO CHARACTER SET charset_name [COLLATE collation_name]
+  | [DEFAULT] CHARACTER SET charset_name [COLLATE collation_name]
+3. create database [if not exists] db_name [charset/character set charset_name [collate collate_name]]
+4. CREATE [UNIQUE|FULLTEXT|SPATIAL] INDEX index_name
+    [USING index_type] --->btree/hash
+    ON table_name (col_name[(length)] [asc|desc],...)
+5. create [temporary] table [if not exists] table_name (
+	....
+	) [select ... from ...]
+	or
+	create [temporary] table [if not exists] table_name like table_name1
+6. drop database [if exists] db_name
+7. drop index index_name on table_name
+8. drop [temporary] table [if exists] table_name[, table_name...] 
+9. rename table table_name to new_table_name[, table_name to new_table_name...]
+10. delete [low_priority/quick/ignore] from table_name [where ...]
+    //delete quick ...,  optimize table table_name to re-build index.
+11. do
+12. handler
+13. insert into table_name (column_name,...) values(...) [on duplicate key update ...]
+    insert into table_name values(...) [on duplicate key update ...]
+	insert into table_name set column_name = ...[, ....] [on duplicate key update ...]
+	insert into table_name [(column_name,...)] select .... [on duplicate key update ...]
+	insert delayed仅适用于MyISAM, MEMORY和ARCHIVE表
+14. load data infile 'local_file_root' [ignore/replace] into table table_name fields terminated by ',' lines starting by '...' lines terminated by '\r\n' ignore * lines
+15. select * from table_name into outfile 'local_file_root' fields terminated by ',' lines terminated by '\r\n'
+    or
+	select * into outfile 'local_file_root' fields terminated by ',' lines terminated by '\r\n' from table_name
+16. select/truncate
+17. set autocommit = 0;
+    insert/update ....;
+    commit/rollback;
+    set autocommit=1;
+or 
+    start transaction/ begin [work];
+    insert/update...;
+    commit/rollback;
+    set autocommit=1/0;
+18. lock/unlock tables table_name
+19. create user user_name [identified by [password] '123456']
+	drop user user_name
+20. grant privilege_type on table_name/*/*.*/db_name.*... to 'root'@'localhost' [identified by [password] '123456']
+    revoke privilege_type on table_name/*/*.*/db_name.*... from 'root'@'localhost'
+	flush privileges
+21. rename user old_name to new_name
+22. set password for 'root'@'localhost' = password('123456')
+23. analyze table table_name
+    backup table table_name to '..path'
+	check table table_name [quick/fast/medium/extended/changed]
+	checksum table table_name [quick/extended]
+	optimize table table_name
+	repair table table_name [quick] [extended] [use_frm]
+	restore table table_name from '...path'
+24. set
+25. show charset/collation/columns/create database/create table/database/engine/engines
+    /errors/grants/index/innodb status/logs/open tables/privileges/processlist/status
+	/table status/triggers/variables/warnings [like '...']
+
+chapter 14
+
+chapter 15
+
