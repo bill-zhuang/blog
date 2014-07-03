@@ -1,0 +1,45 @@
+centos 编译opencv2.x
+
+1. 安装编译环境
+   yum -y groupinstall "Development tools"
+2. 安装cmake
+   http://www.cmake.org/cmake/resources/software.html 上下载cmake 包
+   wget http://www.cmake.org/files/v3.0/cmake-3.0.0.tar.gz
+   tar -zxvf cmake-3.0.0.tar.gz
+   cd cmake-3.0.0
+   ./bootstrap
+   make
+   make install
+   cmake --version //可以看到cmake安装成功后的版本号
+3. 安装opencv
+   http://opencv.org/ 上下载opencv包
+   wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip/download
+   //下载后重命名下载的文件，原名应该是download
+   unzip opencv-2.4.9.zip
+   cd opencv-2.4.9
+   cmake CMakeLists.txt
+   make
+   make install //OpenCV 会安装在 /usr/local/lib(动态库)目录和 /usr/local/include/opencv/
+4. 配置环境
+   1.vim /etc/ld.so.conf
+		加入 /usr/local/lib 或
+		在/etc/ld.so.conf.d目录下新建opencv.conf，加入 /usr/local/lib(本人做法)，因为看了下/etc/ld.so.conf中内容，是将/etc/ld.so.conf.d下所有*.conf文件include进来
+   2.ldconfig
+   3.cp /usr/local/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig 
+   //此处与参考url中不同，pkg-config文件夹不存在，为pkgconfig，同时/usr/lib下也不存在pkgconfig文件夹，mkdir建立
+   4. export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig //此处没加一直编译没成功，提示错误(见下)，参考第二个url后成功了
+	错误信息：	Package opencv was not found in the pkg-config search path.
+				Perhaps you should add the directory containing `opencv.pc'
+				to the PKG_CONFIG_PATH environment variable
+				No package 'opencv' found
+				Package opencv was not found in the pkg-config search path.
+				Perhaps you should add the directory containing `opencv.pc'
+				to the PKG_CONFIG_PATH environment variable
+				No package 'opencv' found
+	推荐修改/etc/profile 添加 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig export PKG_CONFIG_PATH 永久生效
+	source /etc/profile 当前立即生效
+   5. g++ *.cpp *.h ... `pkg-config opencv --cflags --libs` -o result.o //得到编译可执行文件
+
+参考url：
+http://blog.163.com/dingmz_frcmyblog/blog/static/217304023201321310532566
+http://prateekvjoshi.com/2013/10/18/package-opencv-not-found-lets-find-it/
