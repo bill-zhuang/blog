@@ -15,3 +15,11 @@ a href 与onclick，把href删除后加style="cursor:pointer;"后可以把鼠标
 如 <a href="http://www.google.com" onclick="window.open('http://www.baidu.com');">test</a>
 
 3. style="display:none/block"
+4. an interesting human clock
+html code:
+<body>
+<div>
+<embed width="160" height="70" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" allowscriptaccess="always" name="honehoneclock" bgcolor="#ffffff" quality="high" src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_tr.swf" wmode="transparent">
+</div>
+</body>
+reference url: http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/3003278.html
