@@ -1,0 +1,69 @@
+linux make manual
+
+$@ $^ $<区别
+如：	main: main.o base.o
+		<tab>gcc -o $@ $^
+$@ ':'左边的内容，相当于main
+$^ ':'右边的内容，相当于main.o base.o(编译依赖项)
+$< ':'右边第一个内容，相当于main.o(第一个编译依赖项)
+参考url：http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
+
+假设有 main.c command.c command.h base.h
+chapter 2
+makefile:
+1.
+edit: main.o command.o
+<tab>cc -o edit main.o command.o
+main.o: main.c base.h
+<tab>cc -c main.c
+command.o: command.c command.h base.h
+<tab>cc -c command.c
+clean:
+<tab>rm -f edit main.o command.o
+====>上面可以改写为
+2.
+OBJS=main.o command.o
+edit: $(OBJS)
+<tab>cc -o edit $(OBJS)
+main.o: main.c base.h
+<tab>cc -c main.c
+command.o: command.c command.h base.h
+<tab>cc -c command.c
+clean:
+<tab>rm -f edit $(OBJS)
+
+cc -c//自动寻找同名的.c文件
+====>上面可以改写为
+3.
+OBJS=main.o command.o
+edit: $(OBJS)
+<tab>cc -o edit $(OBJS)
+main.o: base.h
+command.o: command.h base.h
+.PHONY:clean
+clean:
+<tab>rm -f edit $(OBJS)
+4. 
+OBJS=main.o command.o
+edit: $(OBJS)
+<tab>cc -o edit $(OBJS)
+main.o command.o: base.h
+command.o: command.h
+.PHONY:clean
+clean:
+<tab>rm -f edit $(OBJS)
+
+.PHONY:clean //防止有同名的clean文件夹造成不必要的操作
+
+chapter 3
+1. make -f/--file file_path[, file_path, ...] //对指定 file_path 进行make
+   不指定路径默认按GNUmakefile, makefile, Makefile 查找
+2. [-]include other_makefiles //最开始'-'为忽略不存在makefile时产生的错误信息
+3. 变量定义
+immediate = deferred
+immediate ?= deferred
+immediate := immediate
+immediate ::= immediate
+immediate += deferred or immediate //如果 immediate 通过 ':=' 或 '::=' 定义为 immediate， 否则为deferred
+
+chapter 4
