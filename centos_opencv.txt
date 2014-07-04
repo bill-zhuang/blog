@@ -39,7 +39,35 @@ centos 编译opencv2.x
 	推荐修改/etc/profile 添加 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig export PKG_CONFIG_PATH 永久生效
 	source /etc/profile 当前立即生效
    5. g++ *.cpp *.h ... `pkg-config opencv --cflags --libs` -o result.o //得到编译可执行文件
+   6. makefile 的方式(参考)
+		CFLAGS = `pkg-config --cflags opencv`
+		LIBS = `pkg-config --libs opencv`
+		OBJS = test.o imgproc.o
 
+		test: $(OBJS)
+			g++ $(LIBS) -o test $(OBJS)
+		test.o: imgproc.h
+			g++ $(CFLAGS) -c test.cpp
+		imgproc.o: imgproc.h
+			g++ $(CFLAGS) -c imgproc.cpp
+		.PHONY: clean
+		clean:
+			rm -f test $(OBJS)
+		
+		//上面可以改写为
+		CFLAGS = `pkg-config --cflags opencv`
+		LIBS = `pkg-config --libs opencv`
+		OBJS = test.o imgproc.o
+		DEPENDS = imgproc.h
+
+		test: $(OBJS)
+				g++ $(LIBS) -o $@ $^ 
+		%.o: %.cpp $(DEPENDS)
+				g++ $(CFLAGS) -c $<
+		.PHONY: clean
+		clean:
+				rm -f test $(OBJS)
+   
 参考url：
 http://blog.163.com/dingmz_frcmyblog/blog/static/217304023201321310532566
 http://prateekvjoshi.com/2013/10/18/package-opencv-not-found-lets-find-it/
