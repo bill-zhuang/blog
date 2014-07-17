@@ -63,6 +63,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 	1. $regex = '/part of regex' . $variable_want_to_insert . 'the other part of regex/';
 	2. 未安全起见，使用preg_quote函数来处理要加入的变量，$regex = '/part of regex' . preg_quote($variable_want_to_insert) . 'the other part of regex/';
 	3. 用双引号包含变量，$regex = "/part of regex{$variable_want_to_insert}the other part of regex/";
+20. 读取文件用filesize函数的时候一直是同一个数，原因是缓存造成的，解决方法：在用filesize之前，调用clearstatcache();即可
 
 Array
 1. ksort函数
