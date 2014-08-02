@@ -64,6 +64,27 @@ echo 可以使用逗号隔开字符串输出，print 不行
 	2. 未安全起见，使用preg_quote函数来处理要加入的变量，$regex = '/part of regex' . preg_quote($variable_want_to_insert) . 'the other part of regex/';
 	3. 用双引号包含变量，$regex = "/part of regex{$variable_want_to_insert}the other part of regex/";
 20. 读取文件用filesize函数的时候一直是同一个数，原因是缓存造成的，解决方法：在用filesize之前，调用clearstatcache();即可
+21. strtotime('1970-01-01')返回负值，要得到0，改为strtotime('1970-01-01 UTC')即可
+22. 杂
+    对于用户在HTML中提交的输入值，需要用isset()来检测是否已被初始化
+	str_replace()比preg_replace()快，但strtr()比str_replace()还要快上4倍？
+	字符串大小写转换
+	不要使用php的strtolower()函数来进行字符串的大小写转换，这在安装费中文系统的服务器下会导致将汉字转换为乱码。
+	请使用strtr($string, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')来进行大小写转换
+	通过fopen()打开，flock()锁定，fwrite()写入，fclose()关闭，实现对文件的写操作
+	目录权限
+	创建/修改目录，需设置正确的权限，必须先使用umask(0000)，然后再mkdir()或者chmod()，如
+	if (!is_dir($dir))
+	{
+		umask(0000);
+		mkdir($dir, 0777);
+	}
+	if (!is_writeable($dir))
+	{
+		umask(0000);
+		chmod($dir, 0777);
+	}
+
 
 Array
 1. ksort函数
