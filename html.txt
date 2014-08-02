@@ -8,6 +8,10 @@ html中，让部分元素居中，用center tag包起来
 <center>
 ...
 </center>
+但是不建议，用div的align
+<div align="center">
+...
+</dvi>
 
 2.
 a href 与onclick，把href删除后加style="cursor:pointer;"后可以把鼠标形状变为手形，
@@ -23,3 +27,8 @@ html code:
 </div>
 </body>
 reference url: http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/3003278.html
+
+5. html中空白显示
+   简单的用 &nbsp;
+   如果需要很多空白用 <span style="white-space:pre">empty     space</span>
+6. label显示内容修改为text属性，input为val属性(jquery)
