@@ -75,5 +75,32 @@ function getCurrentDate()
 	return year + '-' + month + '-' + day;
 }
 10. 修改button显示的名字，用document.getElementById('...').innerHTML = 'new name';
+11. 打印
+	function printPage(data)
+	{
+		var print_window = window.open('', '_blank', 'height=900, width=700');
+		print_window.document.write('<html><head><title></title>');
+		//optional stylesheet //print_window.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+		print_window.document.write('</head><body>');
+		print_window.document.write(data);
+		print_window.document.write('</body></html>');
+		print_window.print();
+		print_window.close();
+		
+		return true;
+	}
+12. 接上面打印，打印的时候如果要打印div内容根据传入的数据变化，那么根据$('#id').html()拿到的内容一致不变，但是实际上是变了，需要点两次才能拿到，滞后性
+网上看到方法说在改变值的时候加一句 $('#id').attr('defaultValue', 'xxx')，然后$('#id').html()拿到的是改变后的值，测试无效
+参考url：http://www.willis-owen.co.uk/2012/04/jquery-changing-form-values-not-affecting-the-dom
+根据jquery版本不同，相应的也不同
+//before jQuery 1.6
+$('#id').attr('defaultValue', 'this is the new value');
+//after jQuery 1.5.2
+$('#id').attr('value', 'this is the new value');
+如果是设置label值
+$('#id').text('xxx')
+第二句还是不变
+$('#id').attr('defaultValue', 'xxx');
 
+最后还是建议打印的时候如果要变更内容的话，新建一个html文件，用php来输出需要打印的内容中的数据
 
