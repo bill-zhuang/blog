@@ -86,3 +86,13 @@ body {
 .modal-open {
  overflow: auto; 
 }
+
+5. bootstrap datetime picker http://www.bootcss.com/p/bootstrap-datetimepicker/ 
+   解决 bootstrap 3 中没有箭头问题
+	replace <i class="icon-arrow-left"/>
+	with <i class="glyphicon glyphicon-arrow-left"/>
+	replace <i class="icon-arrow-right"/>
+	with <i class="glyphicon glyphicon-arrow-right"/>
+	replace .toggleClass('icon-arrow-left icon-arrow-right');
+	with .toggleClass('glyphicon-arrow-left glyphicon-arrow-right');
+   http://stackoverflow.com/questions/18197270/bootstrap-3-0-0-breaks-the-datepicker-icon
