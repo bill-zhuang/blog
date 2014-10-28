@@ -6,9 +6,11 @@ python scrapy install guide under windows 7 32 bits
 2. 安装 Win32 OpenSSL
    http://slproweb.com/products/Win32OpenSSL.html 上下载
    Visual C++ 2008 Redistributables 和 Win32 OpenSSL v1.0.1h(根据自己是32/64为选择Win32/64，同时不要选择Light版本)
-   安装后(假设安装到D:\OpenSSL-Win32)， 将D:\OpenSSL-Win32加入到系统环境变量
+   安装后(假设安装到D:\OpenSSL-Win32)， 将D:\OpenSSL-Win32\bin加入到系统环境变量
 3. 安装pywin32
    http://sourceforge.net/projects/pywin32/files/pywin32/ 上下载选个Build下载(根据32/64位系统及跟安装python对应的版本相同的下载)，下载后安装即可
+   如果报错：python version 2.7 required, which was not found in registry（64位系统）
+   解决方法：参考url：http://www.cnblogs.com/min0208/archive/2012/05/24/2515584.html
 4. 安装Twisted
    http://twistedmatrix.com/trac/wiki/Downloads 上根据自己32/64位系统下载想要版本，本人下的是msi的，exe应该也差不多，下周安装即可
 5. 安装zope
@@ -16,6 +18,7 @@ python scrapy install guide under windows 7 32 bits
    ps：注意自己系统是32/64位，以及python的版本下载，下载文件后缀为egg!!!
    这时候应该在安装的Python目录下出现了Scripts文件，然后dos命令行下运行命令：
    easy_install-2.7.exe E:\python\zope.interface-4.1.1-py2.7-win32.egg //假设egg文件放在e盘python文件夹下，根据自己路径更改，还是有对应egg文件名称可能也不一样
+   如果没有easy_install-2.7.exe 解决方法：下载http://peak.telecommunity.com/dist/ez_setup.py，然后运行即可
 6. 安装lxml
    https://pypi.python.org/pypi/lxml/ 上下载，选择lxml版本及跟安装python对应的版本下载，下载后安装即可
 7. 安装pyOpenSSL
