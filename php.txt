@@ -84,7 +84,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 		umask(0000);
 		chmod($dir, 0777);
 	}
-
+23. 生成 unique id : uniqid(rand()/..., true)
 
 Array
 1. ksort函数
