@@ -140,6 +140,7 @@ ps：
 (2). 如果登录后页面上显示错误，但是rockmongo还是能用，在下载的rockmongo目录下的config.php文件加上
 ini_set("display_errors",0);即可
 (3). rockmong的详细配置参考官方url：http://rockmongo.com/wiki/configuration?lang=zh_cn
+(4). 如果报错：To make things right, you must install php_mongo module，那么是安装rockmongo时候下载的php_mongo.dll下错了，不符合版本，下载新的测试即可
 
 参考url：
 http://blog.csdn.net/mydeman/article/details/7082730
