@@ -7,3 +7,6 @@ MongoCursorException 错误，cannot natively represent the long (number) on thi
 上面32/64位的不要弄反了
 参考url：
 http://derickrethans.nl/64bit-ints-in-mongodb.html
+
+2. mongo 批量 update 时候字段为 'multiple' => true/1, 注意是 multiple，不是 multi
+3. mongo查找的时候注意类型，跟mysql不一样，mongo中 '1'和1不一样的，强类型，mysql为弱类型，
