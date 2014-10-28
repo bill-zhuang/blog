@@ -51,6 +51,7 @@ chapter 3
 		//第三个参数是upsert，如果文档不符合更新条件，就以这个条件和更新文档为基础创建一个新文档，否则正常更新
 		db.table_name.update({key : value}, {"$inc" : { field : number}}, true, true)
 		//第四个参数是更新多个文档
+		db.table_name.update({key : value},{$set : {"new_field" : 1}}, false, true) //用于新增key
    getLastError
    findAndModify
 
@@ -72,6 +73,10 @@ chapter 4
    eg. db.table_name.find({"age" : {"$not" : 10}})
    $mod //取余匹配
    {"mod" : [5, 1]} //符合对5取余后是1的数
+   mongodb 中like查询
+   db.table_name.find({'name' : /.*m.*/})
+   db.table_name.find({'name' : /m/})
+   db.table_name.find({'name' : array('$regex' => 'm'})
 3. 特定查询
    null 
    db.table_name.find({key : null}) //会返回key是null的结果集，同时还有key不存在的结果集也会返回
