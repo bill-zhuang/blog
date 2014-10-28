@@ -4,5 +4,10 @@ zend
 $this->view->example = $example;  <----这个先
 $this->renderScript('example/example.phtml');   <-----这个后
 2. 通过zend来更新数据表中某个字段自增或自减某个值
-	$table->update(array('field' => new Zend_Db_Expr('field' + $val)), $where_condition);
+	$table->update(array('field' => new Zend_Db_Expr('field + ' . $val)), $where_condition);
 	//重点在 Zend_Db_Expr !!!
+3. 接上面 如果要用 in ， 如 select * from table_name where id in (....) , 则为 select->where('id in(?)', ids_array)
+4. zend中防止注入，select通过where('xxx=?', xxx)
+   insert 自动会加quote
+   update 中where需用 xxxx->getAdapter->quoteInto('xxxx=?', xxxx)来实现
+   但上面对有Zend_Db_Expr表达式的需另外加quote，默认没加quote
