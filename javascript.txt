@@ -104,3 +104,5 @@ $('#id').attr('defaultValue', 'xxx');
 
 最后还是建议打印的时候如果要变更内容的话，新建一个html文件，用php来输出需要打印的内容中的数据
 
+13. js取字符串最后几个字符用  xxxx.slice(-x) 或 xxxx.substr(-x)
+
