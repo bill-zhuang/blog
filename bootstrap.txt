@@ -58,3 +58,31 @@ $('#mapModal').on('shown.bs.modal', function () {    <------shown改为show.bs.m
 	map.setZoom(11);
 });
 $("#mapModal").modal('show');
+
+3. bootstrap 关闭 modal方式，默认点modal周围灰色区域自动关闭，如果不需要，设置为
+$('#myModal').modal({
+  backdrop: 'static', //防止按灰色区域关闭
+  keyboard: false //防止按esc键关闭
+  show: true
+})
+<a data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#">
+参考url：http://stackoverflow.com/questions/9894339/disallow-twitter-bootstrap-modal-window-from-closing
+
+4. bootstrap modal 打开后 滚动条自动到顶端 解决方案：
+/* 
+	solution for prevent body scrollbar and shifting when bootstrap modal dialog is loaded
+	reference url: http://stackoverflow.com/questions/19288546/how-can-i-prevent-body-scrollbar-and-shifting-when-twitter-bootstrap-modal-dialo
+ */
+html {
+  overflow: hidden;
+  height: 100%;
+}
+body {
+  overflow: auto;
+  height: 100%;
+}
+
+/* unset bs3 setting */
+.modal-open {
+ overflow: auto; 
+}
