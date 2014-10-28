@@ -32,3 +32,18 @@ reference url: http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/300327
    简单的用 &nbsp;
    如果需要很多空白用 <span style="white-space:pre">empty     space</span>
 6. label显示内容修改为text属性，input为val属性(jquery)
+7. 重置 input type=file 方法：window.submitform.reset(); //其中 submitform 为包含 input type=file 的form id 
+8. jquery checkbox $('#checkbox_id').prop('checked', true);
+9. html table 由于内容撑大了，对table的style设置table-layout:fixed; word-break:break-all;即可
+10. textarea 上下左右居中 style="display:inline-block;vertical-align:middle;"
+11. <input type="file" style="display:inline-block;" accept="image/*"></input>
+12. checkbox id: $('#container_id input:checkbox').attr('id')
+13. remove table tr: $('#tr_id').remove()
+13. get table tr last id: $('#table_id tr:last').attr('id")
+14.$('#id').removeAttr('attr_name').css('name', 'value');
+15. js 中获取object长度 Object.keys(obj_name).length
+16. js 获取 select 选中的文本 $("#select_id option:selected").text();
+17. !!!!!!!!!!!!!!post的时候，form方式提交，如果select是disabled的话，对应的值不会提交过去。
+18. 获取input/select等name属性，$('#id').attr('name')
+19. table-layout:fixed 用于固定，防止td 太长了撑 width=100%
+20. checkbox css :.css('outline-color', 'red').css('outline-style', 'solid').css('outline-width', 'thin');
