@@ -177,3 +177,14 @@ git format-patch --stdout commit_id-1..commit_id_4 | git am
 
 如果要忽略该patch，git am --skip
 如果要终止应用patch，git am --abort
+
+------------------------------------------------------------------------
+alias
+设置别名： 
+git config --global alias.st status
+git config --global alias.ck checkout
+取消别名：
+git config --global --unset alias.st
+
+------------------------------------------------------------------------
+git gc 垃圾清理
