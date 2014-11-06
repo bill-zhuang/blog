@@ -75,6 +75,9 @@ git log --pretty=format:"%h %ae %s" -n //%h--abbr of hash %ae---author address %
 git log --since="log time start"
 git log [branch]
 
+git reflog 与 git log 区别
+git reflog sha1码显示六位， git log 显示全部
+
 ------------------------------------------------------------------------
 git add file_path //缓存修改的某个文件，相反操作是 git reset file_path
 git add . //缓存所有修改的文件(包含新增的)，下一步是提交
