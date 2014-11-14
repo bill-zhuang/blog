@@ -168,6 +168,8 @@ git tag -a tag_name -m 'tag_msg'
 如果想多个commit生成一个patch，加上--stdout，如
 git format-patch -n --stdout > all.patch
 
+git format-patch --root --stdout > all.patch //用于生成从项目开始到最后一个commit的patch文件，用于转移到另外一个项目后保留原来的log记录
+
 应用patch
 git am *.patch
 
