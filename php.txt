@@ -85,6 +85,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 		chmod($dir, 0777);
 	}
 23. 生成 unique id : uniqid(rand()/..., true)
+24. 上传大大文件 php.ini设置 : upload_max_filesize, post_max_size 两个参数
 
 Array
 1. ksort函数
