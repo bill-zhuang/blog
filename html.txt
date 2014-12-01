@@ -47,3 +47,9 @@ reference url: http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/300327
 18. 获取input/select等name属性，$('#id').attr('name')
 19. table-layout:fixed 用于固定，防止td 太长了撑 width=100%
 20. checkbox css :.css('outline-color', 'red').css('outline-style', 'solid').css('outline-width', 'thin');
+21. click image in div
+$('#div_id').on('click', function(e){
+	if ($(e.target).is('img')) {
+		var src = $(e.target).attr('src');
+	}
+});
