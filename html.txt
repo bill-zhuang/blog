@@ -53,3 +53,9 @@ $('#div_id').on('click', function(e){
 		var src = $(e.target).attr('src');
 	}
 });
+22. build http query by jquery
+var params = {
+	'a' : b,
+	'c' : d,
+};
+var query = $.param(params);
