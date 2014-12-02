@@ -102,7 +102,7 @@ Array
 $input = array_map("unserialize", array_unique(array_map("serialize", $input)));
 建议在此后用array_values()去掉数组下标
 6. array_merge和 + 区别
-array_merge:：key为数字时不合并数据，非数字时合并，合并的value为第二个数组key的value；
+array_merge:：key为数字时不合并数据，非数字时合并，合并的value为第二个数组key的value，但是对key是数字的会重组！！，相当于对key数字的部分做了array_values()操作；
 +：对数字和非数字都合并数据，key相同的，+后右边的数据字舍弃。
 7. array_walk($array, $callback)  
 等价于 foreach($array as $key =>$value){ $callback($value, $key); }
