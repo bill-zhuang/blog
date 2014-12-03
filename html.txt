@@ -50,8 +50,6 @@ reference url: http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/300327
 21. click image in div
 $('#div_id').on('click', function(e){
 	if ($(e.target).is('img')) {
-		var src = $(e.target).attr('src');
-	}
 });
 22. build http query by jquery
 var params = {
@@ -59,3 +57,4 @@ var params = {
 	'c' : d,
 };
 var query = $.param(params);
+23. input 元素为disabled时候不会发送到server端，如需要，设置为readonly(未验证)
