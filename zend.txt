@@ -11,3 +11,4 @@ $this->renderScript('example/example.phtml');   <-----这个后
    insert 自动会加quote
    update 中where需用 xxxx->getAdapter->quoteInto('xxxx=?', xxxx)来实现
    但上面对有Zend_Db_Expr表达式的需另外加quote，默认没加quote
+5. html页面table输出内容时候加上 $this->escape($this->data) //$this->escape 是 htmlspecialchars 函数代名词
