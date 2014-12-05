@@ -2,3 +2,6 @@
 1. cmd命令行更改编码格式 命令chcp
 gbk：chcp 936
 utf8: chcp 65001, 然后修改属性->字体，将字体改为"Lucida Console"
+2. 环境变量立即生效
+开第一个命令行窗口：Ctrl + r --> cmd --> SET PATH=C:\
+开第二个命令行窗口：Ctrl + r --> cmd --> ECHO %PATH%
