@@ -94,7 +94,7 @@
    lset list_name index value //set list_name[index]=value
    
    ltrim list_name start stop //start/stop like lrange key start stop
-   rpoppush source destination //remove list source last key & insert to list destination
+   rpoplpush source destination //remove list source last key & insert to list destination
    
 8. set [command start with letter s: set, value can't duplicate!!!]
    sadd set_name value1[value2...]
