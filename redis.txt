@@ -50,24 +50,24 @@
    incrbyfloat key increment //increase key value + increment(float)
    
    decr key //decrease key value - 1 
-   decr key decrement //decrease key value - decrement
+   decrby key decrement //decrease key value - decrement
    
 6. hash [command start with letter h: hash]
-   hdel key field1[field2 ...] //delete key filed[multi support]
-   hexists key field //is key filed exist
-   hget key field //get key field value
-   hset key field value // set key field value 
-   hgetall key //get all key's name & value
-   hkeys key //get all 'key' key's field
-   hvals key //get all 'key' key's value
-   hlen key //key's field length
-   hmget key filed1 [field2 ...] //multi get key field1 [field2 ...] value
-   hmset key field1 value1 [field2 value2 ...] //multi set key filed1, filed2... value
+   hdel hash_table field1[field2 ...] //delete key filed[multi support]
+   hexists hash_table field //is filed exist in hash_table
+   hget hash_table field //get hash_table field value
+   hset hash_table field value // set hash_table field value 
+   hgetall hash_table //get all hash_table's field & value
+   hkeys hash_table //get all 'key' key's field
+   hvals hash_table //get all 'hash_table's value
+   hlen hash_table //key's field length
+   hmget hash_table filed1 [field2 ...] //multi get key field1 [field2 ...] value
+   hmset hash_table field1 value1 [field2 value2 ...] //multi set key filed1, filed2... value
    
-   hincrby key field increment //increase key filed value + increment
-   hincrbyfloat key field increment //increase key filed value + increment(float)
+   hincrby hash_table field increment //increase key filed value + increment
+   hincrbyfloat hash_table field increment //increase key filed value + increment(float)
    
-   hscan key cursor [match pattern] [count count]
+   hscan hash_table cursor [match pattern] [count count]
    
 7. list
    blpop key1 [key2 ...] timeout //
