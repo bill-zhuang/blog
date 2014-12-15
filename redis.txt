@@ -1,0 +1,117 @@
+1. redis 值类型： string, hash, list, set, sorted set [字符串，哈希，列表，集合，有序集合]
+2. 安装：https://github.com/dmajkic/redis/downloads 下面为windows下的内容
+下载相应版本后解压到目录后，进入目录， 运行 redis-server.exe redis.conf 其中redis.conf可省略
+另开cmd窗口，运行 redis-cli.exe -h 127.0.0.1 -p 6379
+连接命令 redis-cli.exe  -h host -p port -a password
+是否ping通 ：ping
+3. config get */key_name //获取配置参数
+   config set key_name key_value //设置配置参数
+4. key command[]
+   del key_name
+   dump key_name
+   exists key_name //serialize key's value 
+   rename key_name key_new_name
+   renamex key_name key_new_name //rename only key_new_name not exist
+   type key_name //get key's value type
+   
+   expire key_name seconds //设置过期时间
+   expire key_name timestamp //unix timestamp
+   pexpire key_name millseconds
+   pexpire key_name millseconds-timestamp
+   persist key_name //设置永远不过期
+   pttl key_name //剩余过期时间，单位毫秒
+   ttl key_name //剩余过期时间，单位秒
+   
+   keys pattern
+   move key_name db //move current database key_name to database db
+   randomkey //get random key
+   
+5. string
+   set key value
+   get key
+   getrange key start end
+   getset key value // === get key, set key value
+   mget key1[ key2 key3] //multi-get keys value
+   mset key1 value1 [key2 value2 ...] //multi-set key value
+   msetnx key1 value1 [key2 value2 ...] //multi-set key value if key not exist
+   strlen key
+   append key value //append value to key's value
+   
+   getbit key offset
+   setbit key offset value
+   
+   setex key seconds value //[setex: set expire seconds]
+   psetex key millseconds value //[psetex: set expire millseconds]
+   setnx key value //set key value if key not exist [setnx: set not exist]
+   setrange key offset value //set key value start at offset
+   
+   incr key //increase key value + 1
+   incrby key increment //increase key value + increment
+   incrbyfloat key increment //increase key value + increment(float)
+   
+   decr key //decrease key value - 1 
+   decr key decrement //decrease key value - decrement
+   
+6. hash [command start with letter h: hash]
+   hdel key field1[field2 ...] //delete key filed[multi support]
+   hexists key field //is key filed exist
+   hget key field //get key field value
+   hset key field value // set key field value 
+   hgetall key //get all key's name & value
+   hkeys key //get all 'key' key's field
+   hvals key //get all 'key' key's value
+   hlen key //key's field length
+   hmget key filed1 [field2 ...] //multi get key field1 [field2 ...] value
+   hmset key field1 value1 [field2 value2 ...] //multi set key filed1, filed2... value
+   
+   hincrby key field increment //increase key filed value + increment
+   hincrbyfloat key field increment //increase key filed value + increment(float)
+   
+   hscan key cursor [match pattern] [count count]
+   
+7. list
+   blpop key1 [key2 ...] timeout //
+   brpop key1 [key2 ...] timeout //
+   brpoplpush source destination timeout //
+   
+   lindex list_name index //return key[index]
+   
+   linsert list_name before/after pivot value //set value before key field pivot
+   
+   llen list_name //list key length
+   lpop list_name //pop up list first element & return value
+   rpop list_name //remove list last key & return value
+   
+   lpush list_name value1[value2 ...] //push value1[value2 ...] at head of list
+   lpushx list_name value //insert value at list head only list_name exist
+   rpush list_name value1[value2...] //insert multi values into list_name
+   rpushx list_name value //insert value at list tail only list_name exist
+   
+   lrange list_name start stop //start/stop: 0-first element, 1-second element,..., -1: last element, -2: penultimate
+   
+   lrem list_name count value 
+   //count = 0, remove all equal value element, count > 0, search from head, remove number count element, count < 0, search from tail, remove number abs(count) element
+   lset list_name index value //set list_name[index]=value
+   
+   ltrim list_name start stop //start/stop like lrange key start stop
+   rpoppush source destination //remove list source last key & insert to list destination
+   
+8. set [command start with letter s: set, value can't duplicate!!!]
+   sadd set_name value1[value2...]
+   scard set_name //get set_name's value count
+   sdiff set_name set_name2 [set_name3..]
+   sdiffstore destination set_name1 set_name2 [set_name3..] //get all diff result of sets & store in destination set
+   sinter set_name1 [set_name2 ..] //get all same value in set_name1, set_name2 [set_name3...]
+   sinterstore destination set_name1 [set_name2...] //get all same value in set_name1, set_name2 [set_name3...] & store in destination set
+   sismember set_name value //is value a member in set_name's values
+   smembers set_name //get all set_name's values
+   smove source destination value //move value in set source to set destination
+   spop set_name //random remove one value in set set_name
+   srandmember set_name [count] //return ramdom count number value in set_name
+   srem set_name value1 [value2...] //remove value1 [value2...] in set_name
+   sunion set_name1 [set_name2 ..] //union set_name1 [set_name2...]
+   sunionstore destination set_name1 [set_name2..] //union set_name1 [set_name2...] & store in set destination
+   sscan set_name cursor [match pattern] [count count]
+
+9. sorted set
+   
