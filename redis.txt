@@ -22,7 +22,7 @@
    pttl key_name //剩余过期时间，单位毫秒
    ttl key_name //剩余过期时间，单位秒
    
-   keys pattern
+   keys pattern //e.g. keys '*" ===> get all keys
    move key_name db //move current database key_name to database db
    randomkey //get random key
    
