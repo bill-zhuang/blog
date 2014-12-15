@@ -113,5 +113,27 @@
    sunionstore destination set_name1 [set_name2..] //union set_name1 [set_name2...] & store in set destination
    sscan set_name cursor [match pattern] [count count]
 
-9. sorted set
+9. sorted set [command start with letter z, value can't duplicate]
+   zadd sort_set number1 key1  [number2 key2 ...]
+   zcard sort_set //get sort_set count
+   zcount sort_set min max //calculate count sort_set's number between min and max
+   zincrby sort_set increment number key_name //set key_name's number + increment
+   zinterstore destination number key1 [key2 ...]
+   zlexcount sort_set min max //count number of sort_set's number between min and max
+   zrange sort_set start stop
+   zrangebylex sort_set min max
+   zrangebyscore sort_set min max
+   zrank sort_set number
+   zrem sort_set number1[number2 ...]
+   zremrangebylex sort_set min max
+   zremrangebyrank sort_set start top
+   zremrangebyscore sort_set min max
+   zrevrange sort_set start top
+   zrevrangebyscore sort_set max min
+   zrevrank sort_set key
+   zscore sort_set key
+   zunionstore destination numkeys key
+   zscan key cursor [match pattern] [count count]
+   
+10. 
    
