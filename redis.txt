@@ -135,5 +135,79 @@
    zunionstore destination numkeys key
    zscan key cursor [match pattern] [count count]
    
-10. 
+10. hyperloglog
+    pfadd key value1[value2,...]
+	pfcount key [key1, key2...] //return un-duplicate key's value count
+	pfmerge destkey sourcekey1 [sourcekey2...] //merge sourcekey1, sourcekey2... to destkey
+
+11. publish/subscribe
+    psubscribe pattern1[pattern2, ...]
+	pubsub subcommand [argument1 [argument2]]
+	publish channel message
+	punsubscribe [pattern1 [pattern2...]]
+	subscribe channel1 [channel2 ...]
+	unsubscribe [channel1 [channel2....]]
+
+12. transaction
+    multi //begin transaction
+	exec/discard //commit transaction or rollback transaction
+	unwatch
+	watch key1 [key2...]
+	
+13. shell
+    eval script_name/script_content key1 [key2 ...] arg1 [arg2 ...] //exec script
+	evalsha sha1 key1 [key2 ...] arg1 [arg2 ...] //exec script
+	script exists script1 [script2 ...]
+	script flush
+	script kill //kill current running script
+	script load script
+	
+14. connect
+    auth password
+	echo message
+	ping //check service is running or not
+	quit //quit current connect
+	select index //change db(index is db number, default 0 ?)
+
+15. server command
+    info //get server all info
+	bgwriteaof //backgroud write aof
+	bgsave //background save
+	client kill [ip:port] [id client_id] //close client connection
+	client list //get client list
+	client getname //get connection-name
+	client pause timeout //terminate client-command at specific time
+	client setname connection-name //set current connection-name
+	cluster slots
+	command //show all commands
+	command count //get all commands count
+	command getkeys //
+	time //return server time
+	command info command_name[command_name ...]
+	config get parameter //get config parameter value
+	config rewrite //rewrite config file
+	config set parameter value //modify redis config parameter, no need restart
+	config resetstat //reset some statistics in info
+	dbsize //return current db key number
+	debug object key //get key debug info
+	debug segfault //collapse redis
+	flushall //delete all key in all db
+	flushdb //delete all current key in current db
+	info [section] //get server info
+	lastsave //return last save success unix timestamp
+	monitor //print server received command
+	role //return current role
+	save //asyn save data to disk
+	shutdown [nosave] [save]
+	slaveof host port
+	slowlog subcommand [argument]
+	sync
+	
+16. data backup & restore
+    save //run at foreground
+	bgsave //run at background
+	
+17. safety
+    
+    
    
