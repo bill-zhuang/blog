@@ -1,0 +1,39 @@
+The Little Redis Book
+
+1. redis database name identified by number, default 0
+   change database use select command:
+   select 1 --> prompt like redis 127.0.0.1:6379[1]>
+   select 0 --> prompt like redis 127.0.0.1:6379>
+2. save & persistent
+   if 1000 or more keys change, save every 60 seconds, otherwise, save in 15 minutes if 9 or less keys changed.
+   config save time is available
+   
+   data in redis not auto-compression
+   keys are string, values are byte arrays
+   
+   redis-benchmark command for test performance
+3. flushdb //erase all values in db
+   list //scope: log, track path user on site...
+   set //scope: tracking properties of a value which duplicate make no sense
+   sorted set //scope: leaderboard system
+4. redis is single-threaded
+   transaction:
+   error:
+       redis.multi()
+	   current = redis.get('powerlevel')
+	   redis.set('powerlevel', current + 1)
+	   redis.exec()
+   ok:
+	   redis.watch('powerlevel')
+	   current = redis.get('powerlevel')
+	   redis.multi()
+	   redis.set('powerlevel', current + 1)
+	   redis.exec()
+	   
+   command: keys search_pattern//do full scan, slow, not use in production
+5. monitor //two redis-cli window, one type command monitor, the other type redis command & will appear at monitor window
+   slowlog get [number] //get log history, can use in production
+   sort list_name/set_name/sorted_set_name [by list_name/set_name/sorted_set_name [get list_name/set_name/sorted_set_name ...]]
+   scan/hscan/sscan/zscan //available version > 2.8
+6. 
+   
