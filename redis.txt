@@ -1,4 +1,4 @@
-1. redis 值类型： string, hash, list, set, sorted set [字符串，哈希，列表，集合，有序集合]
+1. redis 值类型： string, hash, list, set, sorted set [字符串，哈希，列表，集合，有序集合] bitmaps & hyperloglog [from en auth web]
 2. 安装：https://github.com/dmajkic/redis/downloads 下面为windows下的内容
 下载相应版本后解压到目录后，进入目录， 运行 redis-server.exe redis.conf 其中redis.conf可省略
 另开cmd窗口，运行 redis-cli.exe -h 127.0.0.1 -p 6379
@@ -208,6 +208,49 @@
 	bgsave //run at background
 	
 17. safety
-    
-    
-   
+    config get requirepass // check password is set or not
+	config set requirepass 'password' //set password, single quote required!!!
+	auth 'password' //authorize password, single quote required!!!
+	
+18. performance test
+    redis-benchmark [option] [option value]
+	--option:
+	-h //server host name, default 127.0.0.1
+	-p //server port, default 6379
+	-s //server socket
+	-c //client connect numbers, default 50
+	-n //request number, default 10000
+	-d //set get/set value in byte, default 2
+	-k // 1-keep alive, 0-reconnect
+	-r // set/get/incr operation use random key & sadd operation use random value
+	-p //send request by pipe <numreq>
+	-q //quiet mode, only show query/sec value
+	--csv //export with csv format
+	-l //loop, run test forever
+	-t //only run test command list seperated by comma
+	-I //mode Idle, only open n idle connection & wait
+	
+19. client connect ???(server command)
+    client list
+	client setname
+	client getname
+	client getname
+	cient kill
+	
+20. pipe technology
+    send request to server when no response & get all response at once
+	
+21. partition
+    partition by id range: 0-10000(db 0), 100001-20000(db 1),...
+	partition by hash: turn key to number by hash function & mode number among 0-3(db 0-3)
+	
+22. build redis in windows, ref:https://github.com/nicolasff/phpredis/issues/213#issuecomment-11361242
+    $redis = new Redis();
+    $redis->connect('127.0.0.1', 6379);
+	echo $redis->ping();
+	$redis->set("tutorial-name", "Redis tutorial");
+	echo $redis->get("tutorial-name");
+	$redis->lpush("tutorial-list", "Redis");
+	$arList = $redis->lrange("tutorial-list", 0 ,5);
+	$arList = $redis->keys("*");
+	.....
