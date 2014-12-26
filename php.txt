@@ -88,6 +88,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 24. 上传大大文件 php.ini设置 : upload_max_filesize, post_max_size 两个参数
 25. 图片格式转化：以png转jpg为例：
     imagejpeg(imagecreatefromstring(file_get_contents($png_path)), "output.jpg");
+26. $_SERVER['HTTP_HOST'] return port(if contain), use $_SERVER['SERVER_NAME'] instead
 
 Array
 1. ksort函数
