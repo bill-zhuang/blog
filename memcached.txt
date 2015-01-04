@@ -1,0 +1,50 @@
+Memcached(MySQL-Memcached-en.pdf)
+
+key-value, key is hashed
+
+1. memcached [-u user_name] [-m memory] [-p port] [-U UDP_port] [-l network_interface(ip)] ...
+   **//-u option for root user
+   **//-m for set memory, default 64MB(use command vmstat to get free memory number)
+   **//-l for set listen address, default all
+   **//-p for tcp port, default 18080
+   //-U for udp port
+   **//-s for socket, if running memcached as same server as clients, disable network interface, and set 'memcached -s /your_memcached_path/memcached'
+   //-a for mask, default 0700
+   **//-c for connections, specify maximum number of simultaneout connections, default 1024
+   **//-t for threads, specify number of threads to use when processing incoming requests, default 4
+   **//-d for daemon(run in background)
+   //-r
+   //-M for return error when memory exhausted, replace normal behaviour of removing old items from cache to make way for new items
+   //-k 
+   *//-v for verbose mode, print error while executing, for logging
+   *//-vv for very verbose mode, for logging
+   *//-vvv for extremely verbose mode, for logging
+   //-h for help, print help message and exit
+   //-i for print libevent licence
+   //-I for specify maximum size permitted for storing an object within memcached instance, k for kilobytes, m for megabytes, eg. memcached -I 32m
+   //-b
+   //-P for pidfile, save prcess id of memcached instance to file
+   //-f 
+   //-n bytes, 
+   //-L
+   //-c
+   //-D
+   //-R
+   //-B
+2. memcached is only caching.
+   memcached is no security, so running only inside your network, encrypt info if is any sensitive.
+   memcached does not provide fail over.
+   try to use at least two memcached instances, for avoid having a single point of failure.
+3. use namespace, for store user data, prefix id with user: or user-, for two different tables may have same ids.
+4. data expiry
+   1> old item(least recently used, LRU) is remove when new item add & not enough space to store
+   2> set item expire tiem or delete item
+5. which server to get data
+   @memcservers = ['a.memc','b.memc','c.memc'];
+   $value = hash($key); 
+   $chosen = $value % length(@memcservers)[here is 3];
+   
+   // the hashing(hash($key)) is client-side, not server-side, disadvantage: add new memcached instance/remove instance/change instances order, lead to wrong info
+6. memcached memory allocate only when you start saving item into memcached
+7. logging
+   parameter: -v/-vv/-vvv, the latter parameter is, the more detail log info is
