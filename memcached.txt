@@ -48,3 +48,46 @@ key-value, key is hashed
 6. memcached memory allocate only when you start saving item into memcached
 7. logging
    parameter: -v/-vv/-vvv, the latter parameter is, the more detail log info is
+8. operations:
+   get(key)
+   set(key, value [, expire_time]) //reset key or add key(if key not exist), expire time default 30 days and unit is second
+   add(key, value [, expire_time])
+   replace(key, value [, expire_time]) //reset key's value, only if key exist, different with set operation
+   delete(key [, time])
+   incr(key, value) //increase key with specified value
+   decr(key, value) //decrease key with specified value
+   flush_all //expire all key in cache, but not deleted(delete when try to get it)
+9. because MySQL has it own cache pool, cache data of multi-tables join result to memcached
+   search memcached, use =/in/</>/between/like operator of where clause
+10. memcached in PHP
+    <?php
+		$cache = new Memcache;
+		$cache->connect('localhost',11211);
+		$cache->addServer('192.168.0.100',11211);
+		$cache->addServer('192.168.0.101',11211);
+	?>
+	
+	bool Memcache::addServer ( string $host [, int $port [, bool $persistent
+		[, int $weight [, int $timeout [, int $retry_interval
+		[, bool $status [, callback $failure_callback
+		]]]]]]] )
+	PHP memcached functions: get(), set(), add(), replace(), delete(), increment(), decrement()
+11. memcached tcp text protocol(in command-line)
+    storage commands: set, add, replace, append, prepend, cas
+	    command key [flags] [expire_time] length [noreply] //except cas command
+		cas key [flags] [expire_time] length [casunique] [noreply]
+		//flags & expire_time can't used with command append and prepend
+		//expire_time, 0 for no expire_time
+		//noreply for not reply for command
+	retrieve commands: get, gets
+	    get key1 [key2 .... keyn]
+		gets key1 [key2 ... keyn]
+		//key separated by whitespace
+		//server response format: VALUE key flags bytes [casunique]
+	delete command: delete
+	    delete key [time] [noreply] //time for in seconds(or a unixtime) for server to refuse add/replace command in this key, default 0, delete immediately
+	increment/decrement command: incr, decr
+		incr key value [noreply]
+		decr key value [noreply]
+	statistics commands: stats
+		STAT [name] [value]
