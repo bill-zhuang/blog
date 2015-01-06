@@ -91,3 +91,11 @@ key-value, key is hashed
 		decr key value [noreply]
 	statistics commands: stats
 		STAT [name] [value]
+12. telnet localhost  11211
+    stats
+	stats slabs
+	stats items
+	stats sizes
+	stats detail dump //stats detail on/off, for version >= 1.3.x
+	
+	./memcached-tool hostname:port [command] //command: display, stats
