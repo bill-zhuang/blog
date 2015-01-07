@@ -1,0 +1,49 @@
+win7下编译php源码及扩展
+
+1. 根据不同版本选择不同编译器
+Visual C++ 6.0 for PHP 5.2
+Visual C++ 9.0 (Visual Studio 2008 or Visual C++ 2008) for PHP 5.3 and 5.4. You can use the Express versions as well.
+Visual C++ 11.0 (Visual Studio 2012) for PHP 5.5+. You can use the Express versions as well
+
+If using VC9 or earlier, you will need the correct Windows SDK or Platform SDK to match your compiler. See this page for the supported versions
+
+2. 这里以编译PHP5.5+(含)为例
+
+1. 下载所需depend文件及sdk(根据所要编译的PHP版本选择)， http://windows.php.net/downloads/php-sdk/
+    这里选择了deps-5.5-vc11-x64.7z和php-sdk-binary-tools-20110915.zip(最新的)
+	下载php源码：http://php.net/downloads.php 或者 http://snaps.php.net/(貌似挂了)
+2. 开始菜单中打开 VS2012 x86 Native Tools Command Prompt
+3. 在c盘新建文件夹(随自己设置)，这里选择c:\php-sdk\
+4. 在打开的VS2012 x86 Native Tools Command Prompt命令行窗口内键入以下命令：
+   cd c:\php-sdk\
+   bin\phpsdk_setvars.bat
+   bin\phpsdk_buildtree.bat phpdev
+   复制c:\php-sdk\phpdev\vc9文件夹到c:\php-sdk\phpdev\vc11(这里仅针对vc11)
+   
+   将刚才下载的sdk和depend文件解压后复制/覆盖到C:\php-sdk\phpdev\vc11\x64，这里x64和x86根据自己下载的depend选择，上面下的是x64
+   将下载的PHP源码也解压到C:\php-sdk\phpdev\vc11\x64下
+   
+   cd C:\php-sdk\phpdev\vc11\x64\PHP源码文件夹名称
+   buildconf
+   configure --help
+   configure --disable-all --enable-cli
+   nmake
+   nmake snap //用于将所有扩展打包进php内，nmake命令后键入
+   
+   编译成功， 生成的dll在C:\php-sdk\phpdev\vc11\x64\PHP源码文件夹名称\Release_TS下
+   测试确实生成了php5ts.dll
+5. 编译扩展dll（失败）
+   在C:\php-sdk\phpdev\vc11\x64下新建文件夹pecl
+   下载要编译成dll的源码，在pecl下新建文件夹test，内放下载的源码等内容
+   
+   cd C:\php-sdk\phpdev\vc11\x64\PHP源码文件夹名称
+   buildconf
+   configure --help //注意这里输出的内容要有--enable-test出现，否则，下面的命令执行无效，找不到该命令下的参数
+   configure --enable-test=shared --->test为要生成的dll名称，生成的dll为php_test.dll，shared为单独生成dll，否则会编译进php.dll
+   nmake
+   //问题大部分出现在命令 configure --help 返回的结果中没有--enable-test，以及nmake的时候报错： fatal error u1077 return code 0x2
+
+reference url: 
+https://wiki.php.net/internals/windows/stepbystepbuild
+http://www.ksingla.net/2010/05/adding-a-pecl-extension-to-your-php-build-environment/
+http://blog.csdn.net/mycwq/article/details/10165955
