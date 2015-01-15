@@ -1,0 +1,111 @@
+composer tutorial
+
+1. install
+1.1 download https://getcomposer.org/Composer-Setup.exe and run
+1.2 open cmd 
+    cd C:\ bin (create folder bin if folder not exist)
+1.3 dwonload composer.phar: 
+    php -r "readfile('https://getcomposer.org/installer');" | php  //enable php_openssl.dll in php.ini
+1.4 create composer.bat
+    echo @php "%~dp0composer.phar" %*>composer.bat
+1.5 open new cmd window
+    composer -V //check install successfully
+1.6 open cmd window:
+    php composer.phar install //or
+	composer install //latter for install globally
+1.7 autoloading(optional, in code)
+    require 'vendor/autoload.php ';
+
+2. basic usage
+2.1 composer.json file
+	e.g.
+	{
+		"require": {
+			"monolog/monolog": "1.0.*"
+		}
+	}
+	package names: monolog/monolog
+	package versions: 1.0.*
+	package names & versions can be find on website: https://packagist.org/
+	package versions format: define multiple range, comma for logical AND, pipe symbol | for logical OR, tilde operator ~ (~1.2 === >=1.2, <2.0 ???)
+2.2 install
+	php composer.phar install/composer install ---> file will download at folder vender/monolog/monolog  //git ignore vendor folder
+	after install, composer.lock file will generate under same directory of composer.json file //commit composer.json & composer.lock file
+	//during install, composer will first check composer.lock file exist or not, if exist, ignore composer.json file, otherwise, use composer.json file
+2.3 update
+	php composer.phar update/composer update //update all
+	php composer.phar update monolog/monolog [...]/composer update monolog/monolog [...] //update specific dependency
+2.4 autoloading(optional, in code)
+    require 'vendor/autoload.php ';
+
+3. library(publish lib on composer)
+3.1 composer.json file
+e.g.
+	{
+		"require": {
+			"php": ">=5.4.0",
+			"ext-<name>": "*", //php extension, e.g., ext-gd
+			"lib-<name>": "*", //php lib, e.g. available: curl, iconv, icu, libxml, openssl, pcre, uuid, xsl
+			"monolog/monolog": "1.0.*"
+		}
+	}
+
+4. command line interface(command after php composer.phar/composer)
+4.1 init //then folllow instruction, generate composer.json file for publish your code libray on packagist.org
+4.2 install [...option...] 
+    //options: -prefer-source, -prefer-dist, -dry-run, -dev, -no-dev, -no-scripts, -no-plugins, -no-progress, -optimize-autoloader(-o)
+4.3 update //get all latest dependencies & update composer.lock file
+	update vendor/package1 vendor/package2 /composer update vendor/package1 vendor/package2 //update specific package
+4.4 require //add new package to composer.json file
+4.5 global command/composer global command
+4.6 search package_name //search available package by name
+4.7 show package_name //show specific package info
+4.8 depends
+4.9 validate //check composer.json file validation
+4.10 status //check composer.json file changed or not
+4.11 self-update [specific version] //update composer.json file to latest version
+4.12 config --list
+4.13 create-project [package...] //[package...] optional if composer.json file exist
+4.14 dump-autoload
+4.15 licenses
+4.16 run-script
+4.17 diagnose
+4.18 archive //generate zip/tar archive file of package
+4.19 help command_name //command_name usage
+
+5. properties of composer.json file
+	name: require for publish package
+	description: require for publish package
+	version: recommend omit
+	type: default library[library, project, metapackage, composer-plugin], recommend omit
+	keywords: optional
+	homepage: optional
+	time: optional
+	licence: optional, but highly recommend to supply it(string or array)
+	authors: optional, but highly recommend(array, field support: name, email, homepage, role)
+	support
+	require
+	require-dev
+	conflict
+	replace
+	provide
+	suggest
+	autoload
+	autoload-dev
+	include-path: deprecated
+	target-dir: deprecated
+	minimum-stability
+	prefer-stable
+	repositories
+	config
+	scripts
+	extra
+	bin
+	archive
+	
+6.
+
+   
+reference url: 
+http://getcomposer.org/book.pdf
+https://github.com/5-say/composer-doc-cn
