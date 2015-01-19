@@ -87,6 +87,8 @@ git add -i //根据具体各种命令选择操作
 git checkout -- file_path //放弃某一个文件的修改
 git checkout . //放弃所有的修改，回到未修改状态
 ps：上面两个都是针对文件是未缓存的状态，如果是已经缓存了，那么没有用
+恢复误删除的文件(没有commit，但文件被track了，如果之前没track的话就没办法了)
+git checkout path/to/file-I-want-to-bring-back
 
 ------------------------------------------------------------------------
 git commit -m 'commit info' //提交修改，如果带上 -a 参数的话，会提交所有跟踪文件的修改(新增的文件不会，相当于执行了 git add 及 git commit)
