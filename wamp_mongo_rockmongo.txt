@@ -95,6 +95,21 @@ mysql安装
 1.下载地址：
 http://dev.mysql.com/downloads/
 http://sourceforge.net/projects/mysql/
+2. bin-log 设置，以win7下为例(安装在D:\Program Files\MySQL) //记录所有 insert, update, delete, drop table 等改变数据库的操作，查询的不会记录
+打开D:\Program Files\MySQL\MySQL Server 5.5\my.ini
+在[mysqld]下键入：log-bin='[your binlog path]/prefix'，如log_bin=E:/mysqllog/bin-log，binlog文件名以bin-log开头
+重启MySQL，net stop mysql, net start mysql //ps：windows不支持 net restart mysql 命令
+重启后应该可以在E:/mysqllog/下看到两个文件bin-log.00001和bin-log.index，此时代表设置bin-log成功
+3. 查看bin-log内容，进入到MySQL安装目录下的bin文件夹内
+键入命令：mysqlbinlog.exe [your-bin-log-path] 即可，如mysqlbinlog.exe E:/mysqllog/bin-log.000001
+4. 其他设置
+bin-log.index //在 my.ini 中加入log-bin-index=[your index file location]/file name]来设置bin-log.index文件位置，重启MySQL
+binlog-do-db=db_name //设置 bin-log 所要记录的数据库，其他的数据库则忽略，多个数据库写多行，如 binlog-do-db=db_name_1, binlog-do-db=db_name_2, ...
+binlog-ignore-db=db_name //与上面的相反，设置不需要记录的数据库
+max_binlog_size //设置 bin-log 文件大小，单位为byte
+expire_logs_days //设置 bin-log 过期时间，默认为0，永远不过期
+
+reference url: http://www.techflirt.com/mysql-binary-log-tutorial/
 
 mongodb的安装
 1. 在 http://www.mongodb.org/downloads 下选择自己os下的下载链接，
