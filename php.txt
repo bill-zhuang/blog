@@ -89,6 +89,12 @@ echo 可以使用逗号隔开字符串输出，print 不行
 25. 图片格式转化：以png转jpg为例：
     imagejpeg(imagecreatefromstring(file_get_contents($png_path)), "output.jpg");
 26. $_SERVER['HTTP_HOST'] return port(if contain), use $_SERVER['SERVER_NAME'] instead
+27. 读取doc文件(只支持windows，linux不支持)，
+	在php.ini中
+	1.注释 com.allow_dcom = true
+	2.加入以下内容 //确保php安装目录下ext文件夹内容有php_com_dotnet.dll存在
+	[COM_DOT_NET] 
+	extension=php_com_dotnet.dll
 
 Array
 1. ksort函数
