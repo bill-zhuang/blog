@@ -49,6 +49,11 @@ location ~ \.php$ {
 
 20. 浏览器中输入127.0.0.1/phpinfo.php，如果出现php的画面，成功
 
+//安装lrzsz(用于windows和linux之间的文件传输)
+1. yum install lrzsz
+2. rz //会打开窗口，选择windows上要传输到linux的文件
+3. sz filename //选择从linux上传输到windows的文件，然后会打开窗口选择保存的位置
+
 //下面非必须，看自己需要
 
 //通过xshell访问centos 
