@@ -58,3 +58,9 @@ var params = {
 };
 var query = $.param(params);
 23. input 元素为disabled时候不会发送到server端，如需要，设置为readonly(未验证)
+24. textarea 设置了 placeholder 属性，但是没显示，解决方法：
+将
+<textarea>
+</textarea>
+改为
+<textarea></textarea>即可，即开关tag必须在同一行上，不然，中间的内容会覆盖掉 placeholder
