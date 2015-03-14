@@ -64,3 +64,4 @@ var query = $.param(params);
 </textarea>
 改为
 <textarea></textarea>即可，即开关tag必须在同一行上，不然，中间的内容会覆盖掉 placeholder
+25. div scroll: overflow: auto/overflow; //设置div滚动条，自动/...
