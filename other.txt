@@ -5,3 +5,4 @@ utf8: chcp 65001, 然后修改属性->字体，将字体改为"Lucida Console"
 2. 环境变量立即生效
 开第一个命令行窗口：Ctrl + r --> cmd --> SET PATH=C:\
 开第二个命令行窗口：Ctrl + r --> cmd --> ECHO %PATH%
+3. 一个域名怎么绑定多个IP，且实现分流，电信走电信的IP，网通走网通的IP，铁通走铁通的IP，使用dnspod
