@@ -1,0 +1,56 @@
+html转pdf
+1.wkhtmltopdf
+严重推荐，win和linux下都有版本可以下载安装
+下载链接：http://wkhtmltopdf.org/downloads.html
+命令也比较简单，安装后（win下将wkhtmltopdf的bin路径加入到环境变量中）
+命令：wkhtmltopdf test.html test.pdf
+但在测试中发现，win下ok，linux下，官网放的是centos6.6的版本，6.6上ok，但是在6.4上发现中文内容没了，需注意
+
+2.tcpdf
+当时为了显示中文，安装Droidsansfallback字体库，无奈下载了ttf文件转换一直没成功，后来换成了自带的stsongstdlight，可以显示中文
+缺点：对css支持不太好，只支持很少的几个
+private function _generatePDFBytcpdf($html_content)
+{
+	require_once('..tcpdf_path../tcpdf/config/tcpdf_config.php');
+	require_once('..tcpdf_path../tcpdf/tcpdf.php');
+	try
+	{
+		set_time_limit(0);
+		$tcpdf = new TCPDF('P', 'mm', 'en');
+		$tcpdf->SetFont('stsongstdlight', '', 12);
+		$tcpdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$tcpdf->writeHTML($html_content, true, false, true, false, '');
+		//Close and output PDF document
+		$pdf_content = $tcpdf->Output('doc.pdf', 'S');
+		$handle = fopen('doc.pdf', 'w+');
+		if ($handle !== false)
+		{
+			fwrite($handle, $pdf_content);
+			fclose($handle);
+		}
+	}
+	catch(Exception $e)
+	{
+		echo $e->getMessage();
+		exit;
+	}
+}
+
+tcpdf中转ttf字体文件：
+1.命令行中进入tcpdf目录下\fonts\utils，输入命令：ttf2ufm -a -F DroidSansFallback.ttf
+一段时间后会显示"Finished – font files created"
+结束后会生成三个文件DroidSansFallback.afm、DroidSansFallback.t1a、DroidSansFallback.ufm
+2.输入命令：php -q makefont.php DroidSansFallback.ttf DroidSansFallback.ufm
+一段时间后会显示"Font definition file generated"
+结束后会生成droidsansfallback.php、droidsansfallback.z、droidsansfallback.ctg.z，将这三个文件复制到\fonts下即可
+
+3. html2pdf
+下载链接：http://html2pdf.fr/en/download
+html2pdf是基于tcpdf开发的，当时用了下发现要支持的中文的话还是要向上面tcpdf一样编译字体，而且用stsongstdlight不会显示中文，而tcpdf可以，就放弃了
+代码用起来倒是比较简单的。
+
+$content = "your html content";
+require_once(dirname(__FILE__).'/html2pdf/html2pdf.class.php');
+$html2pdf = new HTML2PDF('P','A4','en');
+$html2pdf->WriteHTML($content);
+$html2pdf->Output('exemple.pdf');
