@@ -11,3 +11,6 @@ use 用在sql查询中告诉mysql使用那个索引
 SELECT * FROM table_example where id IN (2, 3, 1) ORDER BY FIELD(id, 2, 3, 1) //假设table_example 有字段 id
 5. subdate //如 subdate('2014-04-28', 1) ----> 2014-04-27
 6. 修改密码update mysql.user set Password=PASSWORD('new_psd') where User='user'; 后要立即生效，用 flush privileges; 命令
+
+7. SHOW ENGINE innodb status\G 用于查看innodb严重的错误，
+事务操作语句尽可能少，尽量避免有 select语句
