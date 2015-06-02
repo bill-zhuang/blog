@@ -22,6 +22,10 @@ git clone https://www.example.com
 注意这里url协议最好为https，用git也没事(如果你只是pull，不push)，
 否则在push的时候会报错，git协议只支持读，不支持写，这时候需要修改远程仓库url:
 git remote set-url origin https://www.example.com
+增加多个远程仓库
+git remote add xxxx https://www.example.com
+删除远程仓库
+git remote remove xxxx
 
 ------------------------------------------------------------------------
 gitk //查看提交记录
