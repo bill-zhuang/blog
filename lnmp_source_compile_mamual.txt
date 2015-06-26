@@ -1,0 +1,161 @@
+PHP:
+Install dependency:
+	yum -y install libxml2-devel.x86_64
+	yum -y install openssl-devel.x86_64
+	yum -y install libcurl-devel.x86_64
+	yum -y install libpng-devel.x86_64
+	yum -y install libjpeg-turbo-devel.x86_64
+	yum -y install freetype-devel.x86_64
+Install guide:
+	1. wget http://cn2.php.net/distributions/php-5.5.24.tar.gz
+	2. tar -zxvf php-5.5.24.tar.gz
+	3. cd php-5.5.24
+	4. ./configure  --prefix=/usr/local/php --enable-fpm --with-fpm-user=daemon \
+--with-fpm-group=daemon --with-config-file-path=/usr/local/php/etc \
+--with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd \
+--with-iconv --with-iconv-dir --with-freetype-dir --with-jpeg-dir \
+--with-png-dir --with-gd --with-zlib --with-libxml-dir --with-curl \
+--with-curlwrappers --with-mhash --with-xmlrpc --with-openssl --enable-xml \
+--disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop \
+--enable-sysvsem --enable-inline-optimization --enable-mbregex \
+--enable-mbstring --enable-gd-native-ttf --enable-ftp --enable-pcntl \
+--enable-sockets --enable-zip --enable-soap --disable-debug --disable-ipv6 
+		//use below configure parameter //use ./configure --help
+	5. make
+	6. make install
+	7. cp php.ini-development /usr/local/php/etc/php.ini
+	8. rm -f /usr/local/lib/php.ini (optional)
+	9. ln -s /usr/local/php/etc/php.ini /usr/local/lib/php.ini (optional)
+	10. vim /usr/local/php/etc/php.ini //uncomment cgi.fix_pathinfo and set value to 0; set timezone to Asia/Shanghai(your choice)
+	11. cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+	12. vim /usr/local/php/etc/php-fpm.conf //uncomment pid and set to pid = /usr/local/php/var/run/php-fpm.pid
+	13. cp sapi/fpm/php-fpm /usr/local/bin
+
+	14. cp sapi/fpm/init.d.php-fpm /etc/rc.d/init.d/php-fpm
+	15. chomod a+x /etc/init.d/php-fpm
+	16. chkconfig php-fpm on //set php-fpm start on startup
+
+configure: WARNING: unrecognized options: --with-curlwrappers, --enable-safe-mode
+
+reference url:
+PHP source:
+http://cn2.php.net/distributions/php-5.5.24.tar.bz2
+http://cn2.php.net/distributions/php-5.5.24.tar.gz
+
+
+////////////////////////////////////////////////////////////////////////////////
+Nginx:
+PCRE Install guide: (Install PCRE support regular expression in Nginx.)
+	1. yum -y install gcc gcc-c++ //install c++ compiler
+	2. wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
+	3. tar -zxvf pcre-8.36.tar.gz
+	4. cd pcre-8.36
+	5. ./configure
+	6. make
+	7. make install
+Install dependency:
+	1. yum -y install zlib-devel.x86_64 //install zlib 
+Nginx Install guide:
+	1. wget http://nginx.org/download/nginx-1.8.0.tar.gz
+	2. tar -zxvf nginx-1.8.0.tar.gz
+	3. cd nginx-1.8.0
+	4. ./configure
+	5. make
+	6. make install
+	7. vim /usr/local/nginx/conf/nginx.conf //uncomment ";user" & set to "user daemon daemon;", make sure same as user&group in php configure parameter
+	8. ln -s /usr/local/lib/libpcre.so.1 /lib64
+	9. /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+	//stop & start nginx
+	10. /usr/local/nginx/sbin/nginx -s stop //stop nginx
+	11. /usr/local/nginx/sbin/nginx //start nginx
+Error:
+/usr/local/nginx/sbin/nginx: error while loading shared libraries: libpcre.so.1: cannot open shared object file: No such file or directory
+fix: ln -s /usr/local/lib/libpcre.so.1 /lib64
+
+nginx: [error] open() "/usr/local/nginx/logs/nginx.pid" failed (2: No such file or directory)
+fix: /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+
+reference url:
+PCRE source:
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.bz2
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.00.tar.bz2
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.00.tar.gz
+Nginx source:
+http://nginx.org/download/nginx-1.8.0.tar.gz
+
+
+////////////////////////////////////////////////////////////////////////////////
+MySQL:
+Install dependency:
+	yum -y install ncurses-devel.x86_64
+CMake Install guide:(Install CMake for build MySQL source.)
+	1. wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
+	2. tar -zxvf cmake-3.2.2.tar.gz
+	3. cd cmake-3.2.2
+	4. ./configure
+	5. gmake
+	6. gmake install
+
+Error: Curses libraries were not found. Curses GUI for CMake will not be built
+fix: yum -y install ncurses-devel.x86_64
+
+
+Mysql Install guide:
+	1. wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24.tar.gz
+	2. tar -zxvf mysql-5.6.24.tar.gz
+	3. cd mysql-5.6.24
+	4. cmake .
+	5. make
+	6. make install
+	//add user & group for mysql role
+	7. groupadd mysql
+	8. useradd -r -g mysql mysql
+	9. cd /usr/local/mysql
+	10. chown -R mysql .
+	11. chgrp -R mysql .
+	//
+	12. scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data //basedir & datadir is default value
+	13. chown -R root .
+	14. chown -R mysql data
+	rm -rf my.cnf ???
+	vim /etc/my.cnf //set datadir to /usr/local/mysql/data, same as in step 12
+	15. bin/mysqld_safe --user=mysql &
+	16. bin/mysql_secure_installation //set root password ...
+
+	//below optional
+	17. cp support-files/mysql.server /etc/init.d/mysqld
+	18. chkconfig mysqld on //start mysql on startup
+	19. vim /etc/rc.d/init.d/mysqld(symbolic linke /etc/init.d/mysqld) //set basedir & datadir, make sure same as in step 12 (only do this when msyql not install in /usr/local/msyql)
+	20. /etc/init.d/mysqld start or service mysqld start//start mysql server
+
+	//after install mysql, add mysql bin path to system path:
+	21. export PATH=/usr/local/mysql/bin:$PATH
+	22. source /etc/profile //make config valid immedicately
+
+Error:
+mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+mkdir /var/run/mysqld
+chown -R mysql:mysql /var/run/mysqld
+
+cat /var/log/mysqld.log | grep ERROR
+create mysql log file: /var/log/mysqld.log
+chmod a+w mysqld.log
+
+Can't connect to local MySQL server through socket '/tmp/mysql.sock' 
+fix: ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+error: 'Can't connect to local MySQL server through socket '/tmp/mysql.sock'(2)'
+fix: run  /usr/local/mysql/bin/mysqld 
+shutdown msyql: bin/mysqladmin -u root shutdown
+
+Can't create test file /usr/local/mysql/localhost/localhost.lower-test
+chown -R mysql:mysql /usr/local/mysql/
+
+reference url:
+CMake source:
+http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
+MySQL source:
+http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24.tar.gz
+Install ref:
+http://dev.mysql.com/doc/refman/5.6/en/source-installation.html
+http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
