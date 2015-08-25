@@ -29,9 +29,10 @@ python scrapy install guide under windows 7 32 bits
 8. 安装scrapy
    这里我是通过pycharm安装scrapy的，直接搜名字点击安装即可
    如果为下载安装包安装，可参看http://www.cnblogs.com/caroar/archive/2013/05/02/3054902.html，本人没验证过
+   后面用pycharm安装，一直搜不到scrapy，改用命令行安装：easy_install -U Scrapy 即可
 9. 测试是否安装成功
    在dos命令行下，进入放置project的目录下，运行命令：
-   scrapy.bat startproject project_name //z最后的project_name 就是自己要的项目名称
+   scrapy.bat startproject project_name //z最后的project_name 就是自己要的项目名称 //scrapy.bat 不存在，直接改为scrapy或者scrapy.exe
    如果生成了相应的项目文件，则安装成功
 参考url：
 http://doc.scrapy.org/en/latest/intro/install.html#requirements
