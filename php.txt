@@ -105,6 +105,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 	安装后 catdoc [-s source_charset -d dest_charset -u] source.doc > dest.txt //即得到doc转为txt文本内容，注意内容可能有丢失
 	
 	reference url:http://www.wagner.pp.ru/~vitus/software/catdoc/
+28. number_format($val, 2, '.', '') //保留两位小数，即使是两位小数都是00
 
 Array
 1. ksort函数
