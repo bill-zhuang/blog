@@ -106,6 +106,7 @@ echo 可以使用逗号隔开字符串输出，print 不行
 	
 	reference url:http://www.wagner.pp.ru/~vitus/software/catdoc/
 28. number_format($val, 2, '.', '') //保留两位小数，即使是两位小数都是00
+29. unlink 文件，如果失败，检查如下原因：1.文件是否有权限，常见于linux环境 2. 文件打开后有没有关闭(fopen 后 fclose)
 
 Array
 1. ksort函数
