@@ -159,6 +159,9 @@ git rebase master develop 等价于 git rebase master, git checkout develop
 
 ------------------------------------------------------------------------
 git tag -a tag_name -m 'tag_msg'
+git tag -d tag_name //删除本地tag
+git push origin --delete tag tag_name //删除远程tag
+git push --tags //推送所有本地tag到服务器上
 
 ------------------------------------------------------------------------
 关于找回误删除的commit，包括stash误删的方法：
