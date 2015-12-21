@@ -1,0 +1,157 @@
+﻿
+Chapter 1
+1. HTTP版本: HTTP/0.9 HTTP/1.0 HTTP/1.1
+2. 发送端(HTTP报文)->应用层(HTTP数据)->传输层(TCP首部+HTTP数据)->网络层(IP首部+TCP首部+HTTP数据)->链路层(以太网首部+IP首部+TCP首部+HTTP数据)->网络传输
+   接收端(HTTP报文)<-应用层(HTTP数据)<-传输层(TCP首部+HTTP数据)<-网络层(IP首部+TCP首部+HTTP数据)<-链路层(以太网首部+IP首部+TCP首部+HTTP数据)<-
+3. TCP三次握手：SYN->SYN/ACK->ACK，TCP断开连接：FIN<- ACK-> FIN-> ACK<-
+4. DNS服务：域名到IP地址的解析
+
+Chapter 2
+1. 发送请求
+GET /index.html HTTP/1.1 //分别为请求的方法、URI、HTTP协议的版本
+//以下为请求首部字段
+Host: www.example.com
+If-Modified-Since: Thu, 20 Nov 2014 09:53:24 GMT //可选，仅返回2015年11月20日9点53分24秒以后更新过的数据，如果没有更新后，则以状态码304 Not Modified 作为响应返回
+Connection: keep-alive //用于减少TCP连接的重复建立及断开造成的额外开销
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 16
+Max-Forwards: 2 //请求方法为TRACE时时候，数值为请求的次数，没经过一个服务器端减1，减到0后停止传输
+Cookie: sid=qvc7n91erpq7ubc3ikss3317; name=user //Cookie内容，key=value形式，多个cookie用;分隔
+//以下为请求内容实体(entity)
+name=text&page=1
+
+2. 相应结果
+HTTP/1.1 200 OK //分别为服务器的HTTP协议版本、响应状态码、状态码的原因短语
+//以下部分为响应的实体(entity)
+Date: Mon, 21 Dec 2015 02:23:23 GMT //响应时间
+Content-Length: 362
+Content-Type: text/html
+Server: Apache/2.4.7
+<Set-Cookie: sid=qvc7n91erpq7ubc3ikss3317; name=user; path=/; expire=Tue, 22 Dec 2015 02:23:23 GMT> //设置客户端的cookie，服务器端生成
+
+<html> //报文主体，可为空
+.....
+
+3. HTTP为无状态的协议，不会对请求和响应的内容保存，保持状态的功能通过Cookie技术来实现
+4. HTTP方法(HTTP/1.1)
+	GET //获取资源
+	POST //传输实体的主体，主要目的不是为了获取资源
+	PUT //传输文件
+	DELETE //删除文件,与PUT相反
+	HEAD //获取报文首部，与GET方法一样，但是不返回报文主体
+	OPTIONS //查询支持的方法,响应内容如:
+		HTTP/1.1 200 OK
+		Allow: GET, POST, HEAD, OPTIONS
+	TRACE //追踪路径，请求时在首部字段Max-Forwards填入数值，没经过一个服务器端减1，减到0后停止传输
+	CONNECT //要求用隧道协议连接代理(主要使用SSL、TLS等)，此时需在请求的URI加上端口号，如 GET proxy.example.com:8080 HTTP/1.1
+	LINK //HTTP/1.0
+	UNLINK //HTTP/1.0
+5. 持久连接(Connection: keep-alive)
+	请求一个包含多个图片的网页html，如果没有持久连接，则会分别请求html及图片，造成无所谓的TCP连接及断开
+6. Cookie
+	第一次请求没有cookie信息时，服务器端返回 <Set-Cookie: sid=qvc7n91erpq7ubc3ikss3317;name=user; path=/; expire=Tue, 22 Dec ...>，然后再请求后报文中包含了Cookie信息
+
+Chapter 3
+1. 内容压缩编码方式：gzip(GNU zip)、compress(UNIX 系统的标准压缩)、deflate(zlib)、identity(不进行编码) //出现在请求报文中，eg. Accept-Encoding: gzip, deflate //多个压缩方式用,分隔
+2. 传输编码 //出现在分块传输编码中，解决大容量数据传输，分块传输 //出现在响应报文中 eg. Transfer-Encoding: chunked
+3. 多类型实体：
+	multipart/form-data //Web表单文件上传时使用，
+		eg. Content-Type: multipart/form-data; boundary=---------------------------26185145492887 //boundary为各种内容之间的分隔符
+			-----------------------------26185145492887 //此内容为boundary的内容，同时在前面再加两个--标记 !!
+			Content-Disposition: form-data; name="fileld1"
+			//空行，下一行为内容
+			Bill
+			-----------------------------26185145492887
+			Content-Disposition: form-data; name="file.csv"
+			Content-Type: application/download
+			//空行，下一行为内容
+			...csv content...
+			-----------------------------26185145492887-- //最后有两个--作为结束 !!
+	multipart/byteschanges //响应状态码206，响应正文包含多个范围内容时使用，用途见下4-获取部分内容的范围请求
+4. 获取部分内容的范围请求 //获取指定范围的请求，如下载图片到一半后中断，从中断处请求剩余内容
+	使用Range字段，eg. Range: bytes=5001-10000/5001-(5001字节后内容)/-3000, 5000-7000(开始到3000字节以及5000-7000字节数据)
+	eg.
+	Request:
+		GET example.jpg HTTP/1.1
+		Host: example.com
+		Range: bytes=5001-10000
+	Respone:
+		HTTP/1.1 206 Partial Content //服务器可以响应范围请求，返回206，否则返回200 OK及完整的实体内容!!
+		Date: .......
+		Content-Range: bytes 5001-10000/10000
+		Content-Length: 5000
+		Content-Type: image/jpg
+5. 返回合适的内容(内容协商)
+	常用字段：
+	Accept
+	Accept-Charset
+	Accept-Encoding
+	Accept-Language
+	Content-Language
+
+Chapter 4 HTTP状态码
+1. 状态码：3位数+原因短语组成 //首位数为响应类别
+	1XX //信息性状态码
+	2XX //成功状态码
+	3XX //重定向状态码
+	4XX //客户端错误状态码，服务器无法处理请求
+	5XX //服务器错误状态码，服务器处理请求出错
+2. 常用状态码
+	200 OK //
+	204 No Content //返回响应报文，不允许返回任何实体的主体
+	206 Partial Content //范围请求，详情见Chapter 3.4
+
+	301 Moved Permanently //永久性重定向，此时，应使用响应中的Location字段对应的URI才访问
+	302 Found //临时性重定向，禁止将POST改为GET(第二次重定向请求时)，但实际上都改了
+	303 See Other //请求的资源存在另一个URI，应使用GET方法定向获取请求的资源，注：302未说明是否一定要用GET访问!!
+	304 Not Modified //发送附带条件的请求(If-Match, If-Modified-Since, If-None-Match, If-Range, If-Unmodified-Since)，返回304时，不包含任何响应的主题部分
+	307 Temporary Redirect //临时重定向，与302有相同定义，不过不会将POST改为GET
+
+	400 Bad Request //请求报文中存在语法错误
+	401 Unauthorized //用户认证失败 eg. Authorization Required
+	403 Forbidden //拒绝所请求访问的资源
+	404 Not Found //服务器上无法找到所请求的资源
+
+	500 Internal Server Error //服务器执行请求的发生错误
+	503 Server Unavailable //服务器超负荷或停机维护，暂时无法处理请求，如果知道接触上述状态的时间，可在响应中加入Retry-After字段后返回给客户端
+
+Chapter 5
+1. 可以通过一台HTTP服务器结合虚拟主机来实现多个域名，此时请求报文中Host内容需完整
+2. 代理、网关、隧道
+	代理 //转发功能的应用程序，不改变请求的URI，利用缓存技术可以减少带宽等优点
+		缓存代理 //代理转发响应时，会将资源缓存在代理服务器上，当再次请求相同的资源时，会将缓存的资源作为响应返回，不从源服务器获取资源
+		透明代理 //转发请求及响应时，不对报文做任何加工
+	网关 //转发其他服务器通信数据的服务器，提供非HTTP协议的服务
+	隧道 //保持客户端和服务器之间通信连接的应用程序，保证客户端与服务器之间安全的通信，本身不解析HTTP请求
+3. 缓存的有效期限/客户端的缓存
+
+Chapter 6 HTTP首部
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
