@@ -126,6 +126,98 @@ Chapter 5
 3. 缓存的有效期限/客户端的缓存
 
 Chapter 6 HTTP首部
+1. 首部结构
+	首部字段名: 字段值 //eg Content-Type: text/html，多个字段值之间用,分隔
+2. 首部字段类型
+	通用首部字段 //请求及响应报文都用
+		Cache-Control //可选
+			请求指令：
+				no-cache //强制向服务器再次验证
+				no-store //不缓存
+				max-age = [秒] //响应对大age数
+				max-stale( = [秒]) //接收过期响应
+				min-fresh = [秒] //在指定时间内响应仍有效
+				no-stransform
+				only-if-cached
+				cache-extension
+			缓存响应指令：
+				public //向任意提供缓存
+				private //仅特定用户返回缓存
+				no-cache //缓存前确认有效性
+				no-store //不缓存请求或响应的任何内容
+				no-transform //代理不更改媒体类型
+				must-revalidate //可缓存，但需向服务器确认
+				proxy-revalidate //中间代理缓存服务器需进行有效性确认
+				max-age = [秒] //响应的最大age数
+				s-maxage = [秒] //公共缓存服务器响应的最大age数
+				cache-extension
+		Connection //可选值：Upgrade、Keep-Alive、Close
+		Date //创建HTTP报文的日期和时间
+		Pragma //唯一值 no-cache，但为了兼容之前版本，如有本字段，都会带上 Cache-Control: no-cache
+		Trailer //说明在报文主体后记录了哪些首部字段
+		Transfer-Encoding //传输报文主体所用的编码方式，HTTP/1.1中仅对分块传输编码有效，即 Transfer-Encoding: chunked
+		Upgrade //检测是否可以使用更高版本进行通信，使用时，Connection的值设置为Upgrade
+		Via //追踪客户端与服务器之间的请求与响应报文的传输路径
+		Warning //与缓存相关问题的警告
+	请求首部字段
+		Accept //用于通知服务器用户代理可以处理的媒体类型及相应的优先级
+			eg. Accecpt: text/html, application/xml;q=0.9,*/*;q=0.8  使用q=表示权重值，分号;分隔，范围0-1
+		Accept-Charset //用于通知服务器用户代理可以处理的字符集及相应的优先级，可一次指定多个字符集，q表示权重
+		Accept-Encoding //用户代理能处理的内容编码方式及优先级顺序，可指定多个，可选范围(gzip/compress/deflate/identity/*,*为通配符，指定任意编码格式)
+		Accept-Language //用户代理能处理的自然语言集，可一次指定多个，使用q表示权重值
+		Authorization //用户代理的认证信息
+		Expect //HTTP/1.1只定义了100-continue，服务器发生错误时返回状态码 417 Expectation Failed
+		From //告知服务器使用用户代理的电子邮件地址
+		Host //请求资源的主机名及端口号
+		If-Match //告知服务器匹配所用实体的标记(ETag)值，可设置为*，则只要资源存在就处理
+		If-Modified-Since //
+		If-None-Match //
+		If-Range //与Range字段一起使用，字段值跟ETag值或更新时间保持一致，则处理范围请求，否则忽略范围请求，返回所有内容
+		If-Unmodified-Since //
+		Max-Forwards //可经过服务器的最大数目，每经过一个减1，到0后返回响应
+		Proxy-Authorizaiton //代理认证
+		Range //获取部分资源的范围请求，可处理，返回206 Partial Content及所请求的部分资源，否则返回200 及全部资源
+		Referer //请求原始资源的URI
+		TE //客户端可以处理的传输编码及相应优先级
+		User-Agent //创建请求的浏览器和用户代理名称等信息
+	响应首部字段
+		Accept-Ranges //可选值(bytes或none，分别代表能否处理范围请求)
+		Age //告知客户端，源服务器多久前创建了响应，单位为秒
+		ETag //实体标识
+		Location //将响应引导至与请求URI位置不同的资源，基本上与3XX重定向结合使用
+		Proxy-Authorizaite //代理服务器所需认证信息
+		Retry-After //客户端需在多久后再次请求，可以是秒数或者具体的日期时间，配合503 Service Unavailable或则3XX重定向一起使用
+		Server //服务端安装的HTTP服务器的信息，除软件应用名称外，可能包含版本号及安装时启用的可选项，eg. Server: Apache/2.4.7 (Win64) PHP/5.5.6
+		Vary //
+		WWW-Authorizaite //HTTP访问认证
+	实体首部字段
+		Allow //通知客户端支持的请求资源的所有HTTP方法，如不支持，返回405 Methods Not Allowed
+		Content-Encoding //服务器端对实体主题部分所选用的内容编码方式(gzip/compress/deflate/identity)
+		Content-Language //实体主体所使用的自然语言
+		Content-Length //实体主体部分的大小，单位字节
+		Content-Location //报文主体部分资源的URI
+		Content-MD5 //范围请求时，返回响应所使用的字段，以字节为单位 eg. Content-Range: bytes 5001-10000/10000 //表示当前发送部分及整个实体的大小
+		Content-Range //
+		Content-Type //实体主体内对象的媒体类型，字段值用type/subtype形式赋值
+		Expires //资源失效日期，如果 Cache-Control有max-age值时，优先处理max-age指令
+		Last-Modified //资源最终修改时间
+	非HTTP/1.1首部字段： 
+		Cookie //请求首部字段
+		Set-Cookie //响应首部字段
+			eg. Set-Cookie: name=bill; expire=Thu, 22 Dec 2015 17:10:10 GMT; path=/; domain=example.com
+				expire //过期日期，未指定则为浏览器关闭前为止
+				path //文档路径，未指定则为根目录
+				domain //cookie对象适用的域名，未指定则为cookie的服务器域名
+				secure //仅https连接时才发送cookie
+				httponly //使js无法获取cookie，防止xss攻击
+		Content-Deposition等
+	其他首部字段:
+		X-Frame-Options
+		X-XSS-Protection //控制xss防护机制，值(0/1)，分别为xss过滤设置为无效/有效状态
+		DNT //do not track，值(0/1)，分别为同意/不同意跟踪
+		P3P
+
+Chapter 7
 
 
 
