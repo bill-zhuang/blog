@@ -218,32 +218,41 @@ Chapter 6 HTTP首部
 		P3P
 
 Chapter 7
+1. HTTPS //HTTP Secure, HTTP + SSL/TLS + TCP + IP
+2. SSL
+3. 公开密钥加密：公开密钥+私有密钥 //客户端对报文内容用公开密钥加密后传给服务器，服务器端用私有密钥解密
+4. 数字证书认证 CA
 
+Chapter 8
+1. HTTP认证方式
+	BASIC认证 //基本认证
+		帐号+密码 字符串拼接后base64编码即为认证字符串
+	DIGEST认证 //摘要认证
+	SSL客户端认证
+	FormBase认证 //基于表单认证，帐号和密码登录界面
 
+Chapter 9
+1. Ajax(客户端请求)、Comet(服务器端推送更新)、SPDY
+2. WebSocket
+3. HTTP/2.0
+4. WebDAV
 
+Chapter 10
+1. HTML/CSS/XML/RSS/JSON
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Chapter 11
+1. XSS
+2. SQL Injection
+3. OS Command Injection
+4. HTTP Header Injection
+5. HTTP响应截断攻击
+6. Mail Header Injection
+7. 目录遍历攻击
+8. 远程文件包含漏洞 //主要为PHP存在的include漏洞
+9. 会话劫持 Session Hijack
+10. 会话固定攻击
+11. 跨站点请求伪造 CSRF
+12. 密码破解 //穷举法、字典攻击、彩虹表(明文密码及对应散列值)
+13. 点击劫持
+14. Dos攻击 //Denial of Service attack，拒绝服务攻击
+15. 后门程序
