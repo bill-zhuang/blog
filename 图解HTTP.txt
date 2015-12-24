@@ -196,8 +196,8 @@ Chapter 6 HTTP首部
 		Content-Language //实体主体所使用的自然语言
 		Content-Length //实体主体部分的大小，单位字节
 		Content-Location //报文主体部分资源的URI
-		Content-MD5 //范围请求时，返回响应所使用的字段，以字节为单位 eg. Content-Range: bytes 5001-10000/10000 //表示当前发送部分及整个实体的大小
-		Content-Range //
+		Content-MD5 //
+		Content-Range //范围请求时，返回响应所使用的字段，以字节为单位 eg. Content-Range: bytes 5001-10000/10000 //表示当前发送部分及整个实体的大小
 		Content-Type //实体主体内对象的媒体类型，字段值用type/subtype形式赋值
 		Expires //资源失效日期，如果 Cache-Control有max-age值时，优先处理max-age指令
 		Last-Modified //资源最终修改时间
