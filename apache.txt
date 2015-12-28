@@ -1,3 +1,9 @@
 
 1. 测试网站服务器性能 ab(apachebench) ab.exe在apache的bin目录下
    ab -c concourrency_num -n request_num // -c -n 分别为并发数和请求数
+2. Log format设置
+以下假定 rotatelogs_path 为rotatelogs路径
+ErrorLog "|[rotatelogs_path] [log-name]-error_%Y_%m_%d.log 86400.log" //每天一个error log
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combined 
+//分别代表ip/x/x/请求时间/HTTP请求头/HTTP响应状态码/响应内容大小(最后一部分)，如果为空则为-，如需为0，改为%B/访问的referer/user-agent
+CustomLog "[log_path]/gclass.local-access.log" combined
