@@ -1,4 +1,4 @@
-mysql
+﻿mysql
 
 1. using 与 use
 using 用在join操作中，如果两个表join的条件相同(字段名相同)，可以使用using
@@ -14,3 +14,7 @@ SELECT * FROM table_example where id IN (2, 3, 1) ORDER BY FIELD(id, 2, 3, 1) //
 
 7. SHOW ENGINE innodb status\G 用于查看innodb严重的错误，
 事务操作语句尽可能少，尽量避免有 select语句
+
+8. 
+load data local infile 'load file path' ignore into table `table_bane` Fields Terminated By '-' lines terminated by '\r\n';
+SELECT * INTO OUTFILE 'output file path' FIELDS TERMINATED BY ','  LINES TERMINATED BY '\r\n' FROM `table_name` [where ...];
