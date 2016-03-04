@@ -205,6 +205,11 @@ git config --global alias.st status
 git config --global alias.ck checkout
 取消别名：
 git config --global --unset alias.st
+//常用的alias
+git config --global alias.st status
+git config --global alias.ck checkout
+git config --global alias.lg "log --graph --pretty=oneline --abbrev-commit"
+git config --glibal alias.fp format-patch
 
 ------------------------------------------------------------------------
 git gc 垃圾清理
