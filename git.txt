@@ -110,6 +110,8 @@ git push //
 git reset --hard commit_id //所有在commit_id之后的修改都会被抛弃discard.----->HEAD
 git reset --soft commit_id //所有在commit_id之后的修改reset到已缓存状态(下一步是提交)---->index
 git reset [--mixed] commit_id //所有在commit_id之后的修改reset到未缓存状态(下一步是缓存修改)---->working tree
+//常用
+git reset --hard HEAD^^^^ == git reset --hard HEAD~4 //HEAD^的个数对应HEAD~后的数字
 ------------------------------------------------------------------------
 
 分支
