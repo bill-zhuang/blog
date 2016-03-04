@@ -212,6 +212,11 @@ git config --global alias.lg "log --graph --pretty=oneline --abbrev-commit"
 git config --glibal alias.fp format-patch
 
 ------------------------------------------------------------------------
+blame
+git blame file_path //查看文件提交历史，command界面
+git gui blame file_path //查看文件提交历史，与 gitk file_path 有点类似， gui界面
+
+------------------------------------------------------------------------
 git gc 垃圾清理
 
 删除未ignore掉的文件后，但是已提交到服务器上，解决方法
