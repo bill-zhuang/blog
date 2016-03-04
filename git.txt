@@ -210,6 +210,7 @@ git config --global alias.st status
 git config --global alias.ck checkout
 git config --global alias.lg "log --graph --pretty=oneline --abbrev-commit"
 git config --glibal alias.fp format-patch
+git config --global alias.rank "shortlog -sn --no-merges" //获取用户commit排行榜
 
 ------------------------------------------------------------------------
 blame
