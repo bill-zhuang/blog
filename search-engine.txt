@@ -1,0 +1,34 @@
+Search Engine
+1. "" //搜索词放在""中，代表完全匹配搜索，不拆分单词进行搜索
+2. + //搜索包含，不常用，一般用空格代替
+3. - //搜索不包含-后词语，-前必须有空格，-后没有空格
+4. * //通配符
+5. ? //匹配单个字符
+6. OR //搜索关键词之一，注意，需大写， A OR B
+7. inurl //搜索词在url的结果
+8. allinurl //搜索词包含多个在url，allinurl:a b == inurl:a inurl:b
+9. intitle //搜索词出现在title(html元素)中
+10. allintitle //搜索词包含多个在title中，allintitle:a b == intitle:a intitle:b
+11. filetype //搜索特定格式文件，filetype:pdf seo，搜索包含seo的所有pdf文件，如与2的-结合使用，则是剔除指定的文件格式
+12. site //搜索某个域名下所有文件
+13. linkdomain //Yahoo only!! 返回某个域名的反向链接，linkdomain:google.com -site:google.com //-见2，返回除google域名外所有外部链接
+14. related //Google only!! 返回与某个网站相关联的页面，related:google.com
+15. cache //用于查询Google缓存页面 cache:url
+上述的命令可以组合使用，'-'可以使用多次，
+site:stackoverflow.com inurl:php "post a comments" -"comments closed" -"you must be logged in"
+site:example.com filetype:pdf
+-filetype:pdf 剔除pdf文本
+
+16. ~ //同时搜索近义词，site:nytimes.com ~school
+17. .. //用于搜索指定年份间的数据，site:nytime.com 2015..2016 //测试貌似没起作用?
+18. author //搜索指定作者的数据，常用于Google学术搜索，author:xxxx
+19. define //查询单词的定义，define:test
+20. 数学计算，直接在google键入即可，如1+1*2
+21. 单位换算，如100斤=?千克即可
+
+22. Ctrl +/-(Ctrl 鼠标滚轮) //缩放页面，一般习惯后面一种
+23. Ctrl + L //选择地址栏
+
+PS:如果中文搜不到结果，换成英文试试
+
+来源：知乎-如何用好Google等搜索引擎 整理所得
