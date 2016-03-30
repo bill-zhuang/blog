@@ -112,6 +112,9 @@ git reset --soft commit_id //所有在commit_id之后的修改reset到已缓存�
 git reset [--mixed] commit_id //所有在commit_id之后的修改reset到未缓存状态(下一步是缓存修改)---->working tree
 //常用
 git reset --hard HEAD^^^^ == git reset --hard HEAD~4 //HEAD^的个数对应HEAD~后的数字
+PS:以上内容对没push到remote上有效，对于已push到remote后要reset的，用revert
+git revert commit_id
+然后填写revert的commit信息后pull/push即可
 ------------------------------------------------------------------------
 
 分支
