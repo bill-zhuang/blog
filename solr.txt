@@ -1,0 +1,42 @@
+Solr
+
+1. cd solr directory
+	bin/solr -e core_name //start solr
+	bin/solr -stop //stop solr
+2. Index(db table), Document(table row), Field(table column)
+3. schema.xml
+4. Field  defining: eg. <field name="id" type="text" indexed="true" stored="true" multiValued="true"/>
+	name: field name
+	type: field type(float, long, double, date, text)
+	indexed: can field by searching
+	stored: store filed original value
+	multiValued: have multi value or not
+	//indexed=false & stored=true for not searching usage, but show search result
+5. Query
+	title: foo //== title: "foo"
+	title: "foo bar" //search "foo bar" in title field
+	title: "foo bar" AND body: "quick fix" //
+	(title: "foo bar" AND body: "quick fix") OR title:foo //
+	title: foo -title:bar //search word foo and not bar in filed title
+	
+	// * cant't start at first letter!!!
+	title: foo*
+	title: foo*bar
+	
+	proximity matching //search words in specific distance away, (DisMax & eDisMax could used in query)
+	"foo bar"~4 //search "foo bar" withing 4 words from each other, exach match distance is 0, transposition(bar foo) are proximity 1
+	
+	range search
+	id:[1 TO 10] //search filed id value between 1 and 10
+	
+	boosts
+6. Solr specific query syntax
+	[a TO z], a*, a*b constant-scoring, scoring factors tf, idf, index boost, and coord are not used
+	field: [* TO 100] //field value less than or equal to 100
+	field: [100 TO *] //field value greater than or equal to 100
+	field: [* TO *] //match all documents
+	-inStock: false //finds all fields value where inStock is not false
+	-field: [* TO *] //inds all documents without a value for field
+
+reference url:
+http://www.solrtutorial.com/index.html
