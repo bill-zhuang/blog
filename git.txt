@@ -123,6 +123,7 @@ git branch -r //显示所有的远程分支名
 git branch -m/M [old_branch_name] new_branch_name //更改分支名称，旧分支名可选(如果在旧分支下)，-M为强制更改分支名(新的分支名已经存在的情况下)
 git checkout branch_name //切换到分支branch_name
 git checkout -b branch_name //新建分支branch_name，同时切换到新建的分支branch_name，相当于执行了git branch branch_name, git checkout branch_name
+git checkout -b branch_name commit_id //从commit_id开始新建分支，其他同上
 
 git branch -d/D branch_name //删除分支branch_name, -d 参数在分支未合并的情况下，会提示合并或 rebase 后删除 -D为强制删除分支
 
@@ -158,6 +159,7 @@ git push origin :track_branch  <----- :前有空格
 分支的合并
 merge:
 git merge [--no-ff] merge_branch //假设目前在master分支上，把merge_branch合并到master分支上
+如果合并分支后出现冲突，想放弃合并，用命令 git reset --merge 或者 git merge --abort ，两者等价 //测试后跟网上说的类似，后一个命令如果git版本比较低的话不会起作用
 
 rebase(小心使用):
 git merge master //假设目前在develop分支上，把master合并到develop上，经过检查后没有错误，然后切换到master上合并develop分支
