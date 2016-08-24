@@ -184,6 +184,7 @@ git push --tags //推送所有本地tag到服务器上
 关于patch，
 生成多个commit之间的patch，假设开始和结束的commit id为commit_id_1，commit_id_4，
 生成patch为 git format-patch commit_id-1..commit_id_4
+生成单个commit_id的patch，git format-patch -1 commit_id
 常用的也有 git format-patch -n //n为数字，去最近前n个commit生成patch--->每个commit生成一个patch
 如果想多个commit生成一个patch，加上--stdout，如
 git format-patch -n --stdout > all.patch
