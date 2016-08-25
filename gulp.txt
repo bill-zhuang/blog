@@ -1,0 +1,59 @@
+前后端分离后css/js版本控制
+
+1. 版本号一般为文件的md5值，此时资源文件名变为xxxx-f0g1a8.js，不建议加在请求参数里面，如xxxx.js?v=f0g1a8
+2. 更新资源为非覆盖式发布，防止出现用户访问页面由于缓存导致页面样式错乱或者页面无法访问等情况
+
+
+Gulp
+npm(node package manager)
+npm  install <package-name> [-g] [--save-dev] //-g 全局安装 --save 保存配置信息至package.json  -dev
+npm uninstall <name> [-g] [--save-dev] //请勿直接删除安装包
+npm update <name> [-g] [--save-dev] //update package(s)
+npm update [--save-dev] //update all packages
+npm help
+npm list
+
+//解决国外下载插件慢的问题，安装国内npm镜像，官方网址：http://npm.taobao.org
+npm install cnpm -g --registry=https://registry.npm.taobao.org
+后续安装package跟npm一样，只需将命令npm改为cnpm即可
+
+npm install rimraf -g
+rimraf node_modules //用于删除本地项目的node_modules，解决文件目录层级太深，无法系统删除问题
+1. 安装nodejs //Gulp是基于nodejs
+2. 命令行下安装Gulp,  npm install gulp -g //全局安装Gulp， 用于执行gulp任务
+3. 项目里安装Gulp,    npm install gulp --save-dev //本地安装gulp，用于调用gulp插件功能
+4. 新建gulpfile.js文件(压缩js文件任务为例)
+	var gulp = require('gulp'),
+		uglify = require('gulp-uglify'); //加载gulp和gulp-uglify模块
+
+	gulp.task('minify', function () {  //minify为后面运行gulp的任务名， gulp minify
+	   gulp.src('js/app.js') //需要处理压缩js文件的路径
+			.pipe(uglify())  //pipe类似linux的管道|
+			.pipe(gulp.dest('build')) //生成文件的文件夹名，可多级目录，如dist/js
+	});
+
+	npm install -–save-dev gulp-uglify //安装gulp-uglify
+	
+	gulp.src(globs[, options]) 可接受参数类型，字符串或者字符串数组[]
+		//gulp.src('js/src.js') gulp.src(['js/*.js', '!js/src.js'])
+		js/src.js
+		js/*.js
+		*/*/js
+		!js/src.js //剔除js文件夹下src.js
+	gulp.task(name[, deps], fn) //接受两个或更多参数，任务名及执行函数，deps需为数组[]类型，一个包含任务列表的数组，这些任务会在你当前任务运行之前完成
+		gulp.task('task', function(){
+			//todo
+		});
+		//默认执行任务，不需加任务名(也可以加)，gulp [default]
+		gulp.task('default', function () {
+		   //default task
+		});
+	gulp.watch(glob[, opts], tasks) //监控文件变动及处理相应的事情， glob可字符串或者字符数组，task为gulp.task的name数组，详情参考文档http://www.gulpjs.com.cn/docs/api/
+	gulp.watch(glob[, opts, cb])
+	gulp.dest(path[, options]) 文件输出路径
+5. gulp minify得到压缩后的js文件
+
+reference url：
+http://www.ydcss.com/archives/18
+http://www.w3ctech.com/topic/134
+http://www.gulpjs.com.cn/docs/
