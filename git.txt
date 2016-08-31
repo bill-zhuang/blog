@@ -233,3 +233,9 @@ git gc 垃圾清理
 .gitginore添加要过滤的文件
 git rm --cached path/to/ignore_file
 commit & push //服务器上的新ignore文件会删除掉了
+
+git error
+1.  insufficient permission for adding an object //出现在*nix系统上，更改权限即可
+cd .git/objects
+ls -al
+sudo chown -R yourname:yourgroup *
