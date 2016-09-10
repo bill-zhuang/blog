@@ -1,0 +1,173 @@
+Core Python Programming, 2ed
+
+Chapter 1
+1. cmd下python环境退出：Ctrl+Z
+
+Chapter 2
+1. _ //表示最后一个表达式的值
+2. print "%s world! %d" % ("hello", 1) //%s, %d同C语言, 还有%f等
+3. 注释 # comment 或者 """comment"""
+4. +, -, *, **(幂运算), /, //, %, %%
+5. <, <=, >, >=, ==, !=, <>, and, or, not
+6. str +//'a' + 'b'  *//'_' * 10
+7. [] [:] //str & list & tuple operation
+8. {} //dict
+9. if-else, if-elif-else, while, for-in //没有switch
+10. try-except
+11. def method_name():
+12. class __init__(self[, args]) //self类似this
+13. module //import module_name
+
+Chapter 3
+1. \ //换行分隔，用于一行过长的情况
+2. ; //同一行多个语句 print 1; print 2
+3. +=, -=, *=, /=, %=, **=, <<=, >>=, &=, ^=, |=
+4. 不支持 ++/-- 操作
+5. _xxx 私有变量 __xxx__ 系统定义
+6. __doc__ 类文档定义
+7. __name__ 如果模块为导入的，则值为模块名，如果是直接执行的，则为'__main__'
+8. del obj1[, obj2[,... objN]]
+
+Chapter 4
+1. 支持多个比较操作，顺序从左到右 3 < a < 10
+2. is 和 is not 用来判断两个变量是否指向同一个对象
+3. cmp(), repr()等价于``(不推荐), str(), type()
+
+Chapter 5
+1. abs(), divmod()//返回商和余数, pow()//结果和运算符**一样, round()
+2. oct(), hex()
+3. ord(), chr() //同PHP
+
+Chapter 6
+1. [index], [start_index:end_index], [::]
+2. r''/"" 原始字符串操作符
+3. '''xxx''', """xxx"""用来定义多行文本
+4. u'abc' //unicode
+5. encode(), decode() //unicode
+6. [] //list, append/remove/del
+7. () //tuple, (,)empty tuple!!!
+
+Chapter 7
+1. {}
+
+Chapter 8
+1. if-elif-else
+2. x if x < y else y //Python三元运算符
+3. while
+4. for
+5. range(start, end, step=1), xrange
+6. break
+7. continue
+8. pass //主要用于空方法或者捕捉到异常后不处理
+
+Chapter 9
+1. open(file_name, mode='r', buffering=-1)
+2. read()/readline()/readlines()
+3. write()/writelines()
+4. seek()
+5. close()
+6. remove() == unlink()/mkdir() //import os
+7. isfile()/exist()/isdir()/basename()/dirname() //import os.path
+8. releated modules: os, os.path, base64, csv, zipfile
+
+Chapter 10
+1. try-except
+2. try-except-else //try无异常后可执行else
+3. try-finally
+4. Exception为最顶层异常
+5. with //
+	with expr [as var]:
+		with_expr
+6. raise [SomeException [, args [, traceback]]] //like throw exception in php
+7. assert
+8. releated modules: excetion, sys
+
+Chapter 11
+1. def func_name([args[, args...]]): pass
+2. @//装饰器
+	@g
+	@f
+	def foo(): pass
+	等价于 foo = g(f(foo()))
+
+	@g(args)
+	@f
+	def foo(): pass
+	等价于 foo = g(args)(f(foo()))
+3. @staticmethod
+	@staticmethod
+	def static_method_name(): pass
+4. def func(arg, default=val): pass
+5. lambda
+	def add(x, y):
+		return x + y
+	等价于
+	lambda x, y: x + y
+6. apply/fiter/map/reduce
+7. global //全局变量，用于在方法中，访问和修改全局变量
+
+Chapter 12
+1. import moduel_name
+2. from module_name import name[, name1, name2]
+3. from module_name import loooooooong_name as long_name
+4. globals()/locals()
+5. reload(module_name)
+6. # -*- coding: UTF-8 -*-
+
+Chapter 13
+1. class
+	class ClassName:
+		def __init__(self, [arg1, arg2, ...]): //constructor
+			pass
+2. self //like this
+3. static method
+	class StaticClass:
+		@staticmethod
+		def static_method():
+			return 1
+4. 继承，可多重继承
+	class Parent:
+		pass
+	class Chile(Parent[, Parent1, Parent2, ...]):
+		pass
+	通过super()来访问基类的方法
+5. issubclass(), isinstance(), hasattr(), ...
+6. _ //like private
+
+Chapter 14
+1. input() == eval(raw_input())
+2. 导入模块后会执行该模块，如不想执行部分代码，放入 if __name__ == '__main__' 中！！！
+3. 执行外部命令
+	import os
+	os.system(command)
+4. subprocess module
+
+Chapter 15
+1. re //regex module
+2. re.compile()/match()/search()/findall()/split()/sub()/group()/groups() //sub()为替换函数
+
+Chapter 16
+1. socket()
+
+Chapter 17
+1. smtplib
+
+Chapter 18
+1. thread, threading, Queue
+
+Chapter 19
+1. Tkinter, Tix, Pmw, WxPython, PyGTK //GUI
+
+Chapter 20
+1. urlparse //parse url
+2. urllib
+3. urllib2
+4. requests
+
+Chapter 21
+1. MySQLdb
+2. SQLAlchemy, SQLObject//Python ORM
+
+Chapter 22
+
+Chpater 23
