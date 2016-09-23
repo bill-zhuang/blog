@@ -239,3 +239,9 @@ git error
 cd .git/objects
 ls -al
 sudo chown -R yourname:yourgroup *
+
+提交文件的权限rwx
+1. 直接修改文件权限：git update-index --chmod=+/-xwr <file-path>
+2. 全局忽略文件权限：git config core.filemode false 此时修改文件权限后pull代码不会出现错误，如
+	old mode 100644
+	old mode 100755
