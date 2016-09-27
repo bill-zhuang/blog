@@ -136,4 +136,5 @@ array_merge:：key为数字时不合并数据，非数字时合并，合并的va
 	如果是静态方法，为array_map(array('class_name', 'static_method_name'), $arr)
 	如果非静态方法，则为array_map(array($instance, 'method_name'), $arr)
 	如果是在一个类中调用静态或者非静态方法，可以为array_map(array($this, 'method_name'), $arr)
-11. in_array($val, $arr) 判断某个值是否在数组中
+11. in_array($val, $arr) 判断某个值是否在数组中，时间复杂度为O(n)，建议用isset/array_key_exists 
+    url:http://stackoverflow.com/questions/2473989/list-of-big-o-for-php-functions
