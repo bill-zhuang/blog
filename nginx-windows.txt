@@ -1,0 +1,205 @@
+nginx(windows)
+参考文档：http://nginx.org/en/docs/
+1. 下载及启动
+	http://nginx.org/en/download.html 下载对应的windows版本，解压后进入根目录
+	键入命令：start nginx 来启动nginx进程，此时，键入命令：tasklist /fi "imagename eq nginx.exe"应该可以看到两个nginx进程
+2. 常用命令
+	nginx -s stop 快速关闭nginx
+	nging -s quit 优雅的关闭nginx，等待当前正在执行的请求结束后关闭nginx
+	nginx -s reload 重新加载配置文件，打开新的nginx进程，关闭老的
+	nginx -s reopen 重新打开log文件
+3. 配置
+	一个新的server配置
+	#全局错误日志
+	error_log /path/to/log;
+	
+	http {
+		server {
+			#监听80端口，可设置是否为默认的服务，用于在用户请求后根据请求的headers中的Host字段来决定用哪个server，如没有，则使用默认server
+			# v>=0.8.21 使用default_server，之前的版本使用default字段
+			listent 80 [default_server/default];
+			#域名
+			server_name example.com
+			root /data
+			
+			#匹配以/开头的请求的URI
+			location / { 
+				root /data/www;
+				#转发路径，如果请求为http://localhost/则自动跳转到http://localhost:8080 todo
+				proxy_pass http://localhost:8080;
+				#使用fastcgi_pass来代替proxy_pass，如PHP
+				fastcgi_pass  localhost:9000;
+				#$document_root等价于root中的 /data，$fastcgi_script_name等价于请求的URI
+				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; 
+				fastcgi_param QUERY_STRING    $query_string;
+			}
+			#匹配以/images/开头的请求的URI
+			# /也会被本规则匹配，但是以最短优先为规则，所以会用上面的规则
+			location /images/ { 
+				root /data;
+			}
+			#匹配以gif，jpg，png的图片(正则，必须以~开头，然后空格+正则)，对应的请求会被映射到/data/images目录下
+			location ~ \.(gif|jpg|png)$ {
+				root /data/images;
+			}
+			
+			#错误日志
+			error_log /path/to/error.log;
+			#访问日志
+			access_log /path/to/access.log  main;
+		}
+	}
+4. 单位
+	ms	milliseconds
+	s	seconds
+	m	minutes
+	h	hours
+	d	days
+	w	weeks
+	M	months, 30 days
+	y	years, 365 days
+5. 命令行参数
+	-?|-h 帮助
+	-c file 指定使用具体的配置文件，代替默认配置文件
+	-g directives
+	-p prefix 设置nginx路径前缀，如保存服务器端文件的文件夹，默认是/usr/local/nginx
+	-q 在配置文件测试中禁止非错误信息
+	-s signal(stop/quit/reload/reopen)
+	-t 测试配置文件语法
+	-T 同-t，但增加了将配置文件转为标准输出
+	-v nginx版本号
+	-V nginx版本号，编译版本号，编译参数
+6. nginx如何处理一个请求
+	#用来处理请求header里面没有Host字段情形
+	server {
+		listen      80;
+		server_name "";
+		return      444;
+	}
+	
+	#PHP站点server配置
+	server {
+		listen      80;
+		server_name example.org www.example.org;
+		root        /data/www;
+
+		location / {
+			index   index.html index.php;
+		}
+
+		location ~* \.(gif|jpg|png)$ {
+			expires 30d;
+		}
+
+		location ~ \.php$ {
+			fastcgi_pass  localhost:9000;
+			fastcgi_param SCRIPT_FILENAME
+						  $document_root$fastcgi_script_name;
+			include       fastcgi_params;
+		}
+	}
+	对于请求"/logo.gif"，符合匹配规则"/"和"\.(gif|jpg|png)$"，取后面一个，通过"root /data/www"来访问/data/www/logo.gif
+	对于请求"/index.php"，符合规则"/"和"\.(php)$"，取后面一个，通过FastCGI来映射到"/data/www/index.php" 
+	对于请求"/about.html"，符合规则"/"，通过"root /data/www"来访问/data/www/about.html
+	对于请求"/"，符合规则"/"，首先访问/data/www/index.html，如果文件不存在，则访问/data/www/index.php
+7. server_name
+	server_name 接受多种形式(多个网址，IP地址，通配符网址，正则，其中通配符只能在网址的最开始部分或者最后部分，见第二，三个):
+	如果匹配到符合多个server_name，按如下先后顺序(翻译有点问题，http://nginx.org/en/docs/http/server_names.html)：
+		1.完整匹配的名字
+		2.以最开始通配符匹配到的最长名字
+		3.以最后通配符匹配到的最长名字
+		4.第一个匹配到的正则表达式
+	server_name尽量用具体的名字，避免通配符，正则表达式，用于减少查找次数
+	server {
+		...
+		server_name example.org  www.example.org 192.168.1.1;
+		...
+	}
+	server {
+		...
+		server_name  *.example.org;
+		...
+	}
+
+	server {
+		...
+		server_name  mail.*;
+		...
+	}
+
+	server {
+		...
+		#正则必须以"~"开头，
+		#^和$不是必须，但建议带上，
+		#如果正则里面包含"{"，"}"，则正则需要用""包含起来，如server_name  "~^(?<name>\w\d{1,3}+)\.example\.net$";
+		#支持?<name>，?'name'，?P<name>，具体和PCRE版本有关，支持正则的$1, $2等引用，可用在location中root等地方
+		server_name  ~^(?<user>.+)\.example\.net$;
+		...
+	}
+8. 负载均衡
+	nginx支持的方法：round-bin(默认方法)，基于最少连接，基于IP哈希
+	http {
+		upstream myapp1 {
+			#不写默认round-bin
+			#最少连接负载均衡
+			least_conn;
+			#基于IP哈希负载均衡
+			ip_hash;
+			#weight，基于权重的负载均衡，以下面的为例，每5个请求，有3个分配给srv1，srv2和srv3各一个
+			server srv1.example.com[ weight=3];
+			server srv2.example.com;
+			server srv3.example.com;
+		}
+
+		server {
+			listen 80;
+
+			location / {
+				#myapp1跟上面的upstream的myapp1相对应
+				proxy_pass http://myapp1;
+			}
+		}
+	}
+	#如果负载均衡用于FastCGI，uwsgi，SCGI，memcached等，将proxy_pass改为fastcgi_pass，uwsgi_pass，scgi_pass，memcached_pass
+	#具体使用参考相应的模块ngx_http_*_module
+	max_fails
+9. 配置HTTPS服务
+	http {
+		ssl_session_cache   shared:SSL:10m;
+		ssl_session_timeout 10m;
+		
+		server {
+			listen              443 ssl;
+			server_name         www.example.com;
+			#用于减少SSL握手，与上面的ssl_session_cache，ssl_session_timeout一起使用
+			keepalive_timeout   70;
+			
+			ssl_certificate     www.example.com.crt;
+			#ssl_certificate_key 内容可以和ssl_certificate相同
+			ssl_certificate_key www.example.com.key;
+			ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+			ssl_ciphers         HIGH:!aNULL:!MD5;
+			...
+		}
+	}
+	单HTTP/HTTPS服务
+	server {
+		listen              80;
+		listen              443 ssl;
+		server_name         www.example.com;
+		ssl_certificate     www.example.com.crt;
+		ssl_certificate_key www.example.com.key;
+		...
+	}
+10. 常用module
+	#用于登录网站前需用户名及密码
+	ngx_http_auth_basic_module
+	location / {
+		auth_basic           "closed site";
+		auth_basic_user_file conf/htpasswd;
+	}
+	conf/htpasswd文件格式
+	# comment，分别为用户名:密码:帐号说明
+	name1:password1
+	name2:password2:comment
+	name3:password3
