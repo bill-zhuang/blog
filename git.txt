@@ -12,6 +12,8 @@ git config user.email example@example.com
 git config --list
 设置大小写敏感
 git config core.ignorecase false
+push时需键入用户名及密码，缓存几分钟，后续可不需再键入用户名及密码
+git config --global credential.helper cache
 
 ------------------------------------------------------------------------
 拉远程项目方法
