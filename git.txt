@@ -32,6 +32,13 @@ git remote add xxxx https://www.example.com
 git remote remove xxxx
 
 ------------------------------------------------------------------------
+git clone 本地系统仓库，windows为例
+git clone file:///path/to/repo my-project 
+//path/to/repo为本地仓库路径，my-project为clone仓库到哪个文件夹
+linux为
+git clone file:///opt/git/repo.git //待验证 
+
+------------------------------------------------------------------------
 gitk //查看提交记录
 gitk --all //查看所有分支的提交记录
 git gui //gui 提交commit界面，还有其他....
