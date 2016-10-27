@@ -247,6 +247,10 @@ git gc 垃圾清理
 git rm --cached path/to/ignore_file
 commit & push //服务器上的新ignore文件会删除掉了
 
+------------------------------------------------------------------------
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD 
+//错误提交，删除所有历史记录中的password.txt文件，-f参数为某些commit没有passwords.txt文件，命令会失效，经测试，发现会把之后的文件内容也清空掉
+
 git error
 1.  insufficient permission for adding an object //出现在*nix系统上，更改权限即可
 cd .git/objects
