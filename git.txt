@@ -172,6 +172,7 @@ git rebase master develop 等价于 git rebase master, git checkout develop
 git tag -a tag_name -m 'tag_msg'
 git tag -d tag_name //删除本地tag
 git push origin --delete tag tag_name //删除远程tag
+git push origin v1.5 //推送本地v1.5tag到服务器上
 git push --tags //推送所有本地tag到服务器上
 
 ------------------------------------------------------------------------
