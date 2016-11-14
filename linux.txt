@@ -8,3 +8,5 @@
    watch -n 5 wc -l test.txt
    或者 while true; wc -l test.txt; do sleep 5; done //适用于windows下，git bash命令行
    url:http://stackoverflow.com/questions/13593771/linux-repeat-command-automatically
+4. 列出目录下所有png图片并打包压缩 find find_dir -f *.png | xargs tar -zcf png.tar.gz
+5. 文件夹大小 du -sh *
