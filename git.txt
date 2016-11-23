@@ -116,7 +116,8 @@ git commit --amend 'new commit info' //修正最近一个提交的信息
 
 ------------------------------------------------------------------------
 git pull // git pull = git fetch + git merge
-git push //
+git push //push默认是把本地所有分支和远程分支匹配名字的都push上去
+git config --global push.default xxxx 来设置push的方式，xxxx可选项：nothing、matching(默认)、tracking、current
 
 ------------------------------------------------------------------------
 git reset --hard commit_id //所有在commit_id之后的修改都会被抛弃discard.----->HEAD
