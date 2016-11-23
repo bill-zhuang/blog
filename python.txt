@@ -1,0 +1,4 @@
+
+1. pip install error: LookupError: unknown encoding: cp65001
+解决方案：在cmd下输入(Python27\Scripts目录下)：set PYTHONIOENCODING=UTF-8，继续pip install xxx即可
+参考url：http://stackoverflow.com/questions/35176270/python-2-7-lookuperror-unknown-encoding-cp65001
