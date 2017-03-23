@@ -1,0 +1,29 @@
+Django
+
+1.安装Django
+按官方https://www.djangoproject.com/download/ pip命令一直安装不上，
+看了下log记录后在https://pypi.python.org/packages/source/D/Django/下选择一个最新的安装包下载后，命令行 pip install -e django-dir/安装成功了
+或者上面的网站上看到"For the impatient:"等字段，也可以下载最新的安装包
+会在python安装目录下的Scripts文件夹下看到django-admin等文件。
+在python命令行下，键入以下命令
+import django
+django.get_version() //如果看到有版本号出来及成功了。
+
+2. 创建项目
+进入要创建项目的文件夹
+django-admin startproject project_name
+
+3. django.core.exceptions.ImproperlyConfigured: Error loading MySQLdb module: No module named MySQLdb
+https://pypi.python.org/simple/mysql-python/ 根据相应的python版本和系统下载exe文件，zip文件下载后用pip安装失败
+
+4. 
+python manage.py migrate
+python manage.py runserver //可以看到127.0.0.1:8000 地址，浏览器访问出现
+It worked!
+Congratulations on your first Django-powered page.
+表明ok了
+
+5.
+Change your models (in models.py).
+python manage.py makemigrations //create migrations for those changes
+python manage.py migrate // apply those changes to the database

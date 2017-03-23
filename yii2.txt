@@ -1,0 +1,18 @@
+composer install 
+
+1. 
+yii2 Your requirements could not be resolved to an installable set of packages.
+composer global require "fxp/composer-asset-plugin:^1.2.0"
+composer install
+
+ref url: 
+https://github.com/yiisoft/yii2/issues/9938
+https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/start-installation.md
+
+2.
+./yii migrate/create migrate_file_name //生成数据表迁移文件, ie. add_table_user_field
+./yii migrate //执行迁移数据表文件
+./yii migrate/down 1 //撤销执行最近一次迁移数据表文件
+
+
+

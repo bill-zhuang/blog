@@ -1,0 +1,15 @@
+1. goto line head: command + <-
+2. set alias
+	1. vim ~/.bashrc
+	   add alias you want, ie. alias ll='ls -lhG'
+	2. vim ~/.bash_profile
+	   add following code:
+	   if [ -f ~/.bashrc ]; then
+	   	source ~/.bashrc
+	   fi
+	ref url: http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment
+3. install brew(command brew not found.)
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+//command from brew homepage: https://brew.sh/
+brew install xxxxx
+4. back delete: fn + delete
