@@ -265,3 +265,12 @@ sudo chown -R yourname:yourgroup *
 2. 全局忽略文件权限：git config core.filemode false 此时修改文件权限后pull代码不会出现错误，如
 	old mode 100644
 	old mode 100755
+
+Mac下git命令补全
+1. curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+2. vim ~/.bash_profile, add following code
+	if [ -f ~/.git-completion.bash ]; then
+		. ~/.git-completion.bash
+	fi
+3. test -f ~/.git-completion.bash && . $_
+ref url: http://apple.stackexchange.com/questions/55875/git-auto-complete-for-branches-at-the-command-line
