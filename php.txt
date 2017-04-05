@@ -109,6 +109,9 @@ echo 可以使用逗号隔开字符串输出，print 不行
 29. unlink 文件，如果失败，检查如下原因：1.文件是否有权限，常见于linux环境 2. 文件打开后有没有关闭(fopen 后 fclose)
 30. php上传文件数限制，在php.ini中修改max_file_uploads的值
 31. mb_substr('string', 0, 40, 'utf-8') //注意最后加utf-8，否则中文会乱码
+32. php -a //交互运行php
+	php -i //掉用phpinfo()函数，并打印出结果
+	php -f //file，可省略，运行php文件
 
 Array
 1. ksort函数
