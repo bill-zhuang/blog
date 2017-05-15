@@ -109,3 +109,11 @@ e.g.
 reference url: 
 http://getcomposer.org/book.pdf
 https://github.com/5-say/composer-doc-cn
+
+1. yii2 Your requirements could not be resolved to an installable set of packages.
+composer global require "fxp/composer-asset-plugin:^1.2.0"
+composer install
+
+ref url:
+https://github.com/yiisoft/yii2/issues/9938
+https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/start-installation.md
