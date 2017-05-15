@@ -19,3 +19,6 @@ SELECT * FROM table_example where id IN (2, 3, 1) ORDER BY FIELD(id, 2, 3, 1) //
 load data local infile 'load file path' [ignore 1 lines] into table `table_bane` Fields Terminated By '-' enclosed by '"' terminated by '\r\n';
 SELECT * INTO OUTFILE 'output file path' FIELDS TERMINATED BY ','  LINES TERMINATED BY '\r\n' FROM `table_name` [where ...];
 9. text字段最大64k!!!
+10. utf8mb4 //utf8 most bytes 4，支持4个字节utf8
+常用于移动应用等，用户文本输入emoji表情时使用，或者不常用汉字等，如果使用utf8会导致插入数据错误
+11. 索引index采用ASC或者DESC一样，根据官方文档说法，ASC或者DESC用于未来扩展，当时无论设置哪个，都按ASC
