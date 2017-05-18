@@ -25,3 +25,5 @@ utf8: chcp 65001, 然后修改属性->字体，将字体改为"Lucida Console"
 	当前时间：time
 	运行命令： start command-name
 	显示当前目录下文件结构： tree
+5. firefox 51.0后启用 firebug方法：地址栏输入about:config后，查找browser.tabs.remote.autostart，
+将查到的browser.tabs.remote.autostart，browser.tabs.remote.autostart.1，browser.tabs.remote.autostart.2都设置为false
