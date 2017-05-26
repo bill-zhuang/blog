@@ -278,3 +278,6 @@ ref url: http://apple.stackexchange.com/questions/55875/git-auto-complete-for-br
 分支命名建议
 1. git中分支名一般情况下不建议包含斜杠/，如先创建分支fix/bug/204，那么后创建分支fix/bug将失败，类似，如果先创建分支fix/bug，后创建分支fix/bug/204等都将失败
 2. 团队中如果多人开发一个功能的话，那么分支建议增加用户名，比如fix/john, fix/bill, fix/tom等，开发完后合并到fix/master分支
+
+git remote update 后，通过 git checkout remote-branch 来切换到要的分支，不要用 git checkout -b remote-branch，可能会有冲突
+git pull 后有冲突想放弃pull操作，使用 git reset --merge 即可, git merge other-branch 冲突，想放弃合并，使用 git merge --abort 即可
