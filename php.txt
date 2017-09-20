@@ -112,6 +112,19 @@ echo 可以使用逗号隔开字符串输出，print 不行
 32. php -a //交互运行php
 	php -i //掉用phpinfo()函数，并打印出结果
 	php -f //file，可省略，运行php文件
+33. for/foreach循环中try/catch语句中的变量还是会保留
+	for ($i = 0; $i < 10; $i++) {
+		try {
+			if ($i % 2 == 0) {
+				$test = $i;
+			} else {
+				throw new Exception('test');
+			}
+		} catch (Exception $e) {
+			;
+		}
+		echo $test . PHP_EOL;
+	}
 
 Array
 1. ksort函数
