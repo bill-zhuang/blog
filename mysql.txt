@@ -22,3 +22,4 @@ SELECT * INTO OUTFILE 'output file path' FIELDS TERMINATED BY ','  LINES TERMINA
 10. utf8mb4 //utf8 most bytes 4，支持4个字节utf8
 常用于移动应用等，用户文本输入emoji表情时使用，或者不常用汉字等，如果使用utf8会导致插入数据错误
 11. 索引index采用ASC或者DESC一样，根据官方文档说法，ASC或者DESC用于未来扩展，当时无论设置哪个，都按ASC
+12. mysql server gone away 原因：1.查询数据量太大 2.循环中长时间没有操作数据库，导致超时，wait_timeout
