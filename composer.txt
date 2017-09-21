@@ -111,7 +111,7 @@ http://getcomposer.org/book.pdf
 https://github.com/5-say/composer-doc-cn
 
 1. yii2 Your requirements could not be resolved to an installable set of packages.
-composer global require "fxp/composer-asset-plugin:^1.2.0"
+composer global require "fxp/composer-asset-plugin:^1.2.0"  //最后的~1.1.2是你composer的最新版本号
 composer install
 
 ref url:
