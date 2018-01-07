@@ -1,0 +1,33 @@
+MacOS 10.11.*
+Jenkins
+在/Users/bill(看自己需要，设定jenkins目录) 下创建文件夹jenkins
+
+1. 下载 tomcat: https://tomcat.apache.org/download-80.cgi
+选择 Binary Distributions 及 Core, 选择zip或tar.gz包下载
+/Users/bill/jenkins 下解压后压缩包并将解压后的文件重命名为tomcat_jenkins
+2. 下载java8 sdk: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+我这里选了Java SE Development Kit 8u151，选择macOS版本下载，下载完后安装
+3. 下载Jenkins: https://jenkins.io/download/
+选择 Generic Java package (.war) 下载
+4. 将/Users/bill/jenkins/tomcat_jenkins/webapps/ROOT 删除，可以选择重命名
+5. 将下载的jenkins.war 复制到/Users/bill/jenkins/tomcat_jenkins/webapps/下，重命名为ROOT.war
+6. 在/Users/bill/jenkins/tomcat_jenkins/bin下创建setenv.sh文件，
+内容为export JENKINS_HOME=/Users/bill/jetkins/tomcat_jetkins
+7. 将/Users/bill/jenkins/tomcat_jenkins/bin下*.sh文件增加执行权限，
+chmod a+x *.sh
+8. 启动tomcat
+cd /Users/bill/jenkins/tomcat_jenkins/bin
+sh ./startup.sh
+可以看到以下类似内容：
+Using CATALINA_BASE:   /Users/bill/jetkins/tomcat_jetkins
+Using CATALINA_HOME:   /Users/bill/jetkins/tomcat_jetkins
+Using CATALINA_TMPDIR: /Users/bill/jetkins/tomcat_jetkins/temp
+Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
+Using CLASSPATH:       /Users/bill/jetkins/tomcat_jetkins/bin/bootstrap.jar:/Users/bill/jetkins/tomcat_jetkins/bin/tomcat-juli.jar
+Tomcat started.
+9. 打开Jenkins，浏览器里打开 http://127.0.0.1:8080/
+应该会要你出入密码，按网页上给出的密码文件位置(ie. /Users/bill/.jenkins/secrets/initialAdminPassword)，把文件里的密码复制粘贴到网页上
+10. 安装所需插件，配置账号后即可使用
+
+
+参考链接: https://www.jianshu.com/p/ab3302cd68eb
