@@ -10,3 +10,6 @@
    url:http://stackoverflow.com/questions/13593771/linux-repeat-command-automatically
 4. 列出目录下所有png图片并打包压缩 find find_dir -name *.png | xargs tar -zcf png.tar.gz
 5. 文件夹大小 du -sh *
+6. which 和 whereis 区别
+which: full path of command
+whereis: binary, file, man page etc.
