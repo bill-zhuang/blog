@@ -87,6 +87,7 @@ git stash pop //应用最近一个缓存的修改
 git stash apply stash@{0,1,...} //应用缓存修改，0,1,...分别指代最新到最旧的缓存，与git stash pop 不同的是应用缓存后不会删除对应的缓存
 git stash drop [stash@{0,1,...}] //删除缓存，0,1,...分别指代最新到最旧的缓存
 git stash clear //删除所有的缓存
+git stash -p //可以设置暂存特定的内容
 
 ------------------------------------------------------------------------
 git log --pretty=oneline -n --graph
