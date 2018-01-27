@@ -13,6 +13,11 @@ npm update [--save-dev] //update all packages
 npm help
 npm list
 
+npm install gulp --global //install gulp
+npm install gulp-concat gulp-minify-css gulp-rev gulp-rev-collector gulp-clean gulp-uglify gulp-replace --save-dev //install module
+npm link gulp //symlink gulp to current project path
+npm init //generate package.json
+
 //解决国外下载插件慢的问题，安装国内npm镜像，官方网址：http://npm.taobao.org
 npm install cnpm -g --registry=https://registry.npm.taobao.org
 后续安装package跟npm一样，只需将命令npm改为cnpm即可
