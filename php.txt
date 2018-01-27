@@ -125,6 +125,14 @@ echo 可以使用逗号隔开字符串输出，print 不行
 		}
 		echo $test . PHP_EOL;
 	}
+34. 单例模式
+__construct构造函数为protected
+__clone为private，不可复制
+__wakeup为private，不需反序列化
+静态函数getInstance获取对象
+如果对象有resource变量，__wakeup后resource变量会丢失
+http://www.phptherightway.com/pages/Design-Patterns.html
+https://stackoverflow.com/questions/11630341/use-of-php-magic-methods-sleep-and-wakeup
 
 Array
 1. ksort函数
