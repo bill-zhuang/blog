@@ -133,6 +133,58 @@ __wakeup为private，不需反序列化
 如果对象有resource变量，__wakeup后resource变量会丢失
 http://www.phptherightway.com/pages/Design-Patterns.html
 https://stackoverflow.com/questions/11630341/use-of-php-magic-methods-sleep-and-wakeup
+35. 依赖注入
+//在构造函数里实例化了适配器，从而产生了耦合
+<?php
+namespace Database;
+
+class Database
+{
+    protected $adapter;
+
+    public function __construct()
+    {
+        $this->adapter = new MySqlAdapter;
+    }
+}
+
+class MysqlAdapter {}
+//用依赖注入重构，从而解耦
+//通过外界给予 Database 类的依赖，而不是让它自己产生依赖的对象
+<?php
+namespace Database;
+
+class Database
+{
+    protected $adapter;
+
+    public function __construct(MySqlAdapter $adapter)
+    {
+        $this->adapter = $adapter;
+    }
+}
+
+class MysqlAdapter {}
+//依赖反转准则
+//依赖于抽象而不是具体，简单来说就是依赖应该是接口/约定或者抽象类，而不是具体的实现
+//代码扩展性变得更高。如果一年之后决定要迁移到一种不同的数据库，只需要写一个实现相应接口的适配器并且注入进去，由于适配器遵循接口的约定，不需要额外的重构
+<?php
+namespace Database;
+
+class Database
+{
+    protected $adapter;
+
+    public function __construct(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+    }
+}
+
+interface AdapterInterface {}
+
+class MysqlAdapter implements AdapterInterface {}
+
 
 Array
 1. ksort函数
