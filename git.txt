@@ -282,3 +282,6 @@ ref url: http://apple.stackexchange.com/questions/55875/git-auto-complete-for-br
 
 git remote update 后，通过 git checkout remote-branch 来切换到要的分支，不要用 git checkout -b remote-branch，可能会有冲突
 git pull 后有冲突想放弃pull操作，使用 git reset --merge 即可, git merge other-branch 冲突，想放弃合并，使用 git merge --abort 即可
+
+
+git remote update --prune //更新远程分支等数据到本地
