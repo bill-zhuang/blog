@@ -1,0 +1,14 @@
+
+//https://github.com/kardianos/govendor
+go get -u github.com/kardianos/govendor
+
+	https://stackoverflow.com/questions/42155805/govendor-doesnt-work-from-cmd
+	for "bash: govendor: command not found"
+		vim ~/.zshrc
+		export PATH=$PATH:$GOPATH/bin  //export GOPATH=/Users/bill/Develop/go
+		source ~/.zshrc
+		go install github.com/kardianos/govendor
+
+govendor init
+govendor list
+govendor fetch +m //fetch missing package
