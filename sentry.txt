@@ -1,0 +1,65 @@
+Sentry
+mysql ，redis等安装
+
+1.安装pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+2.安装虚拟环境
+pip install virtualenv
+3.设置sentry虚拟环境
+virtualenv sentry
+4.进入虚拟环境后 安装下列项目：
+	4.1 pip install  sentry==9.0.0     
+		//安装10.0.0版本 后面run web会提示说没有plugins，
+		//但是安装pip install sentry-plugins后运行后报from sentry.plugins import plugins ImportError: cannot import name plugins sentry-plugin
+		//github看了下sentry-plugins包在19年后已经停止维护了
+		//9.1.2版本 登录页面展示500错误
+		4.1.1 如果报错 failed-building-wheel-for-xmlsec-mac，
+			则
+			brew install Libxmlsec1
+			brew install pkg-config
+	4.2 初始化sentry配置目录
+         	4.2.1 sentry init /your-path/to/sentry/conf   eg.sentry init /Users/bill/sentry/conf
+		4.2.2 最好将配置目录加到环境变量中 export SENTRY_CONF="/Users/bill/sentry-py27/conf”， source xxxxx 
+			这样后续执行sentry命令不需要制定配置路径了 后续4.4 等可以不加conf参数(sentry --config=/Users/bill/sentry9.1.2/conf/ upgrade)
+	4.3 编辑配置文件：config.yml + sentry.conf.py
+	config.yml. :  
+		4.3.1. 修改 mail.backend: 'dummy' //针对邮箱不通知情况，如通知，后面几行配置账号密码等
+		4.3.2. 修改redis配置信息
+	sentry.conf.py：
+		4.3.3 修改数据库配置，我这里用了mysql， 'ENGINE': 'django.db.backends.mysql’, 设置相应的账号密码端口等
+		4.3.4在数据库中建立名为sentry的数据库
+		4.3.5 设置sentry页面host及端口： SENTRY_WEB_HOST， SENTRY_WEB_PORT，按自己需要设置， 默认为0.0.0.0 9000端口
+		4.3.6 设置时区，文件里面没有设置 手动添加：SENTRY_DEFAULT_TIME_ZONE = 'Asia/Shanghai'
+	4.4 运行sentry upgrade //数据库迁移，账号等设置, 如果没有export conf的话，则命令为 sentry --config=/Users/bill/sentry/conf/ upgrade, 后续的run web和run worker和run cron命令都需要加上config参数
+		4.4.1 中间会提示账号设置，输入用户名和密码，后续登录要用
+	4.5 sentry run web 
+		4.5.1 如果报Error loading MySQLdb module: No module named 'MySQLdb'，
+			则pip install mysqlclient
+		4.5.2 用4.3.5中的host和port网址登录，输入4.4.1中账号和密码登录
+	4.6 sentry run worker //用户处理sentry收到的消息，写入数据库，不启动的话，可以收到消息，但是页面上没有错误信息展示
+	4.7 sentry run cron //处理错误消息最新时间，如果不启动的话，同一个错误出现多次，在页面上按last seen排序会无效，不会按最新出现排序，而是按最初出现时间排序
+		4.7.1 如果没启动cron的话，登录后页面上会显示：Background workers haven't checked in recently. This is likely an issue with your configuration or the workers aren't running.
+ps.
+sentry 9.1.2版本安装说明，在9.0.0 安装后，重新起个新的虚拟环境，按上述操作进行，
+在执行sentry upgrade中报错的地方，涉及到外键的，手动在表south_migrationhistory插入记录， 
+//ALTER TABLE `sentry_sentryapp` ADD CONSTRAINT `application_id_refs_id_e7015519` FOREIGN KEY (`application_id`) REFERENCES `sentry_apiapplication` (`id`);
+在创建用户会报错，然后在run web的时候提示500错误，这时候按错误信息，把9.1.2中数据跟9.0.0版本中数据比较，
+把相应数据copy过来后可以登录正常使用，本人操作时涉及到的insert语句有：
+1.  INSERT INTO `sentry_organization` (`id`, `name`, `status`, `date_added`, `slug`, `flags`, `default_role`)
+VALUES (1, 'Sentry', 0, '2020-05-09 06:56:38', 'sentry', 1, 'member');	
+2.  INSERT INTO `sentry_organizationmember` (`id`, `organization_id`, `user_id`, `type`, `date_added`, `email`, `has_global_access`, `flags`, `role`, `token`)
+VALUES (1, 1, 1, 50, '2020-05-09 06:56:52', NULL, 1, 0, 'owner', NULL);	
+3.  INSERT INTO `sentry_team` (`id`, `slug`, `name`, `date_added`, `status`, `organization_id`)
+VALUES (1, 'sentry', 'Sentry', '2020-05-09 06:56:38', 0, 1);	
+4. INSERT INTO `sentry_organizationmember_teams` (`id`, `organizationmember_id`, `team_id`, `is_active`)
+VALUES (1, 1, 1, 1);
+5. INSERT INTO `sentry_organizationonboardingtask` (`id`, `organization_id`, `user_id`, `task`, `status`, `date_completed`, `project_id`, `data`)
+VALUES (1, 1, 1, 1, 1, '2020-05-09 06:57:56', 2, '{}'), (2, 1, NULL, 2, 1, '2020-05-09 06:59:38', 1, '{\"platform\": \"python\"}');
+
+参考网址：
+https://www.cnblogs.com/liangweixiong/p/9919725.html
+https://stackoverflow.com/questions/52378890/failed-building-wheel-for-xmlsec-mac
+https://www.vpsvt.com/reed/198.html
+Background workers haven't checked in recently. This can mean an issue with your configuration or a serious backlog in tasks.
+——>sentry run worker

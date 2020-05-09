@@ -1,13 +1,13 @@
-1. goto line head: command + <-
+﻿1. goto line head: command + <-
 2. set alias
 	1. vim ~/.bashrc
-	   add alias you want, ie. alias ll='ls -lhG'
+		add alias you want, ie. alias ll='ls -lhG'
 	2. vim ~/.bash_profile
-	   add following code:
-	   if [ -f ~/.bashrc ]; then
-	   	source ~/.bashrc
-	   fi
-	ref url: http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment
+		add following code:
+		if [ -f ~/.bashrc ]; then
+			source ~/.bashrc
+		fi
+ref url: http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment
 3. install brew(command brew not found.)
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 //command from brew homepage: https://brew.sh/
@@ -15,3 +15,16 @@ brew install xxxxx
 4. back delete: fn + delete
 5. brew switch xxxx 1.11 //switch formula to specific version
 https://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula
+6.mac下安装mysql无法设置密码问题
+mac 'Access denied for user 'root'@'localhost' (using password: NO)'
+然后设置root密码的时候报错
+查询了好多种方法都不见效,最后放下了一个见效的方法
+1. 先从系统偏好设置里 把 mysql 停掉
+2. 打开mac 命令行工具，sudo su 以管理员身份运行命令
+3. cd /usr/local/mysql/bin     (mysql的安装目录)
+4. ./mysqld_safe --skip-grant-tables &
+5. ./mysql -p  ------直接回车就进去了
+6. mysql> update mysql.user set authentication_string=password('123qwe') where user='root' and Host = 'localhost';
+7. flush privileges;
+做完所有以上步骤再从workbench基本输2次密码就可以连上了
+第5步很重要，因为网上很多人写的第5步是通过workbench 重置密码，我自己尝试无效，不知道是不是版本的问题
